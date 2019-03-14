@@ -26,7 +26,7 @@ In order for the folder-structure presets to work, your music should be structur
 			- 01 - Title01.mp3
 			- 02 - Title02.mp3 
 			- cover.jpg (naming format specified in Preferences/Display/Album art)
-		- - Albumtitle [Date]
+		- Albumtitle [Date]
 			- 01 - Title01.mp3
 			- 02 - Title02.mp3 
 			- cover.jpeg
