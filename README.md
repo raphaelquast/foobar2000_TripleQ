@@ -1,6 +1,7 @@
 # foobar2000_configuration
 My foobar2000 configuration
 
+![minimode](minimode.png?raw=true "Title")
 
 ## Installation
 
