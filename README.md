@@ -1,7 +1,7 @@
 # foobar2000_configuration
 My foobar2000 configuration!
 
-It supports 3 modes:
+It supports 3 display-modes:
 
 Mini-mode
 ![minimode](minimode.png?raw=true "Minimode")
