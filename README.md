@@ -31,12 +31,7 @@ In order for the folder-structure presets to work, your music should be structur
 			- 02 - Title02.mp3 
 			- cover.jpeg
 	- Artist_2
-		- Albumtitle [Date]
-			- 01 - Title01.mp3
-			- 02 - Title02.mp3
-			- cover.jpeg
 	- ...
-
 
 ## Thanks to
 The configuration is based on the following components:
