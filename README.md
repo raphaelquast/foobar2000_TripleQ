@@ -1,7 +1,8 @@
 # foobar2000_configuration
 My foobar2000 configuration
 
-![minimode](/minimode.png?raw=true "Minimode")
+![minimode](minimode.png?raw=true "Minimode")
+![midimode](midimode.png?raw=true "Midimode")
 
 ## Installation
 
