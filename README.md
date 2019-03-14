@@ -1,8 +1,13 @@
 # foobar2000_configuration
-My foobar2000 configuration
+My foobar2000 configuration!
 
+It supports 3 modes:
+Mini-mode
 ![minimode](minimode.png?raw=true "Minimode")
+Midi-mode
 ![midimode](midimode.png?raw=true "Midimode")
+Maxi-mode
+
 
 ## Installation
 
