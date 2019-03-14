@@ -1,0 +1,40 @@
+# Any changes in this file will take effect on next foobar2000 startup.
+# Note, size limit values are in UTF-8 bytes, not characters!
+# Note, field names can be enclosed in quotation marks to include trailing spaces etc.
+# Size limit for meta fields that appear in the basic fields list
+basicMetaMax=2000
+# Size limit for meta fields that do not appear in either list
+defaultMetaMax=1000
+# Size limit for tech info fields
+infoMax=200
+
+# List of basic meta fields - essential info such as artist & title
+fieldBasic=album
+fieldBasic=album artist
+fieldBasic=artist
+fieldBasic=composer
+fieldBasic=conductor
+fieldBasic=date
+fieldBasic=discnumber
+fieldBasic=genre
+fieldBasic=keywords
+fieldBasic=performer
+fieldBasic=producer
+fieldBasic=style
+fieldBasic=title
+fieldBasic=totaldiscs
+fieldBasic=totaltracks
+fieldBasic=tracknumber
+
+# List of spam meta fields - rarely useful stuff that *never* gets cached
+fieldSpam=accurate rip
+fieldSpam=aucdtect
+fieldSpam=biography
+fieldSpam=cuesheet
+fieldSpam=eac logfile
+fieldSpam=itunes_cddb_1
+fieldSpam=itunmovi
+fieldSpam=log
+fieldSpam=logfile
+fieldSpam=lyrics
+fieldSpam=unsynced lyrics
