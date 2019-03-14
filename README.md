@@ -2,6 +2,7 @@
 My foobar2000 configuration!
 
 It supports 3 modes:
+
 Mini-mode
 ![minimode](minimode.png?raw=true "Minimode")
 Midi-mode
