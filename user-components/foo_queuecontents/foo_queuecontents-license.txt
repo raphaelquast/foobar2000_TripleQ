@@ -1,0 +1,25 @@
+Copyright (c) 2010, Sami Salonen
+All rights reserved.
+
+foo_queuecontents is modified and extended version of Holger Stenger's foo_locktest. foo_locktest original copyright notice can be found in the foo_queuecontents-licence.txt
+
+In the preferences dialog, foo_queuecontents uses CPropertyGrid from Bjarke Viksoe downloaded from http://www.viksoe.dk/code/propertygrid.htm. Files are used as they are with no modifications. PropertyGrid.h, PropertyItem.h, PropertyItemEditors.h and PropertyItemImpl.h have their own copyright notices at the top of the files. Example PropertyGrid.h:
+
+// Written by Bjarke Viksoe (bjarke@viksoe.dk)
+// Copyright (c) 2002-2003 Bjarke Viksoe.
+// Thanks to Ludvig A. Norin for the PGS_EX_ADDITEMATEND feature.
+//
+// Add the following macro to the parent's message map:
+//   REFLECT_NOTIFICATIONS()
+//
+// This code may be used in compiled form in any way you desire. This
+// source file may be redistributed by any means PROVIDING it is 
+// not sold for profit without the authors written consent, and 
+// providing that this notice and the authors name is included. 
+//
+// This file is provided "as is" with no expressed or implied warranty.
+// The author accepts no liability if it causes any damage to you or your
+// computer whatsoever. It's free, so don't hassle me about it.
+//
+// Beware of bugs.
+//
