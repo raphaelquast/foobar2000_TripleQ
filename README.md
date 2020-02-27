@@ -1,18 +1,18 @@
 # foobar2000 skin
 A versatile foobar2000 skin that supports 3 display-modes:
 
-## Mini-mode
+### Mini-mode
 ![minimode](minimode.png?raw=true "Minimode")
-## Midi-mode
+### Midi-mode
 ![midimode](midimode.png?raw=true "Midimode")
-## Maxi-mode
+### Maxi-mode
 ![midimode](maximode_01.jpg?raw=true "Midimode")
 
 
 # Installation (Quick and easy)
 
-1) Install Foobar2000 (standard or portable)
-2) Copy the `configuration`-folder to your Foobar2000 `configuration`-folder and replace duplicated files. 
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.2] 
+2) Copy the `configuration`-folder to your foobar2000 `configuration`-folder (and replace duplicated files). 
 	- for portable installation it is located in the installation directory
 	- for standard installation it is located at `"%appdata%\foobar2000"` 
 3) Copy the `user-components` folder to the same location
@@ -26,7 +26,6 @@ A versatile foobar2000 skin that supports 3 display-modes:
 ## General Infos
 
 In order for the folder-structure presets to work, your music should be structured in the following form:
-
 
 - Music
 	- Artist_1
