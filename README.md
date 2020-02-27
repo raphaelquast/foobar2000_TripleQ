@@ -26,25 +26,35 @@ A versatile foobar2000 skin that supports 3 display-modes:
 ## General Infos
 
 In order for the folder-structure presets to work, your music should be structured in the following form:
-
+```
 - Music
-	- Artist_1
-		- Albumtitle [Date]
-			- 01 - Title01.mp3
-			- 02 - Title02.mp3 
-			- cover.jpg (naming format specified in Preferences/Display/Album art)
-		- Albumtitle [Date]
-			- 01 - Title01.mp3
-			- 02 - Title02.mp3 
-			- cover.jpeg
-	- Artist_2
-	- ...
+│   Artist_1
+│   └─── Albumtitle [Date]
+│   │	│   01 - Title01.mp3
+│   │	│   02 - Title02.mp3 
+|   |   |   ...
+│   │	│   cover.jpg (naming format specified in Preferences/Display/Album art)
+│   │
+│   └─── Albumtitle [Date]
+│   │	│   01 - Title01.mp3
+│   │	│   02 - Title02.mp3 
+|   |   |   ...
+│   │	│   cover.jpg	- Artist_2
+│
+│   Artist_2
+│   └─── ...
+│   └─── ...
+│    
+│    ...
+|
+│   _Compilations
+│   └─── Compilation Title [Date]
+│   │	│   01 - Artist01 - Title01.mp3
+│   │	│   02 - Artist02 - Title02.mp3
+│   │	│   ...
+│   │	│   cover.jpg 
 
-	- _Compilations
-		- Compilation Title [Date]
-			- 01 - Artist01 - Title01.mp3
-			- 02 - Artist02 - Title02.mp3
-			- ...
+```
 
 
 ## Thanks to
