@@ -1,3 +1,0 @@
-See the wiki page for the change log:
-
-http://wiki.hydrogenaudio.org/index.php?title=Foobar2000:Components/Queue_Contents_Editor_(foo_queuecontents)
