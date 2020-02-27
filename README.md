@@ -1,5 +1,5 @@
 # foobar2000 skin
-A versatile foobar2000 skin that supports 3 display-modes:
+A versatile foobar2000 skin that supports 3 (switchable) display-modes:
 
 ### Mini-mode
 ![minimode](minimode.png?raw=true "Minimode")
@@ -9,7 +9,7 @@ A versatile foobar2000 skin that supports 3 display-modes:
 ![midimode](maximode_01.jpg?raw=true "Midimode")
 
 
-# Installation (Quick and easy)
+# Installation (quick and easy)
 
 1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.2] 
 2) Copy the `configuration`-folder to your foobar2000 `configuration`-folder (and replace duplicated files). 
