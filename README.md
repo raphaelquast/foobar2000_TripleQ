@@ -2,11 +2,11 @@
 A versatile foobar2000 skin that supports 3 (switchable) display-modes:
 
 ### Mini-mode
-![minimode](minimode.png?raw=true "Minimode")
+![minimode](_images/minimode.png?raw=true "Minimode")
 ### Midi-mode
-![midimode](midimode.png?raw=true "Midimode")
+![midimode](_images/midimode.png?raw=true "Midimode")
 ### Maxi-mode
-![midimode](maximode_01.jpg?raw=true "Midimode")
+![midimode](_images/maximode_01.jpg?raw=true "Midimode")
 
 
 # Installation (quick and easy)
