@@ -15,11 +15,19 @@ vccorlib140.dll
 vcruntime140.dll
 zlib1.dll
 
+theme.fth
+version.txt
+
+
 running
 minibar.db
 runtime
 themes
 doc
+
+library
+playlists-v1.4
+
 
 components/foo_albumlist.dll
 components/foo_cdda.dll
@@ -32,3 +40,13 @@ components/foo_input_std.dll
 components/foo_rgscan.dll
 components/foo_ui_std.dll
 components/foo_unpack.dll
+
+configuration/foo_albumlist.dll.cfg
+configuration/foo_cdda.dll.cfg
+configuration/foo_converter.dll.cfg
+configuration/foo_dsp_eq.dll.cfg
+configuration/foo_fileops.dll.cfg
+configuration/foo_freedb2.dll.cfg
+configuration/foo_input_std.dll.cfg
+configuration/foo_rgscan.dll.cfg
+configuration/foo_ui_std.dll.cfg
