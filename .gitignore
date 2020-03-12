@@ -17,7 +17,7 @@ zlib1.dll
 
 theme.fth
 version.txt
-
+library-error-log.txt
 
 running
 minibar.db
