@@ -70,3 +70,4 @@ The configuration is based on the following components:
 - [Queue Contents Editor](https://www.foobar2000.org/components/view/foo_queuecontents)
 - [UI Hacks](http://foobar2000.ru/forum/viewtopic.php?t=1911)
 - [Quick Search Toolbar](https://www.foobar2000.org/components/view/foo_quicksearch)
+- [Playback Statistics] (https://www.foobar2000.org/components/view/foo_playcount)
