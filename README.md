@@ -36,6 +36,7 @@ nice gadgets that help with some recurring tasks like
 ## Hotkeys
 The theme incorporates the following **global hotkeys**:  
 (they might interfere with other apps using similar assignments... however I've never had problems so far)
+
 	- crtl + shift + up: previous track
 	- crtl + shift + down: next track
 	- crtl + shift + left: move 5 seconds ahead in the current track 
@@ -43,10 +44,10 @@ The theme incorporates the following **global hotkeys**:
 	- crtl + shift + space: activate/deactivate the player window
 
 ## Folder structure
-The theme is intended to be used with a well sorted collection...
+The theme is intended to be used with a well sorted collection...  
 (it comes along with file-sorting-presets that can be used to quickly adapt a nice file-structure)
 
-In order for the theme to work properly, your music should be structured in the following form:
+In order for the theme to work properly, your music should be structured in the following form:  
 (this is of course adjustable... but you would need to customize some settings)
 ```
 - Music
