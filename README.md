@@ -34,7 +34,7 @@ nice gadgets that help with some recurring tasks like
 
 ## Important notice
 
-The paths to your music-folder are hardcoded... so you need to change them manually!
+The paths to the music-folder are hardcoded... so you need to change them manually!
 
 - To make the "Utilities" buttons *"move to sorted music"* and *"move to unsorted music"* work you must
   adjust the paths in the file `FileOps-Presets.txt`
@@ -43,7 +43,7 @@ The paths to your music-folder are hardcoded... so you need to change them manua
  1) go to preferences (crtl + p)
  2) navigate to `Media Library > Album List Panel`
  3) double-click on each of the 'views' and change the paths in the following 2 lines:  
-    (you MUST include the backslashes and DO NOT use unnecessary spaces  
+    (you MUST include the backslashes and don't use unnecessary spaces  
 	(if your path contains spaces, you must encapsulate it in quotes)!)
 	  - the base-path of your music directory:
 	
