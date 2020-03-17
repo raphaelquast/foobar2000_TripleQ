@@ -34,7 +34,7 @@ nice gadgets that help with some recurring tasks like
 
 # General Infos
 ## Hotkeys
-The theme incorporates the following **global** hotkeys:
+The theme incorporates the following **global hotkeys**:  
 (they might interfere with other apps using similar assignments... however I've never had problems so far)
 	- crtl + shift + up: previous track
 	- crtl + shift + down: next track
