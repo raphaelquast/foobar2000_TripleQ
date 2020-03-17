@@ -1,7 +1,7 @@
 # foobar2000 skin
 A versatile foobar2000 skin that supports 3 (switchable) display-modes as well as some
 nice gadgets that help with some recurring tasks like
-  - maintain a nicely sorted collection (moving files and folders to fit a pre-defined structure)
+  - maintain a sorted collection (moving files and folders to fit a pre-defined structure)
   - keep a nice view of the well sorted collection while still being able to search the stuff in a messy unsorted folder
   - apply ratings ...also in midi-mode :-) (so you don't need to have a big player window open)
   - search your library
