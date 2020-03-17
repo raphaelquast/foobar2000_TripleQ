@@ -15,16 +15,15 @@ A versatile foobar2000 skin that supports 3 (switchable) display-modes:
 1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.2] 
 2) Clone the git-repo into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (Strg + p) and set your music-directory under the "Media Library" tab
+4) Enjoy
 
 ## Standalone:
 1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.2] 
-2) Copy the `configuration`-folder to your foobar2000 `configuration`-folder (and replace duplicated files). 
+2) Clone the git-repo into your foobar2000 `configuration`-folder (replace existing files)
 	- it is located at `"%appdata%\foobar2000"` 
-3) Copy the `user-components` folder to the same location
-4) Copy `FileOps-Presets.txt`, `LargeFieldsConfig.txt` to the **installation-directory**
-	- it's the location you've selected as install-folder (e.g. something like `C:\Program Files (x86)\foobar2000`) 
-5) Start foobar2000, open preferences (Strg + p) and set your music-directory under the "Media Library" tab
-6) Enjoy
+	  (if it does not yet exist, start foobar and close it again)
+3) Start foobar2000, open preferences (Strg + p) and set your music-directory under the "Media Library" tab
+4) Enjoy
 
 
 ## General Infos
