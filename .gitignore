@@ -14,6 +14,7 @@ shared.dll
 vccorlib140.dll
 vcruntime140.dll
 zlib1.dll
+LargeFieldsConfig.txt
 
 theme.fth
 version.txt
