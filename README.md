@@ -37,6 +37,7 @@ nice gadgets that help with some recurring tasks like
 The theme incorporates the following **global hotkeys**:  
 (they might interfere with other apps using similar assignments... however I've never had problems so far)
 
+- `crtl + shift + enter`: play / pause
 - `crtl + shift + up   `: previous track
 - `crtl + shift + down `: next track
 - `crtl + shift + left `: move 5 seconds ahead in the current track 
