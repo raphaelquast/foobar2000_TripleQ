@@ -80,8 +80,8 @@ In order for the theme to work properly, your music should be structured in the 
 The configuration is based on the following components:
 
 - [Columns UI](https://github.com/reupen/columns_ui)
-- [Album List Panel](https://yuo.be/album-list-panel)
 - [Panel Stack Splitter](http://foo2k.chottu.net/)
+- [Album List Panel](https://yuo.be/album-list-panel)
 - [Waveform Minibar (Mod)](http://www.foobar2000.org/components/view/foo_wave_minibar_mod)
 - [EsPlaylist](http://foo2k.chottu.net/)
 - [Playlist Organizer](https://www.foobar2000.org/components/view/foo_plorg)
