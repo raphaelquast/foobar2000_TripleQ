@@ -2,7 +2,7 @@
 # Use | character in preset names to create menu hierarchy: groupname|presetname.
 
 [preset]
-name=move to sorted music
+name=move_to_sorted_music
 operation=move
 targetDirectory=E:\Musik
 fileNamePattern=$if(%album%,$if($strcmp(%album artist%,VA),_Compilations,%album artist%)\%album% ['['%date%']'] \[CD $num(%discnumber%,1) - ]$num(%track%,2)[ - %track artist%] - %title%,$if($strcmp(%album artist%,VA),_Compilations,%album artist%)\%artist% - %title%[ '['%date%']'])
@@ -10,7 +10,7 @@ moveOtherFiles=yes
 removeEmpty=yes
 
 [preset]
-name=move to unsorted music
+name=move_to_unsorted_music
 operation=move
 targetDirectory=E:\Musik\_Musik_Downloads
 fileNamePattern=$if(%album%,$if($strcmp(%album artist%,VA),_Compilations,%album artist%)\%album% ['['%date%']'] \[CD $num(%discnumber%,1) - ]$num(%track%,2)[ - %track artist%] - %title%,$if($strcmp(%album artist%,VA),_Compilations,%album artist%)\%artist% - %title%[ '['%date%']'])
