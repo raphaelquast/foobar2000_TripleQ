@@ -51,8 +51,8 @@ The theme is intended to be used with a well sorted collection...
 In order for the theme to work properly, your music should be structured in the following form:  
 (this is of course adjustable... but you would need to customize some settings)
 ```
-- Music
-└─── _unsorted (note the underline!)
+- Musik
+└─── _Musik_Downloads (note the underline!)
 │   └─── ... (all the unsorted stuff)
 │
 │   Artist_1
