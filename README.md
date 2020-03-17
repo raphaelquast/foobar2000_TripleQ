@@ -1,12 +1,18 @@
 # foobar2000 skin
-A versatile foobar2000 skin that supports 3 (switchable) display-modes:
-
+A versatile foobar2000 skin that supports 3 (switchable) display-modes as well as some
+nice gadgets that help with some recurring tasks like
+  - maintain a nicely sorted collection (moving files and folders to fit a pre-defined structure)
+  - keep a nice view of the well sorted collection while still being able to search the stuff in a messy unsorted folder
+  - apply ratings ...also in midi-mode :-) (so you don't need to have a big player window open)
+  - search your library
+  - ...
+  
 ### Mini-mode
 ![minimode](_images/minimode.png?raw=true "Minimode")
 ### Midi-mode
 ![midimode](_images/midimode.png?raw=true "Midimode")
 ### Maxi-mode
-![midimode](_images/maximode_01.jpg?raw=true "Midimode")
+![midimode](_images/maximode.jpg?raw=true "Maximode")
 
 
 # Installation (quick and easy)
@@ -26,36 +32,44 @@ A versatile foobar2000 skin that supports 3 (switchable) display-modes:
 4) Enjoy
 
 
-## General Infos
+# General Infos
+## Hotkeys
+The theme incorporates the following **global** hotkeys:
+(they might interfere with other apps using similar assignments... however I've never had problems so far)
+	- crtl + shift + up: previous track
+	- crtl + shift + down: next track
+	- crtl + shift + left: move 5 seconds ahead in the current track 
+	- crtl + shift + right: move 5 seconds back in the current track
+	- crtl + shift + space: activate/deactivate the player window
 
-In order for the folder-structure presets to work, your music should be structured in the following form:
+## Folder structure
+The theme is intended to be used with a well sorted collection...
+(it comes along with file-sorting-presets that can be used to quickly adapt a nice file-structure)
+
+In order for the theme to work properly, your music should be structured in the following form:
+(this is of course adjustable... but you would need to customize some settings)
 ```
 - Music
-│   Artist_1
-│   └─── Albumtitle [Date]
-│   │	│   01 - Title01.mp3
-│   │	│   02 - Title02.mp3 
-|   |   |   ...
-│   │	│   cover.jpg (naming format specified in Preferences/Display/Album art)
-│   │
-│   └─── Albumtitle [Date]
-│   │	│   01 - Title01.mp3
-│   │	│   02 - Title02.mp3 
-|   |   |   ...
-│   │	│   cover.jpg	- Artist_2
+└─── _unsorted (note the underline!)
+│   └─── ... (all the unsorted stuff)
 │
+│   Artist_1
+│   └─── Albumtitle1 [Date]
+│   │	│   01 - Title01.mp3
+│   │	│   02 - Title02.mp3 
+│   │   │   ...
+│   │	│   Cover.jpg (possible names and formats specified in "Preferences/Display/Album art")
+│   └─── Albumtitle2 [Date]
 │   Artist_2
 │   └─── ...
-│   └─── ...
-│    
 │    ...
-|
-│   _Compilations
+│
+│   _Compilations (note the underline in the beginning)
 │   └─── Compilation Title [Date]
 │   │	│   01 - Artist01 - Title01.mp3
 │   │	│   02 - Artist02 - Title02.mp3
 │   │	│   ...
-│   │	│   cover.jpg 
+│   │	│   Cover.jpg 
 
 ```
 
