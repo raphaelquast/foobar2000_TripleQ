@@ -71,3 +71,5 @@ The configuration is based on the following components:
 - [UI Hacks](http://foobar2000.ru/forum/viewtopic.php?t=1911)
 - [Quick Search Toolbar](https://www.foobar2000.org/components/view/foo_quicksearch)
 - [Playback Statistics] (https://www.foobar2000.org/components/view/foo_playcount)
+- [Tag Sanitizer] (https://www.foobar2000.org/components/view/foo_sanitizer)
+- [TagBox] (https://www.foobar2000.org/components/view/foo_tagbox)

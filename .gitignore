@@ -27,7 +27,9 @@ doc
 
 library
 playlists-v1.4
-
+crash reports
+index-data
+_plain text scripts
 
 components/foo_albumlist.dll
 components/foo_cdda.dll
