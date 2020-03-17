@@ -13,7 +13,7 @@ A versatile foobar2000 skin that supports 3 (switchable) display-modes:
 
 ## Portable:
 1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.2] 
-2) clone the git-repo into the installation folder (replace existing files)
+2) Clone the git-repo into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (Strg + p) and set your music-directory under the "Media Library" tab
 
 ## Standalone:
