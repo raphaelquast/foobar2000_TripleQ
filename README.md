@@ -37,11 +37,11 @@ nice gadgets that help with some recurring tasks like
 The theme incorporates the following **global hotkeys**:  
 (they might interfere with other apps using similar assignments... however I've never had problems so far)
 
-- crtl + shift + up: previous track
-- crtl + shift + down: next track
-- crtl + shift + left: move 5 seconds ahead in the current track 
-- crtl + shift + right: move 5 seconds back in the current track
-- crtl + shift + space: activate/deactivate the player window
+- `crtl + shift + up   `: previous track
+- `crtl + shift + down `: next track
+- `crtl + shift + left `: move 5 seconds ahead in the current track 
+- `crtl + shift + right`: move 5 seconds back in the current track
+- `crtl + shift + space`: activate/deactivate the player window
 
 ## Folder structure
 The theme is intended to be used with a well sorted collection...  
