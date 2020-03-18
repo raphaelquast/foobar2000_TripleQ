@@ -1,4 +1,4 @@
-# foobar2000 skin
+# foobar2000 TripleQ v0.1 skin
 A versatile foobar2000 skin that supports 3 (switchable) display-modes as well as some
 nice gadgets that help with some recurring tasks like
   - maintain a sorted collection (moving files and folders to fit a pre-defined structure)
