@@ -10,7 +10,7 @@ nice gadgets that help with some recurring tasks like
 ### Mini-mode
 ![minimode](_images/minimode.png?raw=true "Minimode")
 ### Midi-mode
-![midimode](_images/midimode.png?raw=true "Midimode")
+![midimode](_images/midimode.jpg?raw=true "Midimode")
 ### Maxi-mode
 ![midimode](_images/maximode.jpg?raw=true "Maximode")
 
@@ -18,14 +18,14 @@ nice gadgets that help with some recurring tasks like
 # Installation (quick and easy)
 
 ## Portable:
-1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.2] 
-2) Clone the git-repo into the installation folder (replace existing files)
+1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.2]  (don't start it yet!)
+2) Copy all files into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (Strg + p) and set your music-directory under the "Media Library" tab
 4) Enjoy
 
 ## Standalone:
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.2] 
-2) Clone the git-repo into your foobar2000 `configuration`-folder (replace existing files)
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.2]  (don't start it yet!)
+2) Copy all files into your foobar2000 `configuration`-folder (replace existing files)
 	- it is located at `"%appdata%\foobar2000"` 
 	  (if it does not yet exist, start foobar and close it again)
 3) Start foobar2000, open preferences (Strg + p) and set your music-directory under the "Media Library" tab

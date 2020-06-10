@@ -16,3 +16,5 @@ targetDirectory=E:\Musik\_Musik_Downloads
 fileNamePattern=$if(%album%,$if($strcmp(%album artist%,VA),_Compilations,%album artist%)\%album% ['['%date%']'] \[CD $num(%discnumber%,1) - ]$num(%track%,2)[ - %track artist%] - %title%,$if($strcmp(%album artist%,VA),_Compilations,%album artist%)\%artist% - %title%[ '['%date%']'])
 moveOtherFiles=yes
 removeEmpty=yes
+
+removeEmpty=yes
