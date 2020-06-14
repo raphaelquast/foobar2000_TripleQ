@@ -22,7 +22,7 @@ oScrollbar = function (themed) {
 				gr.FillSolidRect(this.x, this.y, this.w, this.h, g_color_normal_txt & 0x15ffffff);
 			};
 		} else {
-			gr.FillSolidRect(this.x, this.y, this.w, this.h, g_color_normal_txt & 0x15ffffff);
+			gr.FillSolidRect(this.x, this.y, this.w, this.h, g_color_normal_txt & 0xff252525);
 		};
 		// draw up & down buttons
 		this.buttons[cScrollBar.buttonType.up] && this.buttons[cScrollBar.buttonType.up].draw(gr, this.x, this.y, 255);
@@ -59,7 +59,7 @@ oScrollbar = function (themed) {
 				this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 			};
 		} catch (e) {
-			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, g_color_normal_txt & 0x33ffffff);
+			gb.FillSolidRect(this.cursorWidth * 0.22, 0, this.cursorWidth * 0.5, this.cursorHeight, g_color_normal_txt & 0x33ffffff);
 		};
 		this.cursorImage_normal.ReleaseGraphics(gb);
 
@@ -75,7 +75,7 @@ oScrollbar = function (themed) {
 				this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 			};
 		} catch (e) {
-			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, g_color_normal_txt & 0x55ffffff);
+			gb.FillSolidRect(this.cursorWidth * 0.125, 0, this.cursorWidth * 0.75, this.cursorHeight, g_color_normal_txt & 0x55ffffff);
 		};
 		this.cursorImage_hover.ReleaseGraphics(gb);
 
@@ -91,7 +91,7 @@ oScrollbar = function (themed) {
 				this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 			};
 		} catch (e) {
-			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, g_color_normal_txt & 0x99ffffff);
+			gb.FillSolidRect(this.cursorWidth * 0.125, 0, this.cursorWidth * 0.75, this.cursorHeight, g_color_normal_txt & 0x99ffffff);
 		};
 		this.cursorImage_down.ReleaseGraphics(gb);
 
