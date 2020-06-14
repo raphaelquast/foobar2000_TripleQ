@@ -465,10 +465,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 				};
 			} catch (e) {
-				gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x33ffffff);
+				gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x33ffffff);
 			};
 		} else {
-			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x33ffffff);
+			gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x33ffffff);
 		};
 		this.cursorImage_normal.ReleaseGraphics(gb);
 
@@ -485,10 +485,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 				};
 			} catch (e) {
-				gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x55ffffff);
+				gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x55ffffff);
 			};
 		} else {
-			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x55ffffff);
+			gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x55ffffff);
 		};
 		this.cursorImage_hover.ReleaseGraphics(gb);
 
@@ -505,10 +505,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 				};
 			} catch (e) {
-				gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x99ffffff);
+				gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x99ffffff);
 			};
 		} else {
-			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x99ffffff);
+			gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x99ffffff);
 		};
 		this.cursorImage_down.ReleaseGraphics(gb);
 
@@ -715,10 +715,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.SetPartAndStateId(6, 1);
 					this.theme.DrawThemeBackground(gr, x, y, this.w, this.h);
 				} catch (e) {
-					gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
+					gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
 				};
 			} else {
-				gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
+				gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
 			};
 			// scrollbar buttons
 			this.buttons[this.buttonType.cursor].draw(gr, x, this.cursorY, 255);
@@ -737,10 +737,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.SetPartAndStateId(6, 1);
 					this.theme.DrawThemeBackground(gr, this.x, this.y, this.w, this.h);
 				} catch (e) {
-					gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
+					gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
 				};
 			} else {
-				gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
+				gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
 			};
 			// scrollbar buttons
 			this.buttons[this.buttonType.cursor].draw(gr, this.x, this.cursorY, 255);
