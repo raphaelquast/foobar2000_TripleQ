@@ -5,6 +5,7 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
  It includes several nice gadgets like:
 
 - **playlist-view** and **playlist-manager**
+
 - **library- and coverflow views** that provide a nice view of your well sorted collection
   
   (and a **search- and folder-list view** that show everything including the stuff in messy unsorted folders)
@@ -57,6 +58,8 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
 - `tab`: show / hide playlist manager
 - `crtl + t`: show / hide title bar
 - `crtl + i`: show / hide playlist header
+- `crtl + q`: add to playback queue
+- `crtl + w`: remove from playback queue
 
 ##### GLOBAL
 
@@ -100,10 +103,7 @@ In order for the theme to work properly, your music should be structured in the 
 │   │    │   02 - Artist02 - Title02.mp3
 │   │    │   ...
 │   │    │   Cover.jpg 
-
 ```
-
-
 
 ## Notice
 
@@ -127,8 +127,6 @@ The paths to the music-folder are hardcoded... so you need to change them manual
        ```
        $puts(base_path,E:\Musik\)
        ```
-
-
 
 ## Thanks to
 
