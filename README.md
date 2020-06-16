@@ -8,9 +8,9 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
 
 - **library- and coverflow views** that provide a nice view of your well sorted collection
   
-  (and a **search- and folder-list view** that show everything including the stuff in messy unsorted folders)
-  
-  **queue content editor** to keep track of what's going to play next
+  (and a **Tree view** that show everything including the stuff in messy unsorted folders)
+
+- **queue content editor** to keep track of what's going to play next
 
 ... and some equally nice buttons that help with recurring tasks like
 
