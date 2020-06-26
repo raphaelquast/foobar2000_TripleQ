@@ -5,13 +5,12 @@ var theme_name = 'TripleQ'
 var SettingsPath = ProfilePath+theme_name+"-settings\\";
 var settings_file_not_found = false;
 
-
-// a nice helpful function from eole-theme
+// a nice helpful function to control File-system functions (adapted from https://github.com/Ottodix/Eole-foobar-theme)
 oFileSystObject = function () {
     this.fileObject = new ActiveXObject("Scripting.FileSystemObject");
     this.CreateTextFile = function (path) {
 		try {
-           return this.fileObject.CreateTextFile(path);
+           return this.fileObject.CreateTextFile(path);s
         } catch (e) {
 			fb.ShowPopupMessage('Oupppppsssss, it look like an error\n\n'+"CreateTextFile call, "+path, "Error");
             console.log(e)
@@ -87,7 +86,7 @@ oFileSystObject = function () {
     };
 }
 
-	
+// a function (adapted from https://github.com/Ottodix/Eole-foobar-theme) to set panel states
 oPanelSetting = function (name, file_prefix, default_value, min_value, max_value, int_value, update_settings_file_not_found) {
 	this.name = name;	
 	this.file_prefix = file_prefix;
@@ -174,41 +173,7 @@ oPanelSetting = function (name, file_prefix, default_value, min_value, max_value
 }
 
 
-
-function RefreshPSS_OLD() {
-	if (fb.IsPlaying || fb.IsPaused) {
-		try{
-			let handle = fb.GetNowPlaying();
-			handle.RefreshStats();
-		} catch(e){
-			fb.Play();fb.Stop();
-		}
-	}	
-	else {
-		fb.Play();fb.Stop();
-	}	
-}	
-
-function RefreshPSS() {
-	if (fb.IsPaused) {
-		fb.Play();
-		fb.Pause();
-	}
-	else if (fb.IsPlaying) {
-		fb.Pause();
-		fb.Play();
-	}	
-	else {
-		fb.Play();fb.Stop();
-	}
-}
-function on_focus(is_focused) {
-	plman.SetActivePlaylistContext(); // When the panel gets focus but not on every click
-}
-
-
-
-//UI hacks ----------------------------------------------------------------
+// a function to control UI hacks behaviour (from https://github.com/Ottodix/Eole-foobar-theme)
 oUIHacks = function () {
     this.activeXObject = new ActiveXObject("UIHacks");
     this.EnableSizing = function (m) {
@@ -369,12 +334,42 @@ oUIHacks = function () {
 			console.log(e);
 		}
 	}
+	this.getMaxWidth = function () {
+        try {
+           return this.activeXObject.MaxSize.Width
+        } catch (e) {
+			fb.ShowPopupMessage('Oupppppsssss, it look like an error\n\n'+"UIHacks getMaxWidth Error");
+			console.log(e);
+		}
+	}
 }
 
 
+// a function to force a re-sizing of the window
+function set_mainpanel_width(width) {
+		g_uihacks.enableMaxSize()
+		g_uihacks.enableMinSize()
+		g_uihacks.setMaxWidth(width)
+		g_uihacks.setMinWidth(width)
+		g_uihacks.disableMaxSize()
+		g_uihacks.disableMinSize()
+}
 
 
-
+// a function to refresh panel stack splitter 
+function RefreshPSS() {
+	if (fb.IsPaused) {
+		fb.Play();
+		fb.Pause();
+	}
+	else if (fb.IsPlaying) {
+		fb.Pause();
+		fb.Play();
+	}	
+	else {
+		fb.Play();fb.Stop();
+	}
+}
 
 
 // initialize a file-system object

@@ -11,46 +11,29 @@ include(fb.ComponentPath + 'samples\\complete\\js\\volume.js');
 include(fb.ComponentPath + 'samples\\complete\\js\\panel.js');
 
 
-function set_mainpanel_width(width) {
-		g_uihacks.enableMaxSize()
-		g_uihacks.enableMinSize()
-		g_uihacks.setMaxWidth(width)
-		g_uihacks.setMinWidth(width)
-		g_uihacks.disableMaxSize()
-		g_uihacks.disableMinSize()
-}
+var panel = new _panel(true);
+var left_buttons = new _buttons();
+var right_buttons = new _buttons();
 
 
+var img_folder = fb.ComponentPath + 'samples\\TripleQ\\Images\\'
+var img_queuebutton = 'queuebutton.png'
+var img_queuebutton_sel = 'queuebutton_sel.png'
 
+// size of the small buttons
+var button_small = 25
+// size of the buttons enlarged
+var button_big = 35
+var button_big_surround = 50
 
-let panel = new _panel(true);
-let left_buttons = new _buttons();
-let right_buttons = new _buttons();
+var button_space = 450
 
-
-let img_folder = fb.ComponentPath + 'samples\\TripleQ\\Images\\'
-let img_queuebutton = 'queuebutton.png'
-let img_queuebutton_sel = 'queuebutton_sel.png'
-
-let button_small = 25
-let button_big = 35
-
-// buttons on the left side panels
-left_buttons.buttons.leftb1 = new _button(0, 0, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel(showpanel_left_state, 1, 'leftb', left_buttons);}, 'Queue');
-left_buttons.buttons.leftb2 = new _button(50, 0, button_small, button_small, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_left_state, 2, 'leftb', left_buttons);}, 'Tree View');
-left_buttons.buttons.leftb3 = new _button(100, 0, button_small, button_small, {normal : img_folder + 'detailsbutton.png', hover : img_folder + 'detailsbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_left_state, 3, 'leftb', left_buttons);}, 'Details');
-left_buttons.buttons.leftb4 = new _button(150, 0, button_small, button_small, {normal : img_folder + 'utilitiesbutton.png', hover : img_folder + 'utilitiesbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_left_state, 4, 'leftb', left_buttons);}, 'Utilities');
-
-// buttons for right side panels
-right_buttons.buttons.rightb1 = new _button(450, 0, button_small, button_small, {normal : img_folder + 'librarybutton.png', hover : img_folder + 'librarybutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 1, 'rightb', right_buttons);}, 'Library');
-right_buttons.buttons.rightb2 = new _button(450+50, 0, button_small, button_small, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 2, 'rightb', right_buttons);}, 'Tree View');
-right_buttons.buttons.rightb3 = new _button(450+100, 0, button_small, button_small, {normal : img_folder + 'coverflow.png', hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
-right_buttons.buttons.rightb4 = new _button(450+150, 0, button_small, button_small, {normal : img_folder + 'detailsbutton.png', hover : img_folder + 'detailsbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
+var usewidth = window.Width - button_big
 
 
 
 // button to set the playback-order
-let playbackorder_x = 650
+let playbackorder_x = button_space + 350
 let playbackorder_y = 20
 let playbackorder_size = 20
 let playbackorder_string = {0:'Default',
@@ -63,15 +46,10 @@ let playbackorder_string = {0:'Default',
 
 
 let playback_buttons = new _buttons();
+let menubuttons = new _buttons();
 
 // initialize playback-order as linear
 plman.PlaybackOrder == 0
-playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
-
-
-let menubuttons = new _buttons();
-//menubuttons.buttons.menu = new _button(650, 0, 20, 20, {normal : 'misc\\foobar2000.png'}, (x, y, mask) => { _menu(600, 30); }, 'Menu');
-menubuttons.buttons.menu = new _button(650, 0, 20, 20, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(650, 20); }, 'Menu');
 
 
 
@@ -99,19 +77,19 @@ function set_playback_state() {
 function update_playback_button() {
 	delete playback_buttons.buttons.leftb5
 	if (plman.PlaybackOrder == 1) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_repeat_playlist.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_repeat_playlist.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	} else if (plman.PlaybackOrder == 2) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_repeat_track.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_repeat_track.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	} else if (plman.PlaybackOrder == 3) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_random.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_random.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	} else if (plman.PlaybackOrder == 4) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_shuffle_tracks.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_shuffle_tracks.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	} else if (plman.PlaybackOrder == 5) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_shuffle_albums.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_shuffle_albums.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	} else if (plman.PlaybackOrder == 6) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_shuffle_folders.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_shuffle_folders.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	} else if (plman.PlaybackOrder == 0) {
-		playback_buttons.buttons.leftb5 = new _button(playbackorder_x, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+		playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	}
 
 }
@@ -147,8 +125,6 @@ function update_queue_button() {
 	} else {
 		left_buttons.buttons.leftb1 = new _button(0, 0, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel(showpanel_left_state, 1, 'leftb', left_buttons);}, queue_cnt_string);
 	}
-
-
 }
 
 
@@ -171,8 +147,8 @@ function togglepanel(showpanel, n, prefix, buttons) {
 			buttons.buttons[btn].w = button_small
 			buttons.buttons[btn].h = button_small
 		}
-
 	}
+	window.Repaint()
 }
 
 
@@ -234,12 +210,16 @@ function on_mouse_rbtn_up(x, y) {
 function on_paint(gr) {
 	panel.paint(gr);
     gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
+
 	left_buttons.paint(gr);	
 	right_buttons.paint(gr);	
 	playback_buttons.paint(gr);
 	menubuttons.paint(gr);
-	}
+		
+	var font = gdi.Font("Segoe UI", 12, 0);
+	//gr.GdiDrawText(window.Width, font, RGB(255,255,255), 5, 1, 226, 1000);
 
+	}
 
 
 function on_focus(is_focused) {
@@ -250,10 +230,31 @@ function on_focus(is_focused) {
 
 
 function on_size(width, height) {
-	panel.size();
+	if (showpanel_right_state.getValue() == 0) {
+		usewidth = window.Width - button_big
+	} else {
+		usewidth = window.Width / 2 - 7  - button_big
+	}
+
+	
+	// buttons on the left side panels
+	left_buttons.buttons.leftb1 = new _button(0, 0, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel(showpanel_left_state, 1, 'leftb', left_buttons);}, 'Queue');
+	left_buttons.buttons.leftb2 = new _button(button_big_surround, 0, button_small, button_small, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_left_state, 2, 'leftb', left_buttons);}, 'Tree View');
+	left_buttons.buttons.leftb3 = new _button(2 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'detailsbutton.png', hover : img_folder + 'detailsbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_left_state, 3, 'leftb', left_buttons);}, 'Details');
+	left_buttons.buttons.leftb4 = new _button(3 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'utilitiesbutton.png', hover : img_folder + 'utilitiesbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_left_state, 4, 'leftb', left_buttons);}, 'Utilities');
+
+	// buttons for right side panels
+	right_buttons.buttons.rightb1 = new _button(usewidth - 4 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'librarybutton.png', hover : img_folder + 'librarybutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 1, 'rightb', right_buttons);}, 'Library');
+	right_buttons.buttons.rightb2 = new _button(usewidth - 3 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 2, 'rightb', right_buttons);}, 'Tree View');
+	right_buttons.buttons.rightb3 = new _button(usewidth - 2 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'coverflow.png', hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
+	right_buttons.buttons.rightb4 = new _button(usewidth - button_big_surround, 0, button_small, button_small, {normal : img_folder + 'detailsbutton.png', hover : img_folder + 'detailsbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
+
+	playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
+	menubuttons.buttons.menu = new _button(usewidth, 0, 20, 20, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(650, 20); }, 'Menu');
+
+
+	window.Repaint()
 }
-
-
 
 
 
