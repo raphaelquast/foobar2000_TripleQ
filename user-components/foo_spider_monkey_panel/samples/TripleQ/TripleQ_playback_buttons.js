@@ -9,40 +9,31 @@ var playback_buttons = new _buttons();
 var img_folder = fb.ComponentPath + 'samples\\TripleQ\\Images\\playback\\';
 var painted = false
 
-function on_paint(gr) {
-    gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));	
-	
-	if (window.Width > 120) {
-		usewidth = 120
-	} else {
-		usewidth = window.Width
-	}
+var buttonsize = 40	
+var usewidth = 120
 
-	var buttonsize = 40	
-	while (buttonsize*4.4 > usewidth || buttonsize > window.Height) {
-		buttonsize = buttonsize - .1
-	}
-	
-	var space = (usewidth - buttonsize * 4)/4
-	var buttonsize_space = buttonsize + space;
+function on_paint(gr) {
+    gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));		
+
+
+	space = (usewidth - buttonsize * 4)/4
+	buttonsize_space = buttonsize + space;
+
 
 	playback_buttons.buttons.previous 	   = new _button(space, 0, buttonsize, buttonsize, {normal : img_folder + 'previous.png'}, (x, y, mask) => {fb.Prev()}, '');
 	playback_buttons.buttons.playpause 	   = new _button(space + 1 * buttonsize_space, 0, buttonsize, buttonsize, {normal : img_folder + 'pause.png', hover : img_folder + 'play.png'}, (x, y, mask) => {fb.PlayOrPause()}, '');
 	playback_buttons.buttons.stop 	 	   = new _button(space + 2 * buttonsize_space, 0, buttonsize, buttonsize, {normal : img_folder + 'stop.png'}, (x, y, mask) => {fb.Stop()}, '');
 	playback_buttons.buttons.next 	 	   = new _button(space + 3 * buttonsize_space, 0, buttonsize, buttonsize, {normal : img_folder + 'next.png'}, (x, y, mask) => {fb.Next()}, '');
 
-
 	if (fb.IsPaused) {
-		delete playback_buttons.buttons.playpause
 		playback_buttons.buttons.playpause = new _button(space + 1 * buttonsize_space, 0, buttonsize, buttonsize, {normal : img_folder + 'pause.png', hover : img_folder + 'play.png'}, (x, y, mask) => {fb.PlayOrPause()}, '');
 	} else {
-		delete playback_buttons.buttons.playpause
 		playback_buttons.buttons.playpause = new _button(space + 1 * buttonsize_space, 0, buttonsize, buttonsize, {normal : img_folder + 'play.png', hover : img_folder + 'pause.png'}, (x, y, mask) => {fb.PlayOrPause()}, '');
 	}
-	
+
+
 	playback_buttons.paint(gr);
 }
-
 
 
 function on_mouse_lbtn_up(x, y, mask) {
@@ -54,12 +45,22 @@ function on_mouse_leave() {
 }
 
 function on_mouse_move(x, y) {
-	window.Repaint()
 	playback_buttons.move(x, y);
 }
 
 function on_size(width, height) { 
-		window.Repaint()
+
+	if (window.Width > 120) {
+		usewidth = 120
+	} else {
+		usewidth = window.Width
+	}
+
+	while (buttonsize*4.4 > usewidth || buttonsize > window.Height) {
+		buttonsize = buttonsize - .1
+	}
+
+	window.Repaint()
 }
 
 
