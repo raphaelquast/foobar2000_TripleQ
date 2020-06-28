@@ -33,10 +33,10 @@ var usewidth = window.Width - button_big
 
 
 // button to set the playback-order
-let playbackorder_x = button_space + 350
-let playbackorder_y = 20
-let playbackorder_size = 20
-let playbackorder_string = {0:'Default',
+var playbackorder_x = button_space + 350
+var playbackorder_y = 20
+var playbackorder_size = 20
+var playbackorder_string = {0:'Default',
 							1:'Repeat (Playlist)',
 							2:'Repeat (Track)',
 							3:'Random',
@@ -45,11 +45,13 @@ let playbackorder_string = {0:'Default',
 							6:'Shuffle (folders)'};
 
 
-let playback_buttons = new _buttons();
-let menubuttons = new _buttons();
+var playback_buttons = new _buttons();
+var menubuttons = new _buttons();
 
 // initialize playback-order as linear
 plman.PlaybackOrder == 0
+showpanel_left_state.setValue(0, true);
+showpanel_right_state.setValue(0, true);
 
 
 
@@ -174,11 +176,11 @@ function on_mouse_lbtn_up(x, y, mask) {
 	right_buttons.lbtn_up(x, y, mask);
 	playback_buttons.lbtn_up(x, y, mask);
 	menubuttons.lbtn_up(x, y, mask);
-	
+
 	if (showpanel_right_state.getValue() == 0) {
-	set_mainpanel_width(700)
+		set_mainpanel_width(windowwidth_state.getValue() / 2)
 	} else {
-	set_mainpanel_width(1400)
+		set_mainpanel_width(windowwidth_state.getValue())
 	}
 	
 	window.Repaint()
@@ -232,10 +234,13 @@ function on_focus(is_focused) {
 
 
 function on_size(width, height) {
+	
 	if (showpanel_right_state.getValue() == 0) {
 		usewidth = window.Width - button_big
+		windowwidth_state.setValue(window.Width * 2, true)
 	} else {
 		usewidth = window.Width / 2 - 7  - button_big
+		windowwidth_state.setValue(window.Width, true)
 	}
 
 	
@@ -267,8 +272,6 @@ function on_size(width, height) {
 	playback_buttons.buttons.leftb5 = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 	menubuttons.buttons.menu = new _button(usewidth, 0, 20, 20, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(650, 20); }, 'Menu');
 
-
-	window.Repaint()
 }
 
 

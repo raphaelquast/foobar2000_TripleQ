@@ -382,4 +382,3 @@ g_files.CreateFolder(SettingsPath);
 // create a UIHacks object
 var g_uihacks = new oUIHacks();
 
-
