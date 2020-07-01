@@ -355,6 +355,15 @@ function set_mainpanel_width(width) {
 		g_uihacks.disableMinSize()
 }
 
+function set_mainpanel_height(height) {
+		g_uihacks.enableMaxSize()
+		g_uihacks.enableMinSize()
+		g_uihacks.setMinHeight(height)
+		g_uihacks.setMaxHeight(height)
+		g_uihacks.disableMaxSize()
+		g_uihacks.disableMinSize()
+}
+
 
 // a function to refresh panel stack splitter 
 function RefreshPSS() {
@@ -381,4 +390,13 @@ g_files.CreateFolder(SettingsPath);
 
 // create a UIHacks object
 var g_uihacks = new oUIHacks();
+
+
+
+
+// pad an integer with zeros till 4 digits
+function padToFour(number) {
+  if (number<=9999) { number = ("000"+number).slice(-4); }
+  return number;
+}
 

@@ -5,3 +5,12 @@ var showpanel_right_state = new oPanelSetting("showpanel_left_state", "showpanel
 var right_side_state = new oPanelSetting("right_side_state", "right_side_", 0, 0, 1, 1);
 
 var windowwidth_state = new oPanelSetting("windowwidth_state", "windowwidth_state_", 1200, 300, 1600, false);
+var windowheight_state = new oPanelSetting("windowheight_state", "windowheight_state_", 800, 300, 1600, false);
+
+var view_state = new oPanelSetting("view_state", "view_state_", 0, 0, 3, false);
+// 0 -> normal
+// 1 -> midi
+// 2 -> mini
+
+
+var img_folder = fb.ComponentPath + 'samples\\TripleQ\\Images\\'

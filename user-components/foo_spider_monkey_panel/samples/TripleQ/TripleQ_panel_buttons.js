@@ -3,7 +3,7 @@
 include('TripleQ_common.js');
 include('TripleQ_statevars.js');
 
-window.DefinePanel('Testasdf', {author:'asdf'});
+window.DefinePanel('buttonpanel', {author:'RQ'});
 include(fb.ComponentPath + 'docs\\Helpers.js');
 include(fb.ComponentPath + 'samples\\complete\\js\\lodash.min.js');
 include(fb.ComponentPath + 'samples\\complete\\js\\helpers.js');
@@ -16,8 +16,6 @@ var left_buttons = new _buttons();
 var right_buttons = new _buttons();
 var queue_buttons = new _buttons();
 
-
-var img_folder = fb.ComponentPath + 'samples\\TripleQ\\Images\\'
 var img_queuebutton = 'queuebutton.png'
 var img_queuebutton_sel = 'queuebutton_sel.png'
 
@@ -214,22 +212,8 @@ function on_colours_changed() {
 	window.Repaint();
 }
 
-function padToFour(number) {
-  if (number<=9999) { number = ("000"+number).slice(-4); }
-  return number;
-}
 
 
-
-function resizeit() {
-	if (showpanel_right_state.getValue() == 0) {
-			window.Repaint()	
-			windowwidth_state.setValue(padToFour(window.Width), true)
-	} else {
-			window.Repaint()
-			windowwidth_state.setValue(padToFour(window.Width), true)
-	}
-}
 
 
 function on_mouse_lbtn_up(x, y, mask) {
@@ -239,14 +223,6 @@ function on_mouse_lbtn_up(x, y, mask) {
 	queue_buttons.lbtn_up(x, y, mask);
 	playback_buttons.lbtn_up(x, y, mask);
 	menubuttons.lbtn_up(x, y, mask);
-	
-	
-	if (right_buttons.buttons.rightb0001.trace(x, y)) {resizeit()}
-	if (right_buttons.buttons.rightb0002.trace(x, y)) {resizeit()}
-	if (right_buttons.buttons.rightb0003.trace(x, y)) {resizeit()}
-	if (right_buttons.buttons.rightb0004.trace(x, y)) {resizeit()}
-
-
 	window.Repaint()
 
 }
@@ -324,7 +300,7 @@ function on_focus(is_focused) {
 function on_size(width, height) {
 	
 	// show-hide utilities buttons if there's enough space to show them
-	if (window.Width > button_big_surround * 6 + utility_button_surround * 4){
+	if (usewidth > button_big_surround * 5 + utility_button_surround * 4){
 		left_buttons.buttons.leftb1 = new _button(5,                               0, utility_button, utility_button, {normal : img_folder + 'queuebutton.png',     hover : img_folder + 'queuebutton_sel.png'},     (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_sorted_music', fb.GetSelections(1));}, 'Move to sorted music');
 		left_buttons.buttons.leftb2 = new _button(5 + 1 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'treeview.png',        hover : img_folder + 'treeview_sel.png'},        (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_unsorted_music', fb.GetSelections(1) );}, 'Move to unsorted music');
 		left_buttons.buttons.leftb3 = new _button(5 + 2 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'detailsbutton.png',   hover : img_folder + 'detailsbutton_sel.png'},   (x, y, mask) => {fb.RunContextCommandWithMetadb('ReplayGain/Scan as albums (by tags)', fb.GetSelections(1) );}, 'ReplayGain/Scan as albums (by tags)');
