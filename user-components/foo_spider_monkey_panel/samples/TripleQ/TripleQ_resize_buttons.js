@@ -48,12 +48,17 @@ function resizeit(n) {
 
 
 function on_paint(gr) {
-	   gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
+	gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
 	resize_buttons.paint(gr);
 }
 
 
 function on_size(width, height) {
+	g_uihacks.setMaxWidth(window.Width)
+	g_uihacks.setMinWidth(window.Width)
+	g_uihacks.setMaxHeight(window.Height)
+	g_uihacks.setMinHeight(window.Height)
+
 	if (view_state.getValue() == 0) {
 		// MAXI
 		resize_buttons.buttons.b0001.x = window.Width - resize_button_size_surround
