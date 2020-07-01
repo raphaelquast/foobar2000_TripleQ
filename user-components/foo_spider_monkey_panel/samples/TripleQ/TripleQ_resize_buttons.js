@@ -98,7 +98,7 @@ function on_size(width, height) {
 
 
 		g_uihacks.DisableSizing(true)
-		g_uihacks.SetPseudoCaption(0, 0, window.Width - resize_button_size_surround * 2, window.Height)
+		g_uihacks.SetPseudoCaption(0, 0, window.Width * 0.45, window.Height)
 		
 	} else if (view_state.getValue() == 2) {
 		// MINI
