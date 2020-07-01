@@ -16,19 +16,21 @@ var left_buttons = new _buttons();
 var right_buttons = new _buttons();
 var queue_buttons = new _buttons();
 
-var img_queuebutton = 'queuebutton.png'
-var img_queuebutton_sel = 'queuebutton_sel.png'
+var img_queuebutton = 'inkscape_images\\queuebutton.png'
+var img_queuebutton_sel = 'inkscape_images\\queuebutton_sel.png'
 
 // size of the small buttons
-var button_small = 25
+var button_small = 18
 // size of the buttons enlarged
-var button_big = 35
-var button_big_surround = 50
+var button_big = 30
+var button_big_surround = 39
 
 var usewidth = window.Width - button_big
 
 var utility_button = 20
 var utility_button_surround = 25
+
+var max_rightpanel_window_width = 800
 
 
 // button to set the playback-order
@@ -54,12 +56,12 @@ showpanel_right_state.setValue('0000', true);
 
 
 // buttons for right side panels
-queue_buttons.buttons.queue0001 = new _button(usewidth - 5 * button_big_surround, 0, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, 'Queue');
+queue_buttons.buttons.queue0001 = new _button(usewidth - 6 * button_big_surround, (button_big - button_small) / 2, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, 'Queue');
 
-right_buttons.buttons.rightb0001 = new _button(usewidth - 4 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'librarybutton.png', hover : img_folder + 'librarybutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 1, 'rightb', right_buttons);}, 'Library');
-right_buttons.buttons.rightb0002 = new _button(usewidth - 3 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 2, 'rightb', right_buttons);}, 'Tree View');
-right_buttons.buttons.rightb0003 = new _button(usewidth - 2 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'coverflow.png', hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
-right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_small, button_small, {normal : img_folder + 'detailsbutton.png', hover : img_folder + 'detailsbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
+right_buttons.buttons.rightb0001 = new _button(usewidth - 4 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'librarybutton.png', hover : img_folder + 'librarybutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 1, 'rightb', right_buttons);}, 'Library');
+right_buttons.buttons.rightb0002 = new _button(usewidth - 3 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 2, 'rightb', right_buttons);}, 'Tree View');
+right_buttons.buttons.rightb0003 = new _button(usewidth - 2 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'coverflow.png', hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
+right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'detailsbutton.png', hover : img_folder + 'detailsbutton_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
 
 playback_buttons.buttons.playbackorder = new _button(usewidth, playbackorder_y, playbackorder_size, playbackorder_size, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 menubuttons.buttons.menu = new _button(usewidth, 0, 20, 20, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(usewidth, 20); }, 'Menu');
@@ -117,15 +119,15 @@ function update_queue_button() {
 	let queue_cnt_string = handles.Count.toString()
 
 	if (handles.Count >= 7) {
-		img_queuebutton = 'queuebutton_full.png'
-	    img_queuebutton_sel = 'queuebutton_full_sel.png'
+		img_queuebutton = 'inkscape_images\\queuebutton_full.png'
+	    img_queuebutton_sel = 'inkscape_images\\queuebutton_full_sel.png'
 	} else if (handles.Count == 0) {
-		img_queuebutton = 'queuebutton.png'
-	    img_queuebutton_sel = 'queuebutton_sel.png'
+		img_queuebutton = 'inkscape_images\\queuebutton.png'
+	    img_queuebutton_sel = 'inkscape_images\\queuebutton_sel.png'
 
 	} else {
-		img_queuebutton = 'queuebutton_' + queue_cnt_string + '.png'
-		img_queuebutton_sel = 'queuebutton_' + queue_cnt_string + '_sel.png'
+		img_queuebutton = 'inkscape_images\\queuebutton_' + queue_cnt_string + '.png'
+		img_queuebutton_sel = 'inkscape_images\\queuebutton_' + queue_cnt_string + '_sel.png'
 	}
 	
 	if (handles.Count == 1) {
@@ -136,9 +138,9 @@ function update_queue_button() {
 	
 	delete queue_buttons.buttons.queue0001
 	if (showpanel_left_state.getValue() == 99) {
-		queue_buttons.buttons.queue0001 = new _button(usewidth - 5 * button_big_surround, 0, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, queue_cnt_string);
+		queue_buttons.buttons.queue0001 = new _button(usewidth - 6 * button_big_surround, (button_big - button_small)/2, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, queue_cnt_string);
 	} else {
-		queue_buttons.buttons.queue0001 = new _button(usewidth - 5 * button_big_surround, 0, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, queue_cnt_string);
+		queue_buttons.buttons.queue0001 = new _button(usewidth - 6 * button_big_surround, (button_big - button_small)/2, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, queue_cnt_string);
 	}
 }
 
@@ -148,21 +150,23 @@ function update_queue_button() {
 function togglepanel_left(showpanel, n, prefix, buttons) {
 	if (showpanel.getValue() == n) {
 		showpanel.setValue('0000', true);
-	} else {
-		showpanel.setValue(padToFour(n), true);
-	}
-
-	var btn;
-	for (btn in buttons.buttons) {
-		if (btn == prefix + showpanel.getValue().toString()){
-			buttons.buttons[btn].w = button_big
-			buttons.buttons[btn].h = button_big	
-
-		} else {
+		var btn;
+		for (btn in buttons.buttons) {
 			buttons.buttons[btn].w = button_small
 			buttons.buttons[btn].h = button_small
+			buttons.buttons[btn].y = (button_big - button_small)/2
+		}
+
+	} else {
+		showpanel.setValue(padToFour(n), true);
+		var btn;
+		for (btn in buttons.buttons) {
+			buttons.buttons[btn].w = button_big
+			buttons.buttons[btn].h = button_big	
+			buttons.buttons[btn].y = 0
 		}
 	}
+
 	window.Repaint()
 }
 
@@ -171,26 +175,41 @@ function togglepanel_left(showpanel, n, prefix, buttons) {
 
 function togglepanel(showpanel, n, prefix, buttons) {
 	if (showpanel.getValue() == 0 && n > 0) {
-		set_mainpanel_width(window.Width * 2)
+		if (window.Width > max_rightpanel_window_width) {
+			set_mainpanel_width(max_rightpanel_window_width * 2)
+		} else {
+			set_mainpanel_width(window.Width * 2)
+		}
 	}
+	
 	if (showpanel.getValue() == n) {
 		set_mainpanel_width(window.Width / 2)
 		showpanel.setValue('0000', true);
-	} else {
-		showpanel.setValue(padToFour(n), true);
-	}
-
-	var btn;
-	for (btn in buttons.buttons) {
-		if (btn == prefix + showpanel.getValue().toString()){
+	
+		var btn;
+		for (btn in buttons.buttons) {
 			buttons.buttons[btn].w = button_big
-			buttons.buttons[btn].h = button_big	
-
+			buttons.buttons[btn].h = button_big
+			buttons.buttons[btn].y = 0
+			} 
 		} else {
-			buttons.buttons[btn].w = button_small
-			buttons.buttons[btn].h = button_small
+		showpanel.setValue(padToFour(n), true);
+	
+		var btn;
+		for (btn in buttons.buttons) {
+			if (btn == prefix + showpanel.getValue().toString()){
+				buttons.buttons[btn].w = button_big
+				buttons.buttons[btn].h = button_big
+				buttons.buttons[btn].y = 0
+			} else {
+				buttons.buttons[btn].w = button_small
+				buttons.buttons[btn].h = button_small
+				buttons.buttons[btn].y = (button_big - button_small)/2
+			}
 		}
+
 	}
+
 	window.Repaint()
 }
 
@@ -263,7 +282,7 @@ function on_paint(gr) {
 		usewidth = window.Width / 2 - button_big
 	}
 
-	queue_buttons.buttons.queue0001.x = usewidth - 5 * button_big_surround
+	queue_buttons.buttons.queue0001.x = usewidth - 6 * button_big_surround
 	right_buttons.buttons.rightb0001.x = usewidth - 4 * button_big_surround
 	right_buttons.buttons.rightb0002.x = usewidth - 3 * button_big_surround
 	right_buttons.buttons.rightb0003.x = usewidth - 2 * button_big_surround
@@ -300,16 +319,18 @@ function on_focus(is_focused) {
 function on_size(width, height) {
 	
 	// show-hide utilities buttons if there's enough space to show them
-	if (usewidth > button_big_surround * 5 + utility_button_surround * 4){
-		left_buttons.buttons.leftb1 = new _button(5,                               0, utility_button, utility_button, {normal : img_folder + 'queuebutton.png',     hover : img_folder + 'queuebutton_sel.png'},     (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_sorted_music', fb.GetSelections(1));}, 'Move to sorted music');
-		left_buttons.buttons.leftb2 = new _button(5 + 1 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'treeview.png',        hover : img_folder + 'treeview_sel.png'},        (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_unsorted_music', fb.GetSelections(1) );}, 'Move to unsorted music');
-		left_buttons.buttons.leftb3 = new _button(5 + 2 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'detailsbutton.png',   hover : img_folder + 'detailsbutton_sel.png'},   (x, y, mask) => {fb.RunContextCommandWithMetadb('ReplayGain/Scan as albums (by tags)', fb.GetSelections(1) );}, 'ReplayGain/Scan as albums (by tags)');
-		left_buttons.buttons.leftb4 = new _button(5 + 3 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'utilitiesbutton.png', hover : img_folder + 'utilitiesbutton_sel.png'}, (x, y, mask) => {fb.RunContextCommandWithMetadb('Open containing folder', fb.GetSelections(1) );}, 'Open containing folder');
+	if (usewidth > button_big_surround * 6.5 + utility_button_surround * 5){
+		left_buttons.buttons.leftb1 = new _button(5,                               0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\move_to_sorted_music.png',   hover : img_folder + 'inkscape_images\\move_to_sorted_music_sel.png'},     (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_sorted_music', fb.GetSelections(1));}, 'Move to sorted music');
+		left_buttons.buttons.leftb2 = new _button(5 + 1 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\move_to_unsorted_music.png', hover : img_folder + 'inkscape_images\\move_to_unsorted_music_sel.png'},        (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_unsorted_music', fb.GetSelections(1) );}, 'Move to unsorted music');
+		left_buttons.buttons.leftb3 = new _button(5 + 2 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\replaygain_tracks.png',      hover : img_folder + 'inkscape_images\\replaygain_tracks_sel.png'},   (x, y, mask) => {fb.RunContextCommandWithMetadb('ReplayGain/Scan as albums (by tags)', fb.GetSelections(1) );}, 'ReplayGain/Scan as albums (by tags)');
+		left_buttons.buttons.leftb4 = new _button(5 + 3 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\open_containing_folder.png', hover : img_folder + 'inkscape_images\\open_containing_folder_sel.png'}, (x, y, mask) => {fb.RunContextCommandWithMetadb('Open containing folder', fb.GetSelections(1) );}, 'Open containing folder');
+		left_buttons.buttons.leftb5 = new _button(5 + 4 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\playback_device.png',        hover : img_folder + 'inkscape_images\\playback_device_sel.png'}, (x, y, mask) => { _output_devices(x, window.Height/6*16 + window.Height + utility_button_surround); }, 'Playback Devices');
 	} else {
 		delete left_buttons.buttons.leftb1
 		delete left_buttons.buttons.leftb2
 		delete left_buttons.buttons.leftb3
 		delete left_buttons.buttons.leftb4
+		delete left_buttons.buttons.leftb5
 	}
 
 	window.Repaint()

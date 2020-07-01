@@ -365,6 +365,36 @@ function set_mainpanel_height(height) {
 }
 
 
+
+
+// create a menu for selecting output-devices 
+// (adapted from WSHcontrol.js within the eole-theme)
+function _output_devices(x, y){
+   var menu = window.CreatePopupMenu();
+   var str = fb.GetOutputDevices();
+   var arr = JSON.parse(str);
+   var active = -1;
+   menu.AppendMenuItem(MF_GRAYED, 0, "Output device:");
+   menu.AppendMenuSeparator();
+   for (var i = 0; i < arr.length; i++) {
+      menu.AppendMenuItem(MF_STRING, i + 1, arr[i].name);
+      if (arr[i].active) active = i;
+   }
+   
+   if (active > -1) menu.CheckMenuRadioItem(1, arr.length + 1, active + 1);
+   
+   var idx = menu.TrackPopupMenu(x, y, 0x0020);
+   
+   if (idx > 0) fb.SetOutputDevice(arr[idx - 1].output_id, arr[idx - 1].device_id); 
+}
+
+
+
+
+
+
+
+
 // a function to refresh panel stack splitter 
 function RefreshPSS() {
 	if (fb.IsPaused) {
