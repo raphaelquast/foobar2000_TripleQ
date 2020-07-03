@@ -29,7 +29,7 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
 
 ### Maxi-mode
 
-![midimode](_images/maximode.jpg?raw=true "Maximode")
+![midimode](_images/animation_small.gif?raw=true "Maximode")
 
 # Installation (quick and easy)
 
