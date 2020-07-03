@@ -63,12 +63,12 @@ function on_paint(gr) {
 	var temp2 = gr.MeasureString(txt2, font, 0, 0, 10000, 10000);
 
 	if (temp.Width > window.Width) {
-		gr.GdiDrawText(txt1, font, RGB(155,155,155), 30 - timer_i,                   			   0, temp.Width + 10, window.Height, DT_LEFT);
-		gr.GdiDrawText(txt1, font, RGB(155,155,155), 30 - timer_i + temp.Width + 60,			   0, temp.Width + 10, window.Height, DT_LEFT);
-		gr.GdiDrawText(txt2, font, RGB(255,255,255), 33 - timer_i + temp1.Width,    			   0, temp.Width + 10, window.Height, DT_LEFT);
-		gr.GdiDrawText(txt2, font, RGB(255,255,255), 33 - timer_i + temp1.Width + temp.Width + 60, 0, temp.Width + 10, window.Height, DT_LEFT);
+		gr.GdiDrawText(txt1, font, RGB(155,155,155), 30 - timer_i,                   			   (window.Height - temp.Height - temp_secondline.Height)/2, temp.Width + 10, window.Height, DT_LEFT);
+		gr.GdiDrawText(txt1, font, RGB(155,155,155), 30 - timer_i + temp.Width + 60,			   (window.Height - temp.Height - temp_secondline.Height)/2, temp.Width + 10, window.Height, DT_LEFT);
+		gr.GdiDrawText(txt2, font, RGB(255,255,255), 33 - timer_i + temp1.Width,    			   (window.Height - temp.Height - temp_secondline.Height)/2, temp.Width + 10, window.Height, DT_LEFT);
+		gr.GdiDrawText(txt2, font, RGB(255,255,255), 33 - timer_i + temp1.Width + temp.Width + 60, (window.Height - temp.Height - temp_secondline.Height)/2, temp.Width + 10, window.Height, DT_LEFT);
 		
-		gr.GdiDrawText(txt_secondline, font2, RGB(255,255,255), 0, temp.Height, window.Width, window.Height, DT_CENTER);
+		gr.GdiDrawText(txt_secondline, font2, RGB(255,255,255), 0, (window.Height + temp.Height - temp_secondline.Height)/2, window.Width, window.Height, DT_CENTER);
 		
 		if (timer_running == false) {
 			function drawit(){
@@ -82,9 +82,9 @@ function on_paint(gr) {
 		}
 		
 	} else {
-		gr.GdiDrawText(txt1, font, RGB(155,155,155), - temp2.Width / 2 , 0, window.Width, window.Height, DT_CENTER);
-		gr.GdiDrawText(txt2, font, RGB(255,255,255), temp1.Width / 2, 0, window.Width, window.Height, DT_CENTER);
-		gr.GdiDrawText(txt_secondline, font2, RGB(255,255,255), 0, temp.Height, window.Width, window.Height, DT_CENTER);
+		gr.GdiDrawText(txt1, font, RGB(155,155,155),            - temp2.Width / 2 , (window.Height - temp.Height - temp_secondline.Height)/2, window.Width, window.Height, DT_CENTER);
+		gr.GdiDrawText(txt2, font, RGB(255,255,255),            temp1.Width / 2,    (window.Height - temp.Height - temp_secondline.Height)/2, window.Width, window.Height, DT_CENTER);
+		gr.GdiDrawText(txt_secondline, font2, RGB(255,255,255), 0,                  (window.Height + temp.Height - temp_secondline.Height)/2, window.Width, window.Height, DT_CENTER);
 
 	}
 
@@ -100,6 +100,17 @@ function on_playback_new_track() {
 	}
 	window.Repaint();
 };
+
+
+function on_size() {
+	// reset moving text Interval on track-change
+	if (timer_running == true){
+		clearInterval(interval1)
+		timer_i = 0
+		timer_running = false
+	}
+};
+
 
 
 function on_selection_changed() {

@@ -18,7 +18,7 @@ function gettrackinfo(txtfmt) {
 // fmt in color1
 var fmt1 = fb.TitleFormat('%artist%');
 // fmt in color2
-var fmt2 = fb.TitleFormat(' - %title%');
+var fmt2 = fb.TitleFormat('\xa0\xa0- %title%');
 // fmt used to measure the full width of the string
 var fmt_static = fb.TitleFormat("%artist% - %title%")
 
@@ -103,5 +103,14 @@ function on_selection_changed() {
 			timer_running = false
 		}
 		window.Repaint()
+	}
+};
+
+function on_size() {
+	// reset moving text Interval on track-change
+	if (timer_running == true){
+		clearInterval(interval1)
+		timer_i = 0
+		timer_running = false
 	}
 };

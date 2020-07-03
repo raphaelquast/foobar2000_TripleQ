@@ -23,8 +23,8 @@ var img_queuebutton_sel = 'inkscape_images\\queuebutton_sel.png'
 var button_small = window.Height * .7
 var button_big = window.Height*.9
 var button_big_surround = window.Height
-var utility_button = window.Height * .6
-var utility_button_surround = window.Height * .8
+var utility_button = window.Height * .5
+var utility_button_surround = window.Height * .7
 var minibutton = window.Height * .5
 
 var usewidth = window.Width - button_big
@@ -50,8 +50,6 @@ var menubuttons = new _buttons();
 
 // initialize playback-order as linear
 plman.PlaybackOrder == 0
-showpanel_left_state.setValue('0000', true);
-showpanel_right_state.setValue('0000', true);
 
 
 
@@ -63,7 +61,7 @@ right_buttons.buttons.rightb0002 = new _button(usewidth - 3 * button_big_surroun
 right_buttons.buttons.rightb0003 = new _button(usewidth - 2 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'inkscape_images\\coverflow.png', hover : img_folder + 'inkscape_images\\coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
 right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'inkscape_images\\playlists.png', hover : img_folder + 'inkscape_images\\playlists_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
 
-menubuttons.buttons.menu = new _button(usewidth, 0, minibutton, minibutton, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(usewidth, 20); }, 'Menu');
+menubuttons.buttons.menu = new _button(usewidth, 0, minibutton, minibutton, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(x, 20); }, 'Menu');
 playback_buttons.buttons.playbackorder = new _button(usewidth, minibutton, minibutton, minibutton, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
 
 
@@ -71,7 +69,7 @@ left_buttons.buttons.leftb1 = new _button(5,                               0, ut
 left_buttons.buttons.leftb2 = new _button(5 + 1 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\move_to_unsorted_music.png', hover : img_folder + 'inkscape_images\\move_to_unsorted_music_sel.png'}, (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_unsorted_music', fb.GetSelections(1) );}, 'Move to unsorted music');
 left_buttons.buttons.leftb3 = new _button(5 + 2 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\replaygain_tracks.png',      hover : img_folder + 'inkscape_images\\replaygain_tracks_sel.png'},      (x, y, mask) => {fb.RunContextCommandWithMetadb('ReplayGain/Scan as albums (by tags)', fb.GetSelections(1) );}, 'ReplayGain/Scan as albums (by tags)');
 left_buttons.buttons.leftb4 = new _button(5 + 3 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\open_containing_folder.png', hover : img_folder + 'inkscape_images\\open_containing_folder_sel.png'}, (x, y, mask) => {fb.RunContextCommandWithMetadb('Open containing folder', fb.GetSelections(1) );}, 'Open containing folder');
-left_buttons.buttons.leftb5 = new _button(5 + 4 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\playback_device.png',        hover : img_folder + 'inkscape_images\\playback_device_sel.png'},        (x, y, mask) => { _output_devices(x, window.Height/6*16 + window.Height + utility_button_surround); }, 'Playback Devices');
+left_buttons.buttons.leftb5 = new _button(5 + 4 * utility_button_surround, 0, utility_button, utility_button, {normal : img_folder + 'inkscape_images\\playback_device.png',        hover : img_folder + 'inkscape_images\\playback_device_sel.png'},        (x, y, mask) => { _output_devices(x, y); }, 'Output Device');
 
 
 var save_left_buttons = left_buttons.buttons
@@ -267,8 +265,8 @@ function on_paint(gr) {
 	var button_small = window.Height * .7
 	var button_big = window.Height*.9
 	var button_big_surround = window.Height
-	var utility_button = window.Height * .6
-	var utility_button_surround = window.Height * .8
+	var utility_button = window.Height * .5
+	var utility_button_surround = window.Height * .7
 	var minibutton = window.Height * .5
 
 	// resize and reposition buttons
@@ -334,12 +332,12 @@ function on_paint(gr) {
 	for (btn in left_buttons.buttons) {
 		left_buttons.buttons[btn].w = utility_button
 		left_buttons.buttons[btn].h = utility_button
-		left_buttons.buttons[btn].y = 0
+		left_buttons.buttons[btn].y = 2
 		left_buttons.buttons[btn].x = 5 + i * utility_button_surround
 		i = i + 1
 	}
 
-
+	left_buttons.buttons.leftb5.fn = function(x, y, mask) { _output_devices(x,window.Height/6*16) };
 
 	panel.paint(gr);
 	right_buttons.paint(gr);	

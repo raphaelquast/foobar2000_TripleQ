@@ -365,8 +365,6 @@ function set_mainpanel_height(height) {
 }
 
 
-
-
 // create a menu for selecting output-devices 
 // (adapted from WSHcontrol.js within the eole-theme)
 function _output_devices(x, y){
@@ -387,9 +385,6 @@ function _output_devices(x, y){
    
    if (idx > 0) fb.SetOutputDevice(arr[idx - 1].output_id, arr[idx - 1].device_id); 
 }
-
-
-
 
 
 
