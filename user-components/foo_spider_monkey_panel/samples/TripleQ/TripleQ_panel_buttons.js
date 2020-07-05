@@ -335,9 +335,15 @@ function on_paint(gr) {
 		left_buttons.buttons[btn].y = 2
 		left_buttons.buttons[btn].x = 5 + i * utility_button_surround
 		i = i + 1
-	}
+		
+		if (btn == 'leftb5') {
+			
+			left_buttons.buttons[btn].fn = function(x, y, mask) { _output_devices(x,window.Height/6*16) };
 
-	left_buttons.buttons.leftb5.fn = function(x, y, mask) { _output_devices(x,window.Height/6*16) };
+		}
+	
+	}
+	
 
 	panel.paint(gr);
 	right_buttons.paint(gr);	
