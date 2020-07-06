@@ -68,7 +68,7 @@ alternatively (if you know your way around git) you can also do the following in
  git remote add origin https://github.com/raphaelquast/foobar2000_TripleQ.git
  git fetch
  git reset --hard origin/master
- git checkout master
+ git branch --set-upstream-to=origin/master master
  ```
 to update, simply run
 ```
