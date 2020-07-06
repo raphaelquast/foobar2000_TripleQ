@@ -1,4 +1,4 @@
-# foobar2000 TripleQ v0.1
+# foobar2000 TripleQ v1.0
 
 A versatile foobar2000 skin with 3 (switchable) view-modes!
 
@@ -50,35 +50,6 @@ It includes several nice gadgets like:
 4) Enjoy!
 
 
-# Installation (updateable)
-
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.5]
-2) Install [git](https://git-scm.com/)
-3) Copy the file 'Update_TripleQ.bat' to the configuration-folder
-	- for portable installation this is the same as the installation-folder
-	- for standard installation it is located at `"%appdata%\foobar2000"`  
-	  (if it does not yet exist, start *foobar2000* and close it again)
-4) double-click 'Update_TripleQ.bat' and let git do it's magic
-5) Enjoy!
-
-5.1) in case an update is released, simply run 'Update_TripleQ.bat' and you get updated to the latest version of TripleQ!
-
-alternatively (if you know your way around git) you can also do the following in the configuration-folder of a FRESH foobar2000:
- ```
- git init
- git remote add origin https://github.com/raphaelquast/foobar2000_TripleQ.git
- git fetch
- git reset --hard origin/master
- git branch --set-upstream-to=origin/master master
- ```
-to update, simply run
-```
-git fetch
-git checkout configuration\
-git pull
-```
-
-
 # General Infos
 
 ## Hotkeys
@@ -106,10 +77,12 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 ## Folder structure
 
 The theme is intended to be used with a well sorted collection...  
-(it comes along with file-sorting-presets that can be used to quickly adapt a nice file-structure)
 
-In order for the theme to work properly, your music should be structured in the following form:  
-(this is of course adjustable... but you would need to customize some settings)
+To allow having both sorted and unsorted stuff in your music folders,  
+**any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
+(It'll still be visible in the *Tree view*)
+
+You'll get the best out of the theme if your music is structured in the following form:
 
 ```
 - Musik
@@ -118,32 +91,34 @@ In order for the theme to work properly, your music should be structured in the 
 │
 │   Artist_1
 │   └─── Albumtitle1 [Date]
-│   │    │   01 - Title01.mp3
-│   │    │   02 - Title02.mp3 
-│   │   │   ...
+│   │    │   01 - Title 01.mp3
+│   │    │   02 - Title 02.mp3 
+│   │    │   ...
 │   │    │   Cover.jpg (possible names and formats specified in "Preferences/Display/Album art")
 │   └─── Albumtitle2 [Date]
 │   Artist_2
 │   └─── ...
 │    ...
 │
-│   _Compilations (note the underline in the beginning)
+│   _Compilations (note the single underline in the beginning)
 │   └─── Compilation Title [Date]
-│   │    │   01 - Artist01 - Title01.mp3
-│   │    │   02 - Artist02 - Title02.mp3
+│   │    │   01 - Artist 01 - Title 01.mp3
+│   │    │   02 - Artist 02 - Title 02.mp3
 │   │    │   ...
 │   │    │   Cover.jpg 
 ```
 
 ## Notice
 
-- To make the buttons `Move to sorted music` and `Move to unsorted music` 
-  work you must adjust the "targetDirectory" in the file `FileOps-Presets.txt`.
+- To make the buttons `Move to sorted music` and `Move to unsorted music`  
+  the directories must be adjusted. To do this, click on one of the buttons  
+  and then on `More options` (bottom left in the popup-window). Now you can   
+  change the "Destination Folder" for each of the presets (and don't forget   
+  to save afterwards!)
 
 
 ## Thanks to
-
-The configuration is based on the following components:
+all the developers that created the awesome components that TripleQ is based on:
 
 - [Columns UI](https://github.com/reupen/columns_ui)
 - [Panel Stack Splitter](http://foo2k.chottu.net/)
