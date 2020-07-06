@@ -2,7 +2,7 @@
 
 A versatile foobar2000 skin with 3 (switchable) view-modes!
 
- It includes several nice gadgets like:
+It includes several nice gadgets like:
 
 - **playlist-view** and **playlist-manager**
 
@@ -15,8 +15,8 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
 ... and some equally nice buttons that help with recurring tasks like
 
 - maintain a sorted collection (moving files and folders to fit a pre-defined structure)
-- apply ratings ...also in midi-mode :-) (so you don't need to have a big player window open)
 - apply replay-gain
+- change the output-device
 - ...
 
 ### Mini-mode
@@ -38,7 +38,7 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
 1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.2]  (don't start it yet!)
 2) Copy all files into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
-4) Enjoy
+4) Enjoy!
 
 ## Standalone:
 
@@ -47,13 +47,33 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
    - it is located at `"%appdata%\foobar2000"` 
      (if it does not yet exist, start *foobar2000* and close it again)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
-4) Enjoy
+4) Enjoy!
+
+## Updateable:
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.2]  (don't start it yet!)
+2) Install [git](https://git-scm.com/)
+3) Copy the file 'Update_TripleQ.bat' to the configuration-folder
+	- for portable installation this is the same as the installation-folder
+	- for standard installation it is located at `"%appdata%\foobar2000"` 
+4) double-click 'Update_TripleQ.bat' and let git do it's magic
+5) Enjoy!
+
+5.1) in case an update is released, simply run 'Update_TripleQ.bat' and you get updated to the latest version of TripleQ!
+
+alternatively (if you know your way around git) you can also do the following in the configuration-folder of a FRESH foobar2000:
+ ```
+ git init
+ git remote add origin https://github.com/raphaelquast/foobar2000_TripleQ.git
+ git fetch
+ git reset --hard origin/master
+ git checkout master
+ ```
 
 # General Infos
 
 ## Hotkeys
 
-##### (Left) Playlist
+##### While the playlist is in focus
 
 - `tab`: show / hide playlist manager
 - `crtl + t`: show / hide title bar
@@ -83,7 +103,7 @@ In order for the theme to work properly, your music should be structured in the 
 
 ```
 - Musik
-└─── __Musik_Downloads (note the DOUBLE underline!)
+└─── __unsorted_folder (note the DOUBLE underline!)
 │   └─── ... (all the unsorted stuff)
 │
 │   Artist_1
@@ -107,26 +127,9 @@ In order for the theme to work properly, your music should be structured in the 
 
 ## Notice
 
-The paths to the music-folder are hardcoded... so you need to change them manually!
+- To make the buttons `Move to sorted music` and `Move to unsorted music` 
+  work you must adjust the "targetDirectory" in the file `FileOps-Presets.txt`.
 
-- To make the "Utilities" buttons `move to sorted music` and `move to unsorted music` work you must
-  adjust the paths in the file `FileOps-Presets.txt`
-
-- To make the sorting-schemes in the folder-list tab (on the right side) work you must do the following:
-  
-  1. go to preferences (crtl + p)
-  
-  2. navigate to `Media Library > Album List Panel`
-  
-  3. double-click on each of the 'views' and change the paths in the following 2 lines: 
-     (you MUST include the backslashes and don't use unnecessary spaces  
-     (if your path contains spaces, you must encapsulate it in quotes)!)
-     
-     - the base-path of your music directory:
-       
-       ```
-       $puts(base_path,E:\Musik\)
-       ```
 
 ## Thanks to
 
@@ -134,15 +137,11 @@ The configuration is based on the following components:
 
 - [Columns UI](https://github.com/reupen/columns_ui)
 - [Panel Stack Splitter](http://foo2k.chottu.net/)
-- [Album List Panel](https://yuo.be/album-list-panel)
 - [Waveform Minibar (Mod)](http://www.foobar2000.org/components/view/foo_wave_minibar_mod)
 - [EsPlaylist](http://foo2k.chottu.net/)
-- [Playlist Organizer](https://www.foobar2000.org/components/view/foo_plorg)
 - [Queue Contents Editor](https://www.foobar2000.org/components/view/foo_queuecontents)
 - [UI Hacks](http://foobar2000.ru/forum/viewtopic.php?t=1911)
-- [Quick Search Toolbar](https://www.foobar2000.org/components/view/foo_quicksearch)
 - [Playback Statistics](https://www.foobar2000.org/components/view/foo_playcount)
-- [Tag Sanitizer](https://www.foobar2000.org/components/view/foo_sanitizer)
 - [TagBox](https://www.foobar2000.org/components/view/foo_tagbox)
 - [Coverflow]([GitHub - Chronial/foo_chronflow: A coverflow plugin for foobar](https://github.com/Chronial/foo_chronflow))
 - [Spider Monkey Panel](https://theqwertiest.github.io/foo_spider_monkey_panel/)
