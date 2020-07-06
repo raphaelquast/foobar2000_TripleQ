@@ -35,15 +35,14 @@ It includes several nice gadgets like:
 
 ## Portable:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.2]  (don't start it yet!)
+1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.5.5]  (don't start it yet!)
 2) Copy all files into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
 
 ## Standalone:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.2]  
-   1.1 start foobar2000 and close it right away (to initialize the configuration-folder)
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.5]  
 2) Copy all files into your foobar2000 `configuration`-folder (replace existing files)
    - it is located at `"%appdata%\foobar2000"` 
      (if it does not yet exist, start *foobar2000* and close it again)
@@ -53,11 +52,12 @@ It includes several nice gadgets like:
 
 # Installation (updateable)
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.2]  (don't start it yet!)
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.5]
 2) Install [git](https://git-scm.com/)
 3) Copy the file 'Update_TripleQ.bat' to the configuration-folder
 	- for portable installation this is the same as the installation-folder
-	- for standard installation it is located at `"%appdata%\foobar2000"` 
+	- for standard installation it is located at `"%appdata%\foobar2000"`  
+	  (if it does not yet exist, start *foobar2000* and close it again)
 4) double-click 'Update_TripleQ.bat' and let git do it's magic
 5) Enjoy!
 
