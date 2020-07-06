@@ -21,11 +21,11 @@ A versatile foobar2000 skin with 3 (switchable) view-modes!
 
 ### Mini-mode
 
-![minimode](_images/minimode.png?raw=true "Minimode")
+![minimode](_images/minimode.gif?raw=true "Minimode")
 
 ### Midi-mode
 
-![midimode](_images/midimode.jpg?raw=true "Midimode")
+![midimode](_images/midimode.gif?raw=true "Midimode")
 
 ### Maxi-mode
 
