@@ -150,20 +150,20 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 						if (plman.PlayingPlaylist == this.playlist) {
 							if (this.track_index == p.list.nowplaying.PlaylistItemIndex) {
 								if (fb.isPaused) {
-									gr.DrawString(String.fromCharCode(127).repeat(2), g_font_pauseicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
+									gr.DrawString(String.fromCharCode(8860), g_font_pauseicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
 								} else {
 									gr.SetTextRenderingHint(4);
 									if (g_seconds / 2 == Math.floor(g_seconds / 2)) {
-										gr.DrawString(String.fromCharCode(117), g_font_playicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
+										gr.DrawString(String.fromCharCode(8919), g_font_playicon, 0xffffffff, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
 									} else {
-										gr.DrawString(String.fromCharCode(119), g_font_playicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
+										gr.DrawString(String.fromCharCode(8883), g_font_playicon, 0xffffffff, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
 									};
 								};
 							} else {
 								gr.SetTextRenderingHint(5);
 								if (plman.IsPlaylistItemSelected(p.list.playlist, this.track_index)) { // if selected
 									if (this.queue_idx > 0) {
-										gr.DrawRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 1, cTrack.height - g_z16 + 1, 1.0, columnColor & 0x77ffffff);
+										gr.DrawRect(icon_x - .51, this.y + g_z8 - .51, queue_w + g_z6 + .51, cTrack.height - g_z16 + .51, 1.0, columnColor & 0x77ffffff);
 										gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 									} else {
 										//gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
@@ -179,7 +179,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 							gr.SetTextRenderingHint(5);
 							if (plman.IsPlaylistItemSelected(p.list.playlist, this.track_index)) { // if selected
 								if (this.queue_idx > 0) {
-									gr.DrawRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 1, cTrack.height - g_z16 + 1, 1.0, columnColor & 0x77ffffff);
+									gr.DrawRect(icon_x - .51, this.y + g_z8 - .51, queue_w + g_z6 + .51, cTrack.height - g_z16 + .51, 1.0, columnColor & 0x77ffffff);
 									gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 								} else {
 									//gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
@@ -195,7 +195,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 						gr.SetTextRenderingHint(5);
 						if (plman.IsPlaylistItemSelected(p.list.playlist, this.track_index)) { // if selected
 							if (this.queue_idx > 0) {
-								gr.DrawRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 1, cTrack.height - g_z16 + 1, 1.0, columnColor & 0x77ffffff);
+								gr.DrawRect(icon_x - .51, this.y + g_z8 - .51, queue_w + g_z6 + .51, cTrack.height - g_z16 + .51, 1.0, columnColor & 0x77ffffff);
 								gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 							} else {
 								//gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
