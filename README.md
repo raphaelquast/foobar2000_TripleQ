@@ -118,8 +118,7 @@ You'll get the best out of the theme if your music is structured in the followin
 
 
 ## Thanks to
-
-The configuration is based on the following components:
+all the developers that created the awesome components that TripleQ is based on:
 
 - [Columns UI](https://github.com/reupen/columns_ui)
 - [Panel Stack Splitter](http://foo2k.chottu.net/)
