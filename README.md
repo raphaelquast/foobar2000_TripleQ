@@ -49,7 +49,9 @@ It includes several nice gadgets like:
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
 
-## Updateable:
+
+# Installation (updateable)
+
 1) Install [Foobar2000](https://www.foobar2000.org/) (standard or portable) [tested with v1.5.2]  (don't start it yet!)
 2) Install [git](https://git-scm.com/)
 3) Copy the file 'Update_TripleQ.bat' to the configuration-folder
@@ -68,6 +70,13 @@ alternatively (if you know your way around git) you can also do the following in
  git reset --hard origin/master
  git checkout master
  ```
+to update, simply run
+```
+git fetch
+git checkout configuration\
+git pull
+```
+
 
 # General Infos
 
