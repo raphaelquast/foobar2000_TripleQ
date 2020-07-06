@@ -8,7 +8,7 @@ It includes several nice gadgets like:
 
 - **library- and coverflow views** that provide a nice view of your well sorted collection
   
-  (and a **Tree view** that show everything including the stuff in messy unsorted folders)
+  (and a **tree view** that show everything including the stuff in messy unsorted folders)
 
 - **queue content editor** to keep track of what's going to play next
 
@@ -42,7 +42,8 @@ It includes several nice gadgets like:
 
 ## Standalone:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.2]  (don't start it yet!)
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.5.2]  
+   1.1 start foobar2000 and close it right away (to initialize the configuration-folder)
 2) Copy all files into your foobar2000 `configuration`-folder (replace existing files)
    - it is located at `"%appdata%\foobar2000"` 
      (if it does not yet exist, start *foobar2000* and close it again)
