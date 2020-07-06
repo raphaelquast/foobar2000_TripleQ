@@ -143,5 +143,5 @@ The configuration is based on the following components:
 - [UI Hacks](http://foobar2000.ru/forum/viewtopic.php?t=1911)
 - [Playback Statistics](https://www.foobar2000.org/components/view/foo_playcount)
 - [TagBox](https://www.foobar2000.org/components/view/foo_tagbox)
-- [Coverflow]([GitHub - Chronial/foo_chronflow: A coverflow plugin for foobar](https://github.com/Chronial/foo_chronflow))
+- [Coverflow](https://github.com/Chronial/foo_chronflow)
 - [Spider Monkey Panel](https://theqwertiest.github.io/foo_spider_monkey_panel/)
