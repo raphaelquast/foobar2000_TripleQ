@@ -53,14 +53,16 @@ It includes several nice gadgets like:
 # General Infos
 
 ## Hotkeys
+- `alt + a`: toggle "always on top"
 
 ##### While the playlist is in focus
 
 - `tab`: show / hide playlist manager
 - `crtl + t`: show / hide title bar
 - `crtl + i`: show / hide playlist header
-- `crtl + q`: add to playback queue
-- `crtl + w`: remove from playback queue
+
+- `crtl + q`: add selected tracks to playback queue
+- `crtl + w`: remove selected trakcs from playback queue
 
 ##### GLOBAL
 
@@ -72,17 +74,16 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 - `crtl + shift + down `: next track
 - `crtl + shift + left `: move 5 seconds ahead in the current track 
 - `crtl + shift + right`: move 5 seconds back in the current track
-- `crtl + shift + space`: activate/deactivate the player window
+- `crtl + shift + space`: activate/deactivate the player window (e.g. bring the player to the front)
 
 ## Folder structure
 
 The theme is intended to be used with a well sorted collection...  
-
+so you'll get the best out of the theme if your music is structured in the following form:
+  
 To allow having both sorted and unsorted stuff in your music folders,  
 **any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
-(It'll still be visible in the *Tree view*)
-
-You'll get the best out of the theme if your music is structured in the following form:
+(It'll still be visible in the *Tree view* tab)
 
 ```
 - Musik
@@ -110,11 +111,7 @@ You'll get the best out of the theme if your music is structured in the followin
 
 ## Notice
 
-- To make the buttons `Move to sorted music` and `Move to unsorted music`  
-  the directories must be adjusted. To do this, click on one of the buttons  
-  and then on `More options` (bottom left in the popup-window). Now you can   
-  change the "Destination Folder" for each of the presets (and don't forget   
-  to save afterwards!)
+- To make the buttons `Move to sorted music` and `Move to unsorted music` work, the directories must be adjusted. To do this, click on one of the buttons and then on `More options` (bottom left in the popup-window). Now change the "Destination Folder" for each of the presets (and don't forget to save afterwards!)
 
 
 ## Thanks to
