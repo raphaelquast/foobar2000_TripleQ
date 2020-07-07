@@ -1,6 +1,6 @@
 # foobar2000 TripleQ v1.0
 
-A versatile foobar2000 skin with 3 (switchable) view-modes!
+A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes!
 
 It includes several nice gadgets like:
 
