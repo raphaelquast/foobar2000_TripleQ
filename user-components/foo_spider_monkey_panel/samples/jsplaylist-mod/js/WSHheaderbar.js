@@ -98,7 +98,7 @@ oHeaderBar = function () {
 		var gb = this.slide_open_normal.GetGraphics();
 		gb.FillSolidRect(0, 0, cScrollBar.width, this.h, g_color_normal_txt & 0x15ffffff);
 		gb.SetTextRenderingHint(4);
-		gb.DrawString(String.fromCharCode(161), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
+		gb.DrawString(String.fromCharCode(8912), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
 		this.slide_open_normal.ReleaseGraphics(gb);
 
 		// hover playlistManager slide Image
@@ -106,7 +106,7 @@ oHeaderBar = function () {
 		gb = this.slide_open_hover.GetGraphics();
 		gb.FillSolidRect(0, 0, cScrollBar.width, this.h, g_color_normal_txt & 0x30ffffff);
 		gb.SetTextRenderingHint(4);
-		gb.DrawString(String.fromCharCode(161), g_font_wd3_headerBar, color_bg, 0, 0, cScrollBar.width, this.h, cc_stringformat);
+		gb.DrawString(String.fromCharCode(8912), g_font_wd3_headerBar, color_bg, 0, 0, cScrollBar.width, this.h, cc_stringformat);
 		this.slide_open_hover.ReleaseGraphics(gb);
 
 		// down playlistManager slide Image
@@ -114,7 +114,7 @@ oHeaderBar = function () {
 		gb = this.slide_open_down.GetGraphics();
 		gb.FillSolidRect(0, 0, cScrollBar.width, this.h, g_color_normal_txt & 0x30ffffff);
 		gb.SetTextRenderingHint(4);
-		gb.DrawString(String.fromCharCode(161), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
+		gb.DrawString(String.fromCharCode(8912), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
 		this.slide_open_down.ReleaseGraphics(gb);
 
 		// normal playlistManager close Image
@@ -122,7 +122,7 @@ oHeaderBar = function () {
 		var gb = this.slide_close_normal.GetGraphics();
 		gb.FillSolidRect(0, 0, cScrollBar.width, this.h, g_color_normal_txt & 0x15ffffff);
 		gb.SetTextRenderingHint(4);
-		gb.DrawString(String.fromCharCode(162), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
+		gb.DrawString(String.fromCharCode(8912), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
 		this.slide_close_normal.ReleaseGraphics(gb);
 
 		// hover playlistManager close Image
@@ -130,7 +130,7 @@ oHeaderBar = function () {
 		gb = this.slide_close_hover.GetGraphics();
 		gb.FillSolidRect(0, 0, cScrollBar.width, this.h, g_color_normal_txt & 0x30ffffff);
 		gb.SetTextRenderingHint(4);
-		gb.DrawString(String.fromCharCode(162), g_font_wd3_headerBar, color_bg, 0, 0, cScrollBar.width, this.h, cc_stringformat);
+		gb.DrawString(String.fromCharCode(8912), g_font_wd3_headerBar, color_bg, 0, 0, cScrollBar.width, this.h, cc_stringformat);
 		this.slide_close_hover.ReleaseGraphics(gb);
 
 		// down playlistManager close Image
@@ -138,7 +138,7 @@ oHeaderBar = function () {
 		gb = this.slide_close_down.GetGraphics();
 		gb.FillSolidRect(0, 0, cScrollBar.width, this.h, g_color_normal_txt & 0x30ffffff);
 		gb.SetTextRenderingHint(4);
-		gb.DrawString(String.fromCharCode(162), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
+		gb.DrawString(String.fromCharCode(8912), g_font_wd3_headerBar, color_txt, 0, 0, cScrollBar.width, this.h, cc_stringformat);
 		this.slide_close_down.ReleaseGraphics(gb);
 
 		if (cPlaylistManager.visible) {
