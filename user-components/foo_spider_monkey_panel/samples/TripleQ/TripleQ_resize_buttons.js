@@ -25,22 +25,36 @@ function resizeit(n) {
 	if (view_state.getValue() == 0) {
 		windowwidth_state.setValue(padToFour(window.Width), true)
 		windowheight_state.setValue(padToFour(window.Height), true)
-		
 	}
 	
 	if (view_state.getValue() == n) {
 		view_state.setValue(0, true)
 		set_mainpanel_width(windowwidth_state.getValue())
 		set_mainpanel_height(windowheight_state.getValue())
+		g_uihacks.EnableSizing(true)
+
 	} else if (n == 1) {
 		view_state.setValue(n, true)
 		set_mainpanel_height(midi_height)
 		set_mainpanel_width(windowwidth_state.getValue())
 
+
+		g_uihacks.setMaxWidth(9999)
+		g_uihacks.setMinWidth(0)
+		g_uihacks.setMaxHeight(midi_height)
+		g_uihacks.setMinHeight(midi_height)
+
+		g_uihacks.enableMinSize()
+		g_uihacks.enableMaxSize()
+		g_uihacks.EnableSizing(true)
+
 	} else if (n == 2) {
 		view_state.setValue(n, true)
 		set_mainpanel_height(mini_height)
 		set_mainpanel_width(mini_width)
+
+		g_uihacks.DisableSizing(true)
+
 	}
 
 	window.Repaint()	
@@ -54,10 +68,11 @@ function on_paint(gr) {
 
 
 function on_size(width, height) {
-	g_uihacks.setMaxWidth(window.Width)
-	g_uihacks.setMinWidth(window.Width)
-	g_uihacks.setMaxHeight(window.Height)
-	g_uihacks.setMinHeight(window.Height)
+	//g_uihacks.setMaxWidth(window.Width)
+	//g_uihacks.setMinWidth(window.Width)
+	//g_uihacks.setMaxHeight(window.Height)
+	//g_uihacks.setMinHeight(window.Height)
+
 
 	if (view_state.getValue() == 0) {
 		// MAXI
@@ -77,7 +92,6 @@ function on_size(width, height) {
 		//resize_buttons.buttons.b0002.tiptext = 'MINI'
 
 		
-		g_uihacks.EnableSizing(true)
 		g_uihacks.SetPseudoCaption(window.Width * 0.2, 0, window.Width * 0.8 - resize_button_size_surround * 2, window.Height * 0.08)		
 		
 	} else if (view_state.getValue() == 1) {
@@ -96,8 +110,9 @@ function on_size(width, height) {
 		resize_buttons.buttons.b0002.img_hover = _img(img_folder + 'inkscape_images\\Minimode_sel.png')
 		//resize_buttons.buttons.b0002.tiptext = 'MINI'
 
+		windowwidth_state.setValue(padToFour(window.Width), true)
 
-		g_uihacks.DisableSizing(true)
+		//g_uihacks.DisableSizing(true)
 		g_uihacks.SetPseudoCaption(window.Width * 0.1, 0, window.Width * 0.35, window.Height)
 		
 	} else if (view_state.getValue() == 2) {
@@ -116,7 +131,6 @@ function on_size(width, height) {
 		resize_buttons.buttons.b0002.img_hover = _img(img_folder + 'inkscape_images\\Maximode_sel.png')
 		//resize_buttons.buttons.b0002.tiptext = 'MAXI'
 
-		g_uihacks.DisableSizing(true)
 		g_uihacks.SetPseudoCaption(0, 0, window.Width - window.Height / 2, window.Height)
 	}
 }
