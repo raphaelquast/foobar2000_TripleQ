@@ -127,3 +127,4 @@ all the developers that created the awesome components that TripleQ is based on:
 - [TagBox](https://www.foobar2000.org/components/view/foo_tagbox)
 - [Coverflow](https://github.com/Chronial/foo_chronflow)
 - [Spider Monkey Panel](https://theqwertiest.github.io/foo_spider_monkey_panel/)
+- [Eole theme (thx for some js routines)](https://github.com/Ottodix/Eole-foobar-theme)
