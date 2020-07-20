@@ -1,4 +1,4 @@
-# foobar2000 TripleQ v1.0
+# foobar2000 TripleQ theme
 
 A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes!
 
@@ -49,19 +49,22 @@ It includes several nice gadgets like:
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
 
-
 # General Infos
 
 ## Hotkeys
+
 - `alt + a`: toggle "always on top"
 
 ##### While the playlist is in focus
 
 - `tab`: show / hide playlist manager
+
 - `crtl + t`: show / hide title bar
+
 - `crtl + i`: show / hide playlist header
 
 - `crtl + q`: add selected tracks to playback queue
+
 - `crtl + w`: remove selected trakcs from playback queue
 
 ##### GLOBAL
@@ -80,7 +83,7 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 
 The theme is intended to be used with a well sorted collection...  
 so you'll get the best out of the theme if your music is structured in the following form:
-  
+
 To allow having both sorted and unsorted stuff in your music folders,  
 **any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
 (It'll still be visible in the *Tree view* tab)
@@ -113,8 +116,8 @@ To allow having both sorted and unsorted stuff in your music folders,
 
 - To make the buttons `Move to sorted music` and `Move to unsorted music` work, the directories must be adjusted. To do this, click on one of the buttons and then on `More options` (bottom left in the popup-window). Now change the "Destination Folder" for each of the presets (and don't forget to save afterwards!)
 
-
 ## Thanks to
+
 all the developers that created the awesome components that TripleQ is based on:
 
 - [Columns UI](https://github.com/reupen/columns_ui)
