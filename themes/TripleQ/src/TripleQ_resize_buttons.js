@@ -29,6 +29,12 @@ function resizeit(n) {
 	
 	if (view_state.getValue() == n) {
 		view_state.setValue(0, true)
+			
+		g_uihacks.setMaxWidth(windowwidth_state.getValue())
+		g_uihacks.setMinWidth(windowwidth_state.getValue())
+		g_uihacks.setMaxHeight(windowheight_state.getValue())
+		g_uihacks.setMinHeight(windowheight_state.getValue())
+
 		set_mainpanel_width(windowwidth_state.getValue())
 		set_mainpanel_height(windowheight_state.getValue())
 		g_uihacks.EnableSizing(true)
@@ -99,6 +105,8 @@ function on_size(width, height) {
 		
 		g_uihacks.setMinHeight(window.Height)
 		g_uihacks.setMaxHeight(window.Height)
+		g_uihacks.setMinWidth(window.Width)
+		g_uihacks.setMaxWidth(window.Width)
 
 		
 		
