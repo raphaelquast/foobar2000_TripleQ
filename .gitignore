@@ -23,8 +23,13 @@ library-error-log.txt
 running
 minibar.db
 runtime
-themes
 doc
+
+themes/*.*
+themes/TripleQ/src/Images/inkscape_images
+themes/TripleQ/src/Images/old
+themes/TripleQ/TripleQ_settings
+
 
 library
 playlists-v1.4
@@ -83,4 +88,3 @@ autobackup
 user-components/foo_run
 configuration/foo_run.dll.cfg
 
-TripleQ-settings
