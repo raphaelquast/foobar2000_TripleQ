@@ -22,7 +22,7 @@ oScrollbar = function (themed) {
 				gr.FillSolidRect(this.x, this.y, this.w, this.h, g_color_normal_txt & 0x15ffffff);
 			};
 		} else {
-			gr.FillSolidRect(this.x, this.y, this.w, this.h, g_color_normal_txt & 0xff252525);
+			gr.FillSolidRect(this.x, this.y, this.w, this.h, g_color_normal_txt & 0x15ffffff);
 		};
 		// draw up & down buttons
 		this.buttons[cScrollBar.buttonType.up] && this.buttons[cScrollBar.buttonType.up].draw(gr, this.x, this.y, 255);
@@ -59,7 +59,7 @@ oScrollbar = function (themed) {
 				this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 			};
 		} catch (e) {
-			gb.FillSolidRect(this.cursorWidth * 0.21, 0, this.cursorWidth * 0.5, this.cursorHeight, g_color_normal_txt & 0x33ffffff);
+			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, g_color_normal_txt & 0x33ffffff);
 		};
 		this.cursorImage_normal.ReleaseGraphics(gb);
 
@@ -75,7 +75,7 @@ oScrollbar = function (themed) {
 				this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 			};
 		} catch (e) {
-			gb.FillSolidRect(this.cursorWidth * 0.21, 0, this.cursorWidth * 0.5, this.cursorHeight, g_color_normal_txt & 0x55ffffff);
+			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, g_color_normal_txt & 0x55ffffff);
 		};
 		this.cursorImage_hover.ReleaseGraphics(gb);
 
@@ -91,7 +91,7 @@ oScrollbar = function (themed) {
 				this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 			};
 		} catch (e) {
-			gb.FillSolidRect(this.cursorWidth * 0.21, 0, this.cursorWidth * 0.5, this.cursorHeight, g_color_normal_txt & 0x99ffffff);
+			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, g_color_normal_txt & 0x99ffffff);
 		};
 		this.cursorImage_down.ReleaseGraphics(gb);
 
@@ -110,7 +110,7 @@ oScrollbar = function (themed) {
 			this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 		} catch (e) {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, g_color_normal_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, g_color_normal_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.upImage_normal.ReleaseGraphics(gb);
 
@@ -123,7 +123,7 @@ oScrollbar = function (themed) {
 			this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 		} catch (e) {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, g_color_normal_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, g_color_normal_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.upImage_hover.ReleaseGraphics(gb);
 
@@ -136,7 +136,7 @@ oScrollbar = function (themed) {
 			this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 		} catch (e) {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, g_color_normal_txt, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, g_color_normal_txt, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.upImage_down.ReleaseGraphics(gb);
 
@@ -149,7 +149,7 @@ oScrollbar = function (themed) {
 			this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 		} catch (e) {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, g_color_normal_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, g_color_normal_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.downImage_normal.ReleaseGraphics(gb);
 
@@ -162,7 +162,7 @@ oScrollbar = function (themed) {
 			this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 		} catch (e) {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, g_color_normal_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, g_color_normal_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.downImage_hover.ReleaseGraphics(gb);
 
@@ -175,7 +175,7 @@ oScrollbar = function (themed) {
 			this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 		} catch (e) {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, g_color_normal_txt, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, g_color_normal_txt, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.downImage_down.ReleaseGraphics(gb);
 
@@ -465,10 +465,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 				};
 			} catch (e) {
-				gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x33ffffff);
+				gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x33ffffff);
 			};
 		} else {
-			gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x33ffffff);
+			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x33ffffff);
 		};
 		this.cursorImage_normal.ReleaseGraphics(gb);
 
@@ -485,10 +485,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 				};
 			} catch (e) {
-				gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x55ffffff);
+				gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x55ffffff);
 			};
 		} else {
-			gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x55ffffff);
+			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x55ffffff);
 		};
 		this.cursorImage_hover.ReleaseGraphics(gb);
 
@@ -505,10 +505,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.DrawThemeBackground(gb, 0, 0, this.cursorWidth, this.cursorHeight);
 				};
 			} catch (e) {
-				gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x99ffffff);
+				gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x99ffffff);
 			};
 		} else {
-			gb.FillSolidRect(this.cursorWidth*0.22, 0, this.cursorWidth*0.5, this.cursorHeight, this.color_txt & 0x99ffffff);
+			gb.FillSolidRect(0, 0, this.cursorWidth, this.cursorHeight, this.color_txt & 0x99ffffff);
 		};
 		this.cursorImage_down.ReleaseGraphics(gb);
 
@@ -527,11 +527,11 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 				this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 			} catch (e) {
 				gb.SetTextRenderingHint(4);
-				gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
+				gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
 			};
 		} else {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.upImage_normal.ReleaseGraphics(gb);
 
@@ -545,11 +545,11 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 				this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 			} catch (e) {
 				gb.SetTextRenderingHint(4);
-				gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
+				gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
 			};
 		} else {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.upImage_hover.ReleaseGraphics(gb);
 
@@ -563,11 +563,11 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 				this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 			} catch (e) {
 				gb.SetTextRenderingHint(4);
-				gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
+				gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
 			};
 		} else {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8911), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(112), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.upImage_down.ReleaseGraphics(gb);
 
@@ -581,11 +581,11 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 				this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 			} catch (e) {
 				gb.SetTextRenderingHint(4);
-				gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
+				gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
 			};
 		} else {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, this.color_txt & 0x55ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.downImage_normal.ReleaseGraphics(gb);
 
@@ -599,11 +599,11 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 				this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 			} catch (e) {
 				gb.SetTextRenderingHint(4);
-				gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
+				gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
 			};
 		} else {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, this.color_txt & 0x99ffffff, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.downImage_hover.ReleaseGraphics(gb);
 
@@ -617,11 +617,11 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 				this.theme.DrawThemeBackground(gb, 0, 0, this.w, this.w);
 			} catch (e) {
 				gb.SetTextRenderingHint(4);
-				gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
+				gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
 			};
 		} else {
 			gb.SetTextRenderingHint(4);
-			gb.DrawString(String.fromCharCode(8910), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
+			gb.DrawString(String.fromCharCode(113), g_font_wd3_scrollBar, this.color_txt, 0, 0, this.w, this.w, cc_stringformat);
 		};
 		this.downImage_down.ReleaseGraphics(gb);
 
@@ -715,10 +715,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.SetPartAndStateId(6, 1);
 					this.theme.DrawThemeBackground(gr, x, y, this.w, this.h);
 				} catch (e) {
-					gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
+					gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
 				};
 			} else {
-				gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
+				gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
 			};
 			// scrollbar buttons
 			this.buttons[this.buttonType.cursor].draw(gr, x, this.cursorY, 255);
@@ -737,10 +737,10 @@ oScrollBar = function (id, object_name, x, y, w, h, total_items, item_height, of
 					this.theme.SetPartAndStateId(6, 1);
 					this.theme.DrawThemeBackground(gr, this.x, this.y, this.w, this.h);
 				} catch (e) {
-					gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
+					gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
 				};
 			} else {
-				gr.FillSolidRect(this.x + this.w*.1, this.y, this.w*.8, this.h, this.color_txt & 0x15ffffff);
+				gr.FillSolidRect(this.x, this.y, this.w, this.h, this.color_txt & 0x15ffffff);
 			};
 			// scrollbar buttons
 			this.buttons[this.buttonType.cursor].draw(gr, this.x, this.cursorY, 255);

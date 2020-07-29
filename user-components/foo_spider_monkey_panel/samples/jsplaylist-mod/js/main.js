@@ -193,7 +193,7 @@ cPlaylistManager = {
 	enableHistoricPlaylist: window.GetProperty("CUSTOM Historic Playlist enabled", false),
 	width: zoom(220, g_dpi),
 	rowHeight: zoom(cRow.playlistManager_h, g_dpi),
-	showStatusBar: false,
+	showStatusBar: true,
 	statusBarHeight: zoom(18, g_dpi),
 	step: zoom(50, g_dpi),
 	visible: window.GetProperty("SYSTEM.PlaylistManager.Visible", false),
@@ -2497,23 +2497,23 @@ function get_font() {
 		g_font = gdi_font(g_fname, g_fsize, g_fstyle);
 	};
 
-	g_font_playicon = gdi_font("segoe ui", Math.floor(zoom(20, g_dpi)), 0);
-	g_font_pauseicon = gdi_font("segoe ui", Math.floor(zoom(15, g_dpi)), 0);
-	g_font_checkbox = gdi_font("segoe ui", Math.floor(zoom(12, g_dpi)), 0);
-	g_font_queue_idx = gdi_font("segoe ui", Math.floor(zoom(9, g_dpi)), 1);
+	g_font_playicon = gdi_font("wingdings 3", Math.floor(zoom(17, g_dpi)), 0);
+	g_font_pauseicon = gdi_font("wingdings", Math.floor(zoom(17, g_dpi)), 0);
+	g_font_checkbox = gdi_font("wingdings 2", Math.floor(zoom(18, g_dpi)), 0);
+	g_font_queue_idx = gdi_font("tahoma", Math.floor(zoom(11, g_dpi)), 1);
 
 	if (g_font_guifx_found) {
 		g_font_rating = gdi_font("guifx v2 transports", Math.floor(zoom(17, g_dpi)), 0);
 		g_font_mood = gdi_font("guifx v2 transports", Math.floor(zoom(16, g_dpi)), 0);
 	} else {
-		g_font_rating = gdi_font("segoe ui", Math.floor(zoom(17, g_dpi)), 0);
+		g_font_rating = gdi_font("wingdings 2", Math.floor(zoom(19, g_dpi)), 0);
 		g_font_mood = gdi_font("wingdings 2", Math.floor(zoom(24, g_dpi)), 1);
 	};
-	g_font_wd1 = gdi_font("segoe ui", Math.floor(zoom(25, g_dpi)), 0);
-	g_font_wd2 = gdi_font("segoe ui", Math.floor(zoom(25, g_dpi)), 0);
-	g_font_wd3 = gdi_font("segoe ui", Math.floor(zoom(25, g_dpi)), 0);
-	g_font_wd3_headerBar = gdi_font("segoe ui", Math.floor(zoom(12, g_dpi)), 0);
-	g_font_wd3_scrollBar = gdi_font("segoe ui", Math.floor(zoom(15, g_dpi)), 0);
+	g_font_wd1 = gdi_font("wingdings", Math.floor(zoom(19, g_dpi)), 0);
+	g_font_wd2 = gdi_font("wingdings 2", Math.floor(zoom(19, g_dpi)), 0);
+	g_font_wd3 = gdi_font("wingdings 3", Math.floor(zoom(19, g_dpi)), 0);
+	g_font_wd3_headerBar = gdi_font("wingdings 3", Math.floor(zoom(12, g_dpi)), 0);
+	g_font_wd3_scrollBar = gdi_font("wingdings 3", Math.floor(zoom(10, g_dpi)), 0);
 
 	// group font
 	g_font_group1 = gdi_font(g_fname, g_fsize + 4, 0);

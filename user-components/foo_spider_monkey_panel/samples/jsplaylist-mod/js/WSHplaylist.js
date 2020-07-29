@@ -150,26 +150,26 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 						if (plman.PlayingPlaylist == this.playlist) {
 							if (this.track_index == p.list.nowplaying.PlaylistItemIndex) {
 								if (fb.isPaused) {
-									gr.DrawString(String.fromCharCode(8860), g_font_pauseicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
+									gr.DrawString(String.fromCharCode(127).repeat(2), g_font_pauseicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
 								} else {
 									gr.SetTextRenderingHint(4);
 									if (g_seconds / 2 == Math.floor(g_seconds / 2)) {
-										gr.DrawString(String.fromCharCode(8919), g_font_playicon, 0xffffffff, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
+										gr.DrawString(String.fromCharCode(117), g_font_playicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
 									} else {
-										gr.DrawString(String.fromCharCode(8883), g_font_playicon, 0xffffffff, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
+										gr.DrawString(String.fromCharCode(119), g_font_playicon, columnColor, icon_x, this.y, icon_w, cTrack.height + cTrack.parity, cc_stringformat);
 									};
 								};
 							} else {
 								gr.SetTextRenderingHint(5);
 								if (plman.IsPlaylistItemSelected(p.list.playlist, this.track_index)) { // if selected
 									if (this.queue_idx > 0) {
-										gr.DrawRect(icon_x - .51, this.y + g_z8 - .51, queue_w + g_z6 + .51, cTrack.height - g_z16 + .51, 1.0, columnColor & 0x77ffffff);
+										gr.DrawRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 1, cTrack.height - g_z16 + 1, 1.0, columnColor & 0x77ffffff);
 										gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 									} else {
-										//gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
+										gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
 									};
 								} else { // if not selected
-									//gr.FillSolidRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 2, cTrack.height - g_z16 + 2, g_color_normal_txt & 0x08ffffff);
+									gr.FillSolidRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 2, cTrack.height - g_z16 + 2, g_color_normal_txt & 0x08ffffff);
 									if (this.queue_idx > 0) {
 										gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor & 0xbbffffff, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 									};
@@ -179,13 +179,13 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 							gr.SetTextRenderingHint(5);
 							if (plman.IsPlaylistItemSelected(p.list.playlist, this.track_index)) { // if selected
 								if (this.queue_idx > 0) {
-									gr.DrawRect(icon_x - .51, this.y + g_z8 - .51, queue_w + g_z6 + .51, cTrack.height - g_z16 + .51, 1.0, columnColor & 0x77ffffff);
+									gr.DrawRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 1, cTrack.height - g_z16 + 1, 1.0, columnColor & 0x77ffffff);
 									gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 								} else {
-									//gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
+									gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
 								};
 							} else { // if not selected
-								//gr.FillSolidRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 2, cTrack.height - g_z16 + 2, g_color_normal_txt & 0x08ffffff);
+								gr.FillSolidRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 2, cTrack.height - g_z16 + 2, g_color_normal_txt & 0x08ffffff);
 								if (this.queue_idx > 0) {
 									gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, g_color_highlight & 0xbbffffff, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 								};
@@ -195,13 +195,13 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 						gr.SetTextRenderingHint(5);
 						if (plman.IsPlaylistItemSelected(p.list.playlist, this.track_index)) { // if selected
 							if (this.queue_idx > 0) {
-								gr.DrawRect(icon_x - .51, this.y + g_z8 - .51, queue_w + g_z6 + .51, cTrack.height - g_z16 + .51, 1.0, columnColor & 0x77ffffff);
+								gr.DrawRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 1, cTrack.height - g_z16 + 1, 1.0, columnColor & 0x77ffffff);
 								gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, columnColor, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 							} else {
-								//gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
+								gr.DrawString(String.fromCharCode(80), g_font_checkbox, columnColor, icon_x + g_z3, this.y + g_z3, queue_w + g_z2, cTrack.height + cTrack.parity, lc_stringformat);
 							};
 						} else { // if not selected
-							//gr.FillSolidRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 2, cTrack.height - g_z16 + 2, g_color_normal_txt & 0x08ffffff);
+							gr.FillSolidRect(icon_x - 1, this.y + g_z8 - 1, queue_w + g_z6 + 2, cTrack.height - g_z16 + 2, g_color_normal_txt & 0x08ffffff);
 							if (this.queue_idx > 0) {
 								gr.DrawString(num(this.queue_idx, 2), g_font_queue_idx, g_color_highlight & 0xbbffffff, icon_x + g_z3, this.y, queue_w, cTrack.height + cTrack.parity, lc_stringformat);
 							};
@@ -262,7 +262,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 					if (g_font_guifx_found) {
 						columns.rating_w = gr.CalcTextWidth("bbbbb", g_font_rating);
 					} else {
-						columns.rating_w = gr.CalcTextWidth(String.fromCharCode(9679).repeat(5), g_font_rating);
+						columns.rating_w = gr.CalcTextWidth(String.fromCharCode(234).repeat(5), g_font_rating);
 					};
 					// for minimum width for this column
 					p.headerBar.columns[j].minWidth = columns.rating_w + zoom(7.5, g_dpi);
@@ -295,11 +295,11 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 						};
 					} else {
 						gr.SetTextRenderingHint(3);
-						gr.DrawString(String.fromCharCode(9679).repeat(total_stars_drawable), g_font_rating, this.text_colour_default & RGBA(30, 30, 30, 50), columns.rating_x - 3, this.y, cw + 1, cTrack.height + cTrack.parity, lc_stringformat);
-						//gr.DrawString(String.fromCharCode(9679).repeat(Math.round(this.rating > total_stars_drawable ? total_stars_drawable : this.rating)), g_font_rating, RGBA(0, 0, 0, 40), columns.rating_x - 3, this.y, cw + 1, cTrack.height + cTrack.parity, lc_stringformat);
-						gr.DrawString(String.fromCharCode(9679).repeat(Math.round(this.rating > total_stars_drawable ? total_stars_drawable : this.rating)), g_font_rating, RGBA(255, 255, 255, 150), columns.rating_x - 3, this.y, cw + 1, cTrack.height + cTrack.parity, lc_stringformat);
+						gr.DrawString(String.fromCharCode(234).repeat(total_stars_drawable), g_font_rating, this.text_colour_default & 0x20ffffff, columns.rating_x - 3, this.y + 3, cw + 1, cTrack.height + cTrack.parity, lc_stringformat);
+						gr.DrawString(String.fromCharCode(234).repeat(Math.round(this.rating > total_stars_drawable ? total_stars_drawable : this.rating)), g_font_rating, RGBA(0, 0, 0, 40), columns.rating_x - 3, this.y + 3, cw + 1, cTrack.height + cTrack.parity, lc_stringformat);
+						gr.DrawString(String.fromCharCode(234).repeat(Math.round(this.rating > total_stars_drawable ? total_stars_drawable : this.rating)), g_font_rating, this.rating_color, columns.rating_x - 4, this.y + 2, cw + 1, cTrack.height + cTrack.parity, lc_stringformat);
 						if (total_stars_drawable < 5) {
-							var drawn_star_w = gr.CalcTextWidth(String.fromCharCode(9679).repeat(total_stars_drawable), g_font_rating);
+							var drawn_star_w = gr.CalcTextWidth(String.fromCharCode(234).repeat(total_stars_drawable), g_font_rating);
 							gr.GdiDrawText("...", g_font, this.text_colour_default, columns.rating_x - 6 + drawn_star_w, this.y, cw + 1, cTrack.height + cTrack.parity, g_LDT);
 						};
 					};
@@ -424,7 +424,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 									var parity = ((this.track_index / 2) == Math.floor(this.track_index / 2) ? 1 : 0);
 								};
 								if (parity == 0) {
-									gr.FillSolidRect(this.x + cover.w, this.y, this.w - cover.w, this.h, g_color_normal_txt & 0x00ffffff);
+									gr.FillSolidRect(this.x + cover.w, this.y, this.w - cover.w, this.h, g_color_normal_txt & 0x05ffffff);
 								};
 							};
 						};
@@ -457,7 +457,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 									var parity = ((this.track_index / 2) == Math.floor(this.track_index / 2) ? 1 : 0);
 								};
 								if (parity == 0) {
-									gr.FillSolidRect(this.x + cover.w, this.y, this.w - cover.w, this.h, g_color_normal_txt & 0x00ffffff);
+									gr.FillSolidRect(this.x + cover.w, this.y, this.w - cover.w, this.h, g_color_normal_txt & 0x05ffffff);
 								};
 							};
 						};
@@ -636,8 +636,8 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 			var groupDelta = this.groupRowDelta * cTrack.height;
 
 			// group header bg
-			//gr.FillSolidRect(this.x, (this.y - groupDelta), this.w, 1, g_color_normal_txt & 0x00ffffff);
-			//gr.FillSolidRect(this.x, (this.y - groupDelta) + 1, this.w, this.h - 2, g_color_normal_txt & 0x00ffffff);
+			gr.FillSolidRect(this.x, (this.y - groupDelta), this.w, 1, g_color_normal_txt & 0x10ffffff);
+			gr.FillSolidRect(this.x, (this.y - groupDelta) + 1, this.w, this.h - 2, g_color_normal_txt & 0x04ffffff);
 
 			// draw group text infos
 			var text_left_padding = g_z2;
@@ -654,7 +654,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 
 			this.l1_color = blendColors(g_color_normal_txt, blendColors(g_color_normal_txt, color_txt, 0.70), 0.70);
 			this.l2_color = blendColors(g_color_normal_txt, blendColors(g_color_normal_bg, color_txt, 0.70), 0.70);
-			var line_color = 0x15ffffff//p.list.line_color;
+			var line_color = p.list.line_color;
 
 			// Draw Header content
 			// ===================
@@ -706,7 +706,7 @@ oItem = function (playlist, row_index, type, handle, track_index, group_index, t
 						if (fb.IsPlaying) {
 							if (plman.PlayingPlaylist == this.playlist) {
 								if (!now_playing_found && p.list.nowplaying.PlaylistItemIndex >= this.obj.start && p.list.nowplaying.PlaylistItemIndex < this.obj.start + this.obj.count && this.obj.collapsed) {
-									gr.DrawRoundRect(this.x, (this.y - groupDelta) + 1, this.w, this.h - 2, this.h/10, this.h/10, 2, g_color_highlight & 0x99d0e3d0);
+									gr.FillSolidRect(this.x, (this.y - groupDelta) + 1, this.w, this.h - 2, g_color_highlight & 0x16ffffff);
 									now_playing_found = true;
 								};
 							};
@@ -2148,7 +2148,7 @@ oList = function (object_name, playlist) {
 			if (this.selX <= mouse_x) {
 				if (this.selY - this.selDeltaRows * cTrack.height <= mouse_y) {
 					gr.FillSolidRect(this.selX, (this.selY - this.selDeltaRows * cTrack.height), mouse_x - this.selX, mouse_y - (this.selY - this.selDeltaRows * cTrack.height), rectSelColor & 0x33ffffff);
-					gr.DrawRect(this.selX, (this.selY - this.selDeltaRows * cTrack.height), mouse_x - this.selX - 1, mouse_y - (this.selY - this.selDeltaRows * cTrack.height) - 1, 1.0, rectSelColor & 0x9ffffff);
+					gr.DrawRect(this.selX, (this.selY - this.selDeltaRows * cTrack.height), mouse_x - this.selX - 1, mouse_y - (this.selY - this.selDeltaRows * cTrack.height) - 1, 1.0, rectSelColor & 0x66ffffff);
 				} else {
 					gr.FillSolidRect(this.selX, mouse_y, mouse_x - this.selX, this.selY - mouse_y - this.selDeltaRows * cTrack.height, rectSelColor & 0x33ffffff);
 					gr.DrawRect(this.selX, mouse_y, mouse_x - this.selX - 1, this.selY - mouse_y - this.selDeltaRows * cTrack.height - 1, 1.0, rectSelColor & 0x66ffffff);

@@ -3,54 +3,61 @@
  */
 
 /**
- * Evaluates the script in file.
- * Similar to eval({@link utils.ReadTextFile}(path)), but provides more features:<br>
+ * Evaluates the script in file.<br>
+ * Similar to `eval({@link utils.ReadTextFile}(path))`, but provides more features:<br>
  * - Has `include guards` - script won't be evaluated a second time if it was evaluated before in the same panel.<br>
  * - Has script caching - script file will be read only once from filesystem (even if it is included from different panels).<br>
- * - Has better error reporting.
+ * - Has better error reporting.<br>
+ * <br>
+ * Note: when the relative `path` is used it will be evaluated to the following values:<br>
+ * - `${fb.ComponentPath}/${path}`, if the method is invoked from a top-level script (i.e. panel's `Configure` dialog).<br>
+ * - `${current_script_path}/${path}`, otherwise.
  *
  * @param {string} path Absolute or relative path to JavaScript file.
  * @param {object=} [options=undefined]
  * @param {boolean=} [options.always_evaluate=false] If true, evaluates the script even if it was included before.
+ *
+ * @example <caption>Include sample from `foo_spider_monkey_panel`</caption> 
+ * include('samples/complete/properties.js')
  */
 function include(path, options) { }
 
 /**
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearTimeout}.
- * 
+ *
  * @param {number} timerID
  */
 function clearTimeout(timerID) { } // (void)
 
 /**
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/clearInterval}.
- * 
+ *
  * @param {number} timerID
  */
 function clearInterval(timerID) { } // (void)
 
 /**
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval}.
- * 
+ *
  * @param {function()} func
  * @param {number} delay
- * @param {...*} func_args
+ * @param {...*} [func_args]
  * @return {number}
  */
-function setInterval(func, delay, func_args) { } // (uint)
+function setInterval(func, delay, ...func_args) { } // (uint)
 
 /**
  * See {@link https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setTimeout}.
- * 
+ *
  * @param {function()} func
  * @param {number} delay
- * @param {...*} func_args
+ * @param {...*} [func_args]
  * @return {number}
  *
  * @example
- * // See samples\basic\Timer.txt
+ * // See `samples/basic/Timer.js`
  */
-function setTimeout(func, delay, func_args) { } // (uint)
+function setTimeout(func, delay, ...func_args) { } // (uint)
 
 /**
  * Load ActiveX object.
@@ -64,13 +71,38 @@ function setTimeout(func, delay, func_args) { } // (uint)
 function ActiveXObject(name) {
 
     /**
+     * Creates an `ActiveXObject` that contains an object of type (VT_ARRAY|SOME_TYPE).
+     *
+     * @static
+     * 
+     * @param {Array<*>} arr An array that contains elements of primitive type.
+     * @param {number} element_variant_type A variant type of array elements.
+     *
+     * @return {ActiveXObject}
+     * 
+     * @example
+     * let filename = 'x:\\file.bin';
+     * let bin_data = [0x01, 0x00, 0x00, 0x02]
+     * let com_bin_data = ActiveXObject.ActiveX_CreateArray(bin_data, 0x11) // VT_UI1
+     * 
+     * let stm = new ActiveXObject('ADODB.Stream');
+     * 
+     * stm.Open();
+     * stm.Type = 1; //adTypeBinary
+     * stm.Write(com_bin_data);
+     * stm.SaveToFile(filename, 2);
+     * stm.Close();
+     */
+    this.ActiveX_CreateArray = function (arr, element_variant_type) { };
+
+    /**
      * Emulates COM's weird behaviour of property accessors.
      *
      * @param {number|string} prop_name Name of the property or it's numeric index
      * @return {*}
      *
      * @example
-     some_activex.ActiveX_Get('property_name', 'additional_info').DoSmth();
+     * some_activex.ActiveX_Get('property_name', 'additional_info').DoSmth();
      * // in COM:
      * // some_activex.Item('property_name', 'additional_info').DoSmth();
      */
@@ -135,7 +167,7 @@ let console = {
      *
      * @param {...*} var_args
      */
-    log: function (var_args) { }, // (void)
+    log: function (...var_args) { }, // (void)
 };
 
 /**
@@ -272,7 +304,7 @@ let fb = {
      * let handle_list = plman.GetPlaylistSelectedItems(plman.ActivePlaylist);
      * fb.CopyHandleListToClipboard(handle_list);
      *
-     * @example <caption>cut playlist items</caption>
+     * @example <caption>Cut playlist items</caption>
      * let ap = plman.ActivePlaylist;
      * if (!plman.IsPlaylistLocked(ap)) {
      *    let handle_list = plman.GetPlaylistSelectedItems(ap);
@@ -288,7 +320,7 @@ let fb = {
      * @return {ContextMenuManager}
      *
      * @example
-     * // See samples\basic\MainMenuManager All-In-One, samples\basic\Menu Sample.txt
+     * // See `samples/basic/MainMenuManager All-In-One.js`, `samples/basic/Menu Sample.js`
      */
     CreateContextMenuManager: function () { }, // (ContextMenuManager)
 
@@ -305,7 +337,7 @@ let fb = {
      * @return {MainMenuManager}
      *
      * @example
-     * // See samples\basic\MainMenuManager All-In-One, samples\basic\Menu Sample.txt
+     * // See `samples/basic/MainMenuManager All-In-One.js`, `samples/basic/Menu Sample.js`
      */
     CreateMainMenuManager: function () { }, // (MainMenuManager)
 
@@ -316,13 +348,13 @@ let fb = {
     CreateProfiler: function (name) { }, // (FbProfiler) [name]
 
     /**
-     * Invokes drag-n-drop operation (see {@link https://msdn.microsoft.com/en-us/library/windows/desktop/ms678486.aspx}).<br>
+     * Invokes drag-n-drop operation (see {@link https://docs.microsoft.com/en-us/windows/win32/api/ole2/nf-ole2-dodragdrop}).<br>
      * <br>
      * Quick tips:<br>
      * - If you need only to drag from your panel with copy (i.e. without physically moving them):
      *      use only fb.DoDragDrop(handles, DROPEFFECT_COPY | DROPEFFECT_LINK).<br>
      * - If you need only to receive drop to your panel with copy:
-     *      handle on_drop_* callbacks, while setting action.effect argument to (DROPEFFECT_COPY | DROPEFFECT_LINK).<br>
+     *      handle `on_drop_*()` callbacks, while setting action.effect argument to (DROPEFFECT_COPY | DROPEFFECT_LINK).<br>
      * <br>
      * Full drag-n-drop interface description:<br>
      * - Drag-n-drop interface is based on Microsoft IDropSource and IDropTarget interfaces, so a lot of info (including examples) could be gathered from MSDN (IDropSource, IDropTarget, DoDragDrop, DROPEFFECT).<br>
@@ -334,7 +366,7 @@ let fb = {
      *   If the returned Action.Effect was not in okEffects or is equal to DROPEFFECT_NONE (=== 0), then drop will be denied:
      *   cursor icon will be changed, on_drag_drop won't be called after releasing lmbtn, on_drag_leave will be called instead.<br>
      * - DROPEFFECT_LINK should be used as fallback in case effect argument does not have DROPEFFECT_COPY (===1), since some external drops only allow DROPEFFECT_LINK effect.<br>
-     * - Changing effect on key modifiers is nice (to be in line with native Windows behaviour): see example here: https://github.com/TheQwertiest/CaTRoX_QWR/blob/ab1aa4c7fc19e08d3ccff84d5959779ba46bf704/theme/Scripts/Panel_Playlist.js#L2512 .<br>
+     * - Changing effect on key modifiers is nice (to be in line with native Windows behaviour): see the example below.<br>
      *
      * @param {number} window_id see {@link window.ID}
      * @param {FbMetadbHandleList} handle_list
@@ -347,7 +379,7 @@ let fb = {
      * @return {number} Effect that was returned in {@link module:callbacks~on_drag_drop on_drag_drop}.
      *
      * @example
-     * // See samples/basic/DragnDrop.txt
+     * // See `samples/basic/DragnDrop.js`
      */
     DoDragDrop: function (window_id, handle_list, effect, options) { }, // (uint),
 
@@ -377,6 +409,33 @@ let fb = {
      * }
      */
     GetClipboardContents: function (window_id) { }, // (FbMetadbHandleList)
+
+    /**
+     * Available only in foobar2000 v1.4 and above. Throws a script error on v1.3. * <br>
+     * Returns a JSON array in string form so you need to use JSON.parse() on the result.
+     *
+     * @return {string}
+     *
+     * @example
+     * let str = fb.GetDSPPresets();
+     * let arr = JSON.parse(str);
+     * console.log(JSON.stringify(arr, null, 4));
+     * // [
+     * //     {
+     * //         "active": false,
+     * //         "name": "High Filter"
+     * //     },
+     * //     {
+     * //         "active": true,
+     * //         "name": "R128 Compressor"
+     * //     },
+     * //     {
+     * //         "active": false,
+     * //         "name": "7.1 upmix"
+     * //     }
+     * // ]
+     */
+    GetDSPPresets: function () { },
 
     /**
      * @param {boolean=} [force=true] When true, it will use the first item of the active playlist if it is unable to get the focus item.
@@ -535,8 +594,8 @@ let fb = {
 
     /**
      * Loads playlist from file. Equivalent to `File`>`Load Playlist...`.
-     * 
-     * @method 
+     *
+     * @method
      */
     LoadPlaylist: function () { }, // (void)
 
@@ -575,8 +634,8 @@ let fb = {
     RunContextCommand: function (command, flags) { }, // (boolean) [, flags]
 
     /**
-     * Shows context menu for supplied tracks. 
-     * 
+     * Shows context menu for supplied tracks.
+     *
      * @param {string} command
      * @param {FbMetadbHandle|FbMetadbHandleList} handle_or_handle_list Handles on which to apply context menu
      * @param {number=} flags Same flags as {@link fb.RunContextCommand}
@@ -595,6 +654,20 @@ let fb = {
 
     /** @method */
     SavePlaylist: function () { }, // (void)
+
+    /**
+     * Available only in foobar2000 v1.4 and above. Throws a script error on v1.3.<br>
+     * See {@link fb.GetDSPPresets}.
+     *
+     * @param {number} idx
+     *
+     * @example
+     * let str = fb.GetDSPPresets();
+     * let arr = JSON.parse(str);
+     * let idx; // find the required DSP from `arr` and assign it to `idx`
+     * fb.SetDSPPreset(idx);
+     */
+    SetDSPPreset: function (idx) { }, // (void)
 
     /**
      * Available only in foobar2000 v1.4 and above. Throws a script error on v1.3.<br>
@@ -636,7 +709,7 @@ let fb = {
     Stop: function () { }, // (void)
 
     /**
-     * Performance note: if you use the same query frequently, 
+     * Performance note: if you use the same query frequently,
      * try caching FbTitleFormat object (by storing it somewhere),
      * instead of creating it every time.
      *
@@ -702,22 +775,22 @@ let gdi = {
      * @param {number} window_id see {@link window.ID}
      * @param {string} path
      * @return {number} a unique id, which is used in {@link module:callbacks~on_load_image_done on_load_image_done}.
-     * 
+     *
      * @example
-     * // See samples\basic\LoadImageAsync.txt
+     * // See `samples/basic/LoadImageAsync.js`
      */
     LoadImageAsync: function (window_id, path) { }, // (uint)
 
     /**
      * Load image from file asynchronously.
      * Returns a `Promise` object, which will be resolved when image loading is done.
-     * 
+     *
      * @param {number} window_id see {@link window.ID}
      * @param {string} path
      * @return {Promise.<?GdiBitmap>}
      *
      * @example
-     * // See samples\basic\LoadImageAsyncV2.txt
+     * // See `samples/basic/LoadImageAsyncV2.js`
      */
     LoadImageAsyncV2: function (window_id, path) { }
 };
@@ -731,7 +804,7 @@ let plman = {
 
     /**
      * -1 if there is no active playlist.
-     * 
+     *
      * @type {number}
      *
      * @example
@@ -758,7 +831,7 @@ let plman = {
 
     /**
      * -1 if there is no playing playlist.
-     * 
+     *
      * @type {number}
      *
      * @example
@@ -774,7 +847,7 @@ let plman = {
 
     /**
      * A Recycle Bin for playlists.
-     * 
+     *
      * @type {FbPlaylistRecycler}
      * @readonly
      */
@@ -849,7 +922,7 @@ let plman = {
 
     /**
      * Signals playlist viewers to display the track (e.g. by scrolling to it's position).
-     * 
+     *
      * @param {number} playlistIndex
      * @param {number} playlistItemIndex
      */
@@ -1241,7 +1314,7 @@ let utils = {
 
     /**
      * Checks the availability of foobar2000 component.
-     * 
+     *
      * @param {string} name
      * @param {boolean=} [is_dll=true] If true, method checks filename as well as the internal name.
      * @return {boolean}
@@ -1275,7 +1348,7 @@ let utils = {
 
     /**
      * Various utility functions for working with file.
-     * 
+     *
      * @param {string} path
      * @param {string} mode
      *     "chardet" - Detects the codepage of the given file. Returns a corresponding codepage number on success, 0 if codepage detection failed.<br>
@@ -1316,7 +1389,7 @@ let utils = {
      * <br>
      * Performance note: consider using {@link gdi.LoadImageAsync} or {@link gdi.LoadImageAsyncV2} if there are a lot of images to load
      * or if the image is big.
-     * 
+     *
      * @param {number} window_id {@link window.ID}
      * @param {FbMetadbHandle} handle
      * @param {number=} [art_id=0] See Flags.js > AlbumArtId
@@ -1325,20 +1398,20 @@ let utils = {
      * @param {boolean=} [no_load=false]  If true, "image" parameter will be null in {@link module:callbacks~on_get_album_art_done on_get_album_art_done} callback.
      *
      * @example
-     * // See samples\basic\GetAlbumArtAsync.txt
+     * // See `samples/basic/GetAlbumArtAsync.js`
      */
     GetAlbumArtAsync: function (window_id, handle, art_id, need_stub, only_embed, no_load) { }, // (void) [, art_id][, need_stub][, only_embed][, no_load]
 
     /**
      * @typedef {Object} ArtPromiseResult
      * @property {?GdiBitmap} image null on failure
-     * @property {string} image_path path to image file (or track file if image is embedded)
+     * @property {string} path path to image file (or track file if image is embedded)
      */
 
     /**
      * Load art image for the track asynchronously.<br>
      * Returns a `Promise` object, which will be resolved when art loading is done.
-     * 
+     *
      * @param {number} window_id {@link window.ID}
      * @param {FbMetadbHandle} handle
      * @param {number=} [art_id=0] See Flags.js > AlbumArtId
@@ -1348,7 +1421,7 @@ let utils = {
      * @return {Promise.<ArtPromiseResult>}
      *
      * @example
-     * // See samples\basic\GetAlbumArtAsyncV2.txt
+     * // See `samples/basic/GetAlbumArtAsyncV2.js`
      */
     GetAlbumArtAsyncV2: function (window_id, handle, art_id, need_stub, only_embed, no_load) { },
 
@@ -1375,14 +1448,14 @@ let utils = {
      * @param {number=} [art_id=0] See Flags.js > AlbumArtId
      * @param {boolean=} [need_stub=true]
      * @return {GdiBitmap}
-     * 
+     *
      * @example
-     * // See samples\basic\GetAlbumArtV2.txt
+     * // See `samples/basic/GetAlbumArtV2.js`
      */
     GetAlbumArtV2: function (handle, art_id, need_stub) { }, // (GdiBitmap) [, art_id][, need_stub]
 
     /**
-     * @param {number} index {@link http://msdn.microsoft.com/en-us/library/ms724371%28VS.85%29.aspx}
+     * @param {number} index {@link https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsyscolor}
      * @return {number} 0 if failed
      *
      * @example
@@ -1391,14 +1464,14 @@ let utils = {
     GetSysColour: function (index) { }, // (uint)
 
     /**
-     * @param {number} index {@link http://msdn.microsoft.com/en-us/library/ms724385%28VS.85%29.aspx}
+     * @param {number} index {@link https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsyscolor}
      * @return {number} 0 if failed
      */
     GetSystemMetrics: function (index) { }, // (int)
 
     /**
      * Retrieves filepaths that match the supplied pattern.
-     * 
+     *
      * @param {string} pattern
      * @param {number=} [exc_mask=0x10] Default is FILE_ATTRIBUTE_DIRECTORY. See Flags.js > Used in utils.Glob()
      * @param {number=} [inc_mask=0xffffffff]
@@ -1436,14 +1509,14 @@ let utils = {
     InputBox: function (window_id, prompt, caption, default_val, error_on_cancel) { }, // (string)
 
     /**
-     * @param {number} vkey {@link http://msdn.microsoft.com/en-us/library/ms927178.aspx}. Some are defined in Flags.js > Used with utils.IsKeyPressed().
+     * @param {number} vkey {@link https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes}. Some are defined in Flags.js > Used with utils.IsKeyPressed().
      * @return {boolean}
      */
     IsKeyPressed: function (vkey) { }, // (boolean)
 
     /**
      * See {@link https://docs.microsoft.com/en-us/windows/desktop/api/winnls/nf-winnls-lcmapstringa}.
-     * 
+     *
      * @param {string} text
      * @param {string} lcid
      * @param {number} flags
@@ -1463,7 +1536,7 @@ let utils = {
 
     /**
      * Performance note: supply codepage argument if it is known, since codepage detection might take some time.
-     * 
+     *
      * @param {string} filename
      * @param {number=} [codepage=0] See Codepages.js. If codepage is 0, then automatic detection is performed.
      * @return {string}
@@ -1520,7 +1593,7 @@ let utils = {
      *                                      This data is read-only and should not be modified. Has type limitations (see above).
      *
      * @example <caption>Dialog from code</caption>
-     * // See samples/basic/HtmlDialogWithCheckbox.txt
+     * // See `samples/basic/HtmlDialogWithCheckbox.js`
      *
      * @example <caption>Dialog from file</caption>
      * utils.ShowHtmlDialog(window.ID, `file://${fb.ComponentPath}samples/basic/html/PopupWithCheckBox.html`);
@@ -1638,7 +1711,7 @@ let window = {
     /**
      * Maximum allowed memory usage for the component (in bytes).<br>
      * If the total memory usage exceeds this value, all panels will fail with OOM error.
-     * 
+     *
      * @type {number}
      * @readonly
      */
@@ -1669,15 +1742,23 @@ let window = {
 
     /**
      * Memory usage of the current panel (in bytes).
-     * 
+     *
      * @type {number}
      * @readonly
      */
     PanelMemoryUsage: undefined, // (uint) (read)
 
     /**
+     * Get associated tooltip object.
+     *
+     * @type {FbTooltip}
+     * @readonly
+     */
+    Tooltip: undefined,
+
+    /**
      * Total memory usage of all panels (in bytes).
-     * 
+     *
      * @type {number}
      * @readonly
      */
@@ -1691,14 +1772,14 @@ let window = {
 
     /**
      * See {@link clearTimeout}.
-     * 
+     *
      * @param {number} timerID
      */
     ClearTimeout: function (timerID) { }, // (void)
 
     /**
      * See {@link clearInterval}.
-     * 
+     *
      * @param {number} timerID
      */
     ClearInterval: function (timerID) { }, // (void)
@@ -1721,20 +1802,27 @@ let window = {
      * @return {MenuObject}
      *
      * @example
-     * // See samples\basic\MainMenuManager All-In-One, samples\basic\Menu Sample.txt
+     * // See `samples/basic/MainMenuManager All-In-One.js`, `samples/basic/Menu Sample.js`
      */
     CreatePopupMenu: function () { }, // (MenuObject)
 
     /**
-     * @param {string} class_id {@link http://msdn.microsoft.com/en-us/library/bb773210%28VS.85%29.aspx}
+     * @param {string} class_id {@link https://docs.microsoft.com/en-us/windows/win32/controls/parts-and-states}
      * @return {ThemeManager}
      *
      * @example
-     * // See samples\basic\SimpleThemedButton.txt
+     * // See `samples/basic/SimpleThemedButton.js`
      */
     CreateThemeManager: function (class_id) { }, // (ThemeManager)
 
     /**
+     * Note: a single panel can have only a single tooltip object.
+     * Creating a new tooltip will replace the previous one.
+     * 
+     * Deprecated: use {@link fb.Tooltip} and {@link FbTooltip.SetFont} instead.
+     *
+     * @deprecated
+     * 
      * @param {string=} [font_name='Segoe UI']
      * @param {number=} [font_size_px=12]
      * @param {number=} [font_style=0] See Flags.js > FontStyle
@@ -1757,7 +1845,7 @@ let window = {
 
     /**
      * Note: see the example in {@link window.GetFontDUI}.
-     * 
+     *
      * @param {number} type See Flags.js > Used in window.GetFontXXX()
      * @param {string=} client_guid See Flags.js > Used in GetFontCUI() as client_guid.
      * @return {?GdiFont} returns null if the requested font was not found.
@@ -1810,7 +1898,7 @@ let window = {
      * Performance note: don't force the repaint unless it's really necessary -
      * repaint calls might be grouped up when *not forced* which will turn them into a single repaint call,
      * thus reducing the amount of {@link module:callbacks~on_paint on_paint} calls.
-     * 
+     *
      * @param {boolean=} [force=false] If true, will repaint immediately, otherwise a repaint task will be *scheduled*.
      */
     Repaint: function (force) { }, // (void) [force]
@@ -1821,7 +1909,7 @@ let window = {
      * such as time, bitrate, seekbar, etc.<br>
      * <br>
      * Performance note: see Performance note in {@link window.Repaint}.
-     * 
+     *
      * @param {number} x
      * @param {number} y
      * @param {number} w
@@ -1917,7 +2005,7 @@ function FbMetadbHandle() {
     /**
      * -1 if size is unavailable.
      *
-     * @type {number} 
+     * @type {number}
      * @readonly
      */
     this.FileSize = undefined; // (LONGLONG) (read)
@@ -1929,49 +2017,49 @@ function FbMetadbHandle() {
     this.Length = undefined; // (double) (read)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @param {number} playcount Use 0 to clear
      */
     this.SetPlayCount = function (playcount) { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @param {number} loved Use 0 to clear
      */
     this.SetLoved = function (loved) { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @param {string} first_played Use "" to clear
      */
     this.SetFirstPlayed = function (first_played) { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @param {string} last_played Use "" to clear
      */
     this.SetLastPlayed = function (last_played) { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @param {number} rating Use 0 to clear
      */
     this.SetRating = function (rating) { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @method
      */
     this.ClearStats = function () { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @method
      */
@@ -2069,7 +2157,7 @@ function FbFileInfo() {
 
     /**
      * The number of values contained in a meta tag.
-     * 
+     *
      * @param {number} idx
      * @return {number}
      */
@@ -2080,7 +2168,7 @@ function FbFileInfo() {
  * Handle list elements can be accessed with array accessor, e.g. handle_list[i]
  *
  * @constructor
- * @param {FbMetadbHandleList | FbMetadbHandle | Array<FbMetadbHandle> | null | undefined} arg
+ * @param {FbMetadbHandleList | FbMetadbHandle | Array<FbMetadbHandle> | null | undefined} [arg]
  */
 function FbMetadbHandleList(arg) {
     /**
@@ -2215,7 +2303,7 @@ function FbMetadbHandleList(arg) {
 
     /**
      * Note: sort with {@link FbMetadbHandleList#Sort} before using.
-     * 
+     *
      * @param {FbMetadbHandleList} handle_list Sorted handle list.
      *
      * @example
@@ -2233,7 +2321,7 @@ function FbMetadbHandleList(arg) {
 
     /**
      * Note: sort with {@link FbMetadbHandleList#Sort} before using.
-     * 
+     *
      * @param {FbMetadbHandleList} handle_list Sorted handle list.
      *
      * @example
@@ -2250,7 +2338,7 @@ function FbMetadbHandleList(arg) {
 
     /**
      * Note: sort with {@link FbMetadbHandleList#Sort} before using.
-     * 
+     *
      * @param {FbMetadbHandleList} handle_list Sorted handle list.
      *
      * @example
@@ -2287,7 +2375,7 @@ function FbMetadbHandleList(arg) {
     this.OrderByRelativePath = function () { }; // (void)
 
     /**
-     * See {@link https://github.com/TheQwertiest/foo_spider_monkey_panel/wiki/Playback-stats}
+     * See {@link https://theqwertiest.github.io/foo_spider_monkey_panel/docs/guides/playback_stats}
      *
      * @method
      */
@@ -2310,7 +2398,7 @@ function FbMetadbHandleList(arg) {
 
     /**
      * Removes all attached images.
-     * 
+     *
      * Note: a progress dialog will be shown for larger file selections.
      */
     this.RemoveAttachedImages = function () { }; // (void)
@@ -2368,7 +2456,7 @@ function FbMetadbHandleList(arg) {
 
 /**
  * A Recycle Bin for playlists.
- * 
+ *
  * @constructor
  * @hideconstructor
  */
@@ -2419,7 +2507,7 @@ function FbPlayingItemLocation() {
     /**
      * False if foobar2000 isn't playing or if the playing track
 	 * has since been removed from the playlist it was on when playback was started.
-     * 
+     *
      * @type {boolean}
      * @readonly
      */
@@ -2427,7 +2515,7 @@ function FbPlayingItemLocation() {
 
     /**
      * -1 if item is not in a playlist
-     * 
+     *
      * @type {number}
      * @readonly
      */
@@ -2435,7 +2523,7 @@ function FbPlayingItemLocation() {
 
     /**
      * -1 if item is not in a playlist
-     * 
+     *
      * @type {number}
      * @readonly
      */
@@ -2456,7 +2544,7 @@ function FbPlaybackQueueItem() {
 
     /**
      * -1 if item is not in a playlist
-     * 
+     *
      * @type {number}
      * @readonly
      */
@@ -2492,10 +2580,10 @@ function FbProfiler(name) {
     /** @method */
     this.Reset = function () { }; // (void)
 
-    /** 
+    /**
      * @param {string=} [additionalMsg=''] string that will be prepended to the measured time
      * @param {boolean=} [printComponentInfo=true]
-     * 
+     *
      * @example
      * let test = new FbProfiler('Group #1');
      * // Do smth #1
@@ -2505,7 +2593,7 @@ function FbProfiler(name) {
      * // Do smth
      * test.Print();
      * // Output:
-     * // profiler (Group #1): 
+     * // profiler (Group #1):
      * // Task #1: 789 ms"
      * // profiler (Group #1):
      * // Task #2: 1530 ms"
@@ -2515,10 +2603,10 @@ function FbProfiler(name) {
 }
 
 /**
- * Performance note: if you use the same query frequently, 
+ * Performance note: if you use the same query frequently,
  * try caching FbTitleFormat object (by storing it somewhere),
  * instead of creating it every time.
- * 
+ *
  * @constructor
  * @param {string} expression
  */
@@ -2567,10 +2655,14 @@ function FbTitleFormat(expression) {
  */
 function FbTooltip() {
     /**
+     * Note: this also updates text on the active tooltip
+     * i.e. there is no need to manually cycle Deactivate()/Activate()
+     * to update text.
+     * 
      * @type {string}
      *
      * @example
-     * let tooltip = window.CreateTooltip();
+     * let tooltip = window.Tooltip;
      * tooltip.Text = "Whoop";
      */
     this.Text = undefined; // (string) (read, write)
@@ -2606,6 +2698,13 @@ function FbTooltip() {
      * @param {number} time
      */
     this.SetDelayTime = function (type, time) { }; // (void)
+
+    /**
+     * @param {string} font_name
+     * @param {number=} [font_size_px=12]
+     * @param {number=} [font_style=0] See Flags.js > FontStyle
+     */
+    this.SetFont = function (font_name, font_size_px, font_style) { };
 
     /**
      * Use if you want multi-line tooltips.<br>
@@ -2718,9 +2817,9 @@ function GdiBitmap(arg) {
      * Changes will be saved in the current bitmap.
      *
      * @param {GdiBitmap} img
-     * 
+     *
      * @example <caption>Blur image<caption>
-     * // samples\basic\Apply Mask.txt
+     * // See `samples/basic/Apply Mask.js`
      */
     this.ApplyMask = function (img) { }; // (boolean)
 
@@ -2774,6 +2873,13 @@ function GdiBitmap(arg) {
     this.GetGraphics = function () { };
 
     /**
+     * Inverts the colours in a bitmap, to create a negative image.
+     * i.e. White becomes black, black becomes white, etc.
+     * @return {GdiBitmap}
+     */
+    this.InvertColours = function () { }; // (GdiBitmap)
+
+    /**
      * @param {GdiGraphics} gr
      */
     this.ReleaseGraphics = function (gr) { }; // (GdiGraphics)
@@ -2788,7 +2894,7 @@ function GdiBitmap(arg) {
 
     /**
      * Changes will be saved in the current bitmap.
-     * 
+     *
      * @param {number} mode See Flags.js > RotateFlipType
      */
     this.RotateFlip = function (mode) { }; // (void)
@@ -2813,31 +2919,31 @@ function GdiBitmap(arg) {
 
     /**
      * Changes will be saved in the current bitmap.
-     * 
+     *
      * @param {number} radius Valid values 2-254.
      *
      * @example <caption>Blur image<caption>
-     * // samples\basic\StackBlur (image).txt
+     * // `samples/basic/StackBlur (image).js`
      *
      * @example <caption>Blur text<caption>
-     * // samples\basic\StackBlur (text).txt
+     * // `samples/basic/StackBlur (text).js`
      */
     this.StackBlur = function (radius) { }; // (void)
 }
 
 /**
  * Constructor may fail if font is not present.<br>
- * 
- * Performance note: try caching and reusing `GdiFont` objects, 
+ *
+ * Performance note: try caching and reusing `GdiFont` objects,
  * since the maximum amount of such objects is hard-limited by Windows.
  * `GdiFont` creation will fail after reaching this limit.
- * 
+ *
  * @constructor
  * @param {string} name
  * @param {number} size_px See Helper.js > Point2Pixel function for conversions
  * @param {number=} [style=0] See Flags.js > FontStyle
  */
-function GdiFont() {
+function GdiFont(name, size_px, style) {
     /**
      * @type {number}
      * @readonly
@@ -3094,7 +3200,7 @@ function GdiGraphics() {
      * <br>
      * Note: uses special rules for `&` character by default, which consumes the `&` and causes the next character to be underscored.
      * This behaviour can be changed (or disabled) via `format` parameter.
-     * 
+     *
      * @param {string} str
      * @param {GdiFont} font
      * @param {number} colour
@@ -3233,7 +3339,7 @@ function DropTargetAction() {
     this.Base = undefined; // (write)
 
     /**
-     * See {@link https://msdn.microsoft.com/en-us/library/windows/desktop/ms693457.aspx}
+     * See {@link https://docs.microsoft.com/en-us/windows/win32/com/dropeffect-constants}
      *
      * @type {number}
      */
@@ -3249,20 +3355,20 @@ function DropTargetAction() {
      */
     this.Playlist = undefined; // (write)
 
-    /** 
+    /**
      * The tooltip text that is displayed during dragging.<br>
      * If the property is not modified, then default tooltip text will be used.
      * <br>
      * Note: property is write-only.
-     * 
-     * @type {string} 
+     *
+     * @type {string}
      */
     this.Text = undefined; // (write)
 
-    /**      
+    /**
      * Note: property is write-only.
-     * 
-     * @type {boolean} 
+     *
+     * @type {boolean}
      */
     this.ToSelect = undefined; // (boolean) (write)
 }
@@ -3287,7 +3393,7 @@ function ContextMenuManager() {
 
     /**
      * Initializes context menu by supplied tracks.
-     * 
+     *
      * @param {FbMetadbHandleList} handle_list
      */
     this.InitContext = function (handle_list) { }; // (void)
@@ -3300,8 +3406,8 @@ function ContextMenuManager() {
 
     /**
      * Initializes context menu by currently played track.
-     * 
-     * @method 
+     *
+     * @method
      */
     this.InitNowPlaying = function () { }; // (void)
 }
@@ -3324,7 +3430,7 @@ function MainMenuManager() {
      */
     this.ExecuteByID = function (id) { }; // (boolean)
 
-    /** 
+    /**
      * @param {string} root_name Must be one of the following: 'file', 'view', 'edit', 'playback', 'library', 'help'
      */
     this.Init = function (root_name) { }; // (void)
@@ -3400,7 +3506,7 @@ function ThemeManager() {
     this.IsThemePartDefined = function (partid) { }; // (boolean)
 
     /**
-     * See {@link http://msdn.microsoft.com/en-us/library/bb773210%28VS.85%29.aspx}
+     * See {@link https://docs.microsoft.com/en-us/windows/win32/controls/parts-and-states}
      *
      * @param {number} partid
      * @param {number=} [stateid=0]
