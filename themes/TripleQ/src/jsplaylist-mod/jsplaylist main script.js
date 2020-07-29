@@ -9,7 +9,8 @@ window.DefinePanel('JSPlaylist', {author: 'Br3tt', version: 'SMP-Mod', features:
 'WSHplaylistmanager.js',
 'WSHsettings.js',
 'main.js'].forEach(function (item) {
-	include(fb.ComponentPath + 'samples\\jsplaylist-mod\\js\\' + item);
+	//include(fb.ComponentPath + 'samples\\jsplaylist-mod\\js\\' + item);
+	include(fb.ProfilePath + '\\themes\\TripleQ\\src\\jsplaylist-mod\\js\\' + item);
 });
 
 /*
