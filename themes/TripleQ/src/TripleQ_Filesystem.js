@@ -356,7 +356,7 @@ node = function () {
                     switch(this.ftype) {
                         case "archive":
                         case "music":
-                            var tmppath = fso.GetFolder(fb.FoobarPath).ShortPath;
+                            var tmppath = fso.GetFolder(fb.FoobarPath);
                             WshShell.Run(tmppath+"\\foobar2000.exe /immediate "+"\""+this.path+"\"");
                             break;
                         case "text":
@@ -366,7 +366,7 @@ node = function () {
                             WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
                             break;
                         default:
-                            WshShell.Exec("%comspec% /c start "+fso.Getfile(this.path).ShortPath)
+                            WshShell.Exec("%comspec% /c start "+fso.Getfile(this.path))
                     }
                 }
                 break;
