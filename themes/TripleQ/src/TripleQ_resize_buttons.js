@@ -25,11 +25,12 @@ function resizeit(n) {
 	if (view_state.getValue() == 0) {
 		windowwidth_state.setValue(padToFour(window.Width), true)
 		windowheight_state.setValue(padToFour(window.Height), true)
+		window.Repaint()
 	}
-	
+
 	if (view_state.getValue() == n) {
 		view_state.setValue(0, true)
-			
+
 		g_uihacks.setMaxWidth(windowwidth_state.getValue())
 		g_uihacks.setMinWidth(windowwidth_state.getValue())
 		g_uihacks.setMaxHeight(windowheight_state.getValue())
@@ -38,6 +39,7 @@ function resizeit(n) {
 		set_mainpanel_width(windowwidth_state.getValue())
 		set_mainpanel_height(windowheight_state.getValue())
 		g_uihacks.EnableSizing(true)
+		window.Repaint()
 
 	} else if (n == 1) {
 		view_state.setValue(n, true)
@@ -53,6 +55,7 @@ function resizeit(n) {
 		g_uihacks.enableMinSize()
 		g_uihacks.enableMaxSize()
 		g_uihacks.EnableSizing(true)
+		window.Repaint()
 
 	} else if (n == 2) {
 		view_state.setValue(n, true)
@@ -60,11 +63,14 @@ function resizeit(n) {
 		set_mainpanel_width(mini_width)
 
 		g_uihacks.DisableSizing(true)
+		window.Repaint()
 
 	}
-
-	window.Repaint()	
+	//console.log(view_state.getValue())
+	//console.log(showpanel_left_state.getValue())
+	//console.log(showpanel_right_state.getValue())
 }
+
 
 
 function on_paint(gr) {
@@ -97,19 +103,19 @@ function on_size(width, height) {
 		resize_buttons.buttons.b0002.img_hover = _img(img_folder + 'Minimode_sel.png')
 		//resize_buttons.buttons.b0002.tiptext = 'MINI'
 
-		
-		g_uihacks.SetPseudoCaption(window.Width * 0.2, 0, window.Width * 0.8 - resize_button_size_surround * 2, window.Height * 0.08)		
-		
+
+		g_uihacks.SetPseudoCaption(window.Width * 0.2, 0, window.Width * 0.8 - resize_button_size_surround * 2, window.Height * 0.08)
+
 		windowwidth_state.setValue(padToFour(window.Width), true)
 		windowheight_state.setValue(padToFour(window.Height), true)
-		
+
 		g_uihacks.setMinHeight(window.Height)
 		g_uihacks.setMaxHeight(window.Height)
 		g_uihacks.setMinWidth(window.Width)
 		g_uihacks.setMaxWidth(window.Width)
 
-		
-		
+
+
 	} else if (view_state.getValue() == 1) {
 		// MIDI
 		resize_buttons.buttons.b0001.x = window.Width - resize_button_size_surround
@@ -130,7 +136,7 @@ function on_size(width, height) {
 
 		//g_uihacks.DisableSizing(true)
 		g_uihacks.SetPseudoCaption(window.Width * 0.1, 0, window.Width * 0.35, window.Height)
-		
+
 	} else if (view_state.getValue() == 2) {
 		// MINI
 		resize_buttons.buttons.b0001.x = window.Width - window.Height / 2
@@ -143,7 +149,7 @@ function on_size(width, height) {
 		resize_buttons.buttons.b0002.x = window.Width - window.Height / 2
 		resize_buttons.buttons.b0002.y = window.Height / 2
 		resize_buttons.buttons.b0002.w = (window.Height / 2) * .9
-		resize_buttons.buttons.b0002.h = (window.Height / 2) * .9	
+		resize_buttons.buttons.b0002.h = (window.Height / 2) * .9
 		resize_buttons.buttons.b0002.img_hover = _img(img_folder + 'Maximode_sel.png')
 		//resize_buttons.buttons.b0002.tiptext = 'MAXI'
 

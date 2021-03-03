@@ -59,7 +59,7 @@ queue_buttons.buttons.queue0001 = new _button(usewidth - 6 * button_big_surround
 right_buttons.buttons.rightb0001 = new _button(usewidth - 4 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'library.png', hover : img_folder + 'library_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 1, 'rightb', right_buttons);}, 'Library');
 right_buttons.buttons.rightb0002 = new _button(usewidth - 3 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'treeview.png', hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 2, 'rightb', right_buttons);}, 'Tree View');
 right_buttons.buttons.rightb0003 = new _button(usewidth - 2 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'coverflow.png', hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
-right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'playlists.png', hover : img_folder + 'playlists_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
+right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big, {normal : img_folder + 'filesystem.png', hover : img_folder + 'filesystem_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
 
 menubuttons.buttons.menu = new _button(usewidth, 0, minibutton, minibutton, {normal : img_folder + 'menu.png'}, (x, y, mask) => { _menu(x, 20); }, 'Menu');
 playback_buttons.buttons.playbackorder = new _button(usewidth, minibutton, minibutton, minibutton, {normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
@@ -118,7 +118,7 @@ function update_playback_button() {
 
 
 function update_queue_button() {
-	
+
 	// check if the playback-queue changed, and if yes, re-draw the Queuebutton
 	let handles = plman.GetPlaybackQueueHandles();
 	let queue_cnt_string = handles.Count.toString()
@@ -134,13 +134,13 @@ function update_queue_button() {
 		img_queuebutton = 'queuebutton_' + queue_cnt_string + '.png'
 		img_queuebutton_sel = 'queuebutton_' + queue_cnt_string + '_sel.png'
 	}
-	
+
 	if (handles.Count == 1) {
 	queue_cnt_string = queue_cnt_string + ' song queued'
 	} else {
 	queue_cnt_string = queue_cnt_string + ' songs queued'
 	}
-	
+
 	delete queue_buttons.buttons.queue0001
 	if (showpanel_left_state.getValue() == 99) {
 		queue_buttons.buttons.queue0001 = new _button(usewidth - 6 * button_big_surround, (button_big - button_small)/2, button_small, button_small, {normal : img_folder + img_queuebutton, hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, queue_cnt_string);
@@ -167,7 +167,7 @@ function togglepanel_left(showpanel, n, prefix, buttons) {
 		var btn;
 		for (btn in buttons.buttons) {
 			buttons.buttons[btn].w = button_big
-			buttons.buttons[btn].h = button_big	
+			buttons.buttons[btn].h = button_big
 			buttons.buttons[btn].y = 0
 		}
 	}
@@ -178,7 +178,7 @@ function togglepanel_left(showpanel, n, prefix, buttons) {
 
 
 
-function togglepanel(showpanel, n, prefix, buttons) {	
+function togglepanel(showpanel, n, prefix, buttons) {
 	if (showpanel.getValue() == 0 && n > 0) {
 		if (window.Width > max_rightpanel_window_width) {
 			set_mainpanel_width(max_rightpanel_window_width * 2)
@@ -186,10 +186,10 @@ function togglepanel(showpanel, n, prefix, buttons) {
 			set_mainpanel_width(window.Width * 2)
 		}
 	}
-	
+
 	if (showpanel.getValue() == n) {
 		set_mainpanel_width(window.Width / 2)
-		showpanel.setValue('0000', true);	
+		showpanel.setValue('0000', true);
 		} else {
 		showpanel.setValue(padToFour(n), true);
 	}
@@ -220,13 +220,15 @@ function on_colours_changed() {
 
 
 function on_mouse_lbtn_up(x, y, mask) {
-	
+
 	left_buttons.lbtn_up(x, y, mask);
 	right_buttons.lbtn_up(x, y, mask);
 	queue_buttons.lbtn_up(x, y, mask);
 	playback_buttons.lbtn_up(x, y, mask);
 	menubuttons.lbtn_up(x, y, mask);
 	window.Repaint()
+	//console.log(showpanel_left_state.getValue())
+	//console.log(showpanel_right_state.getFileValue())
 
 }
 
@@ -259,8 +261,8 @@ function on_mouse_rbtn_up(x, y) {
 
 
 function on_paint(gr) {
-	gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));	
-	
+	gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
+
 	// size of the small buttons
 	var button_small = window.Height * .7
 	var button_big = window.Height*.9
@@ -281,7 +283,7 @@ function on_paint(gr) {
 	var btn;
 	for (btn in right_buttons.buttons) {
 		var btn_id = Number(btn.slice(-4))
-		
+
 		if (btn == 'rightb' + showpanel_right_state.getValue().toString()){
 			right_buttons.buttons[btn].w = button_big
 			right_buttons.buttons[btn].h = button_big
@@ -294,7 +296,7 @@ function on_paint(gr) {
 			right_buttons.buttons[btn].x = usewidth - btn_id * button_big_surround
 		}
 	}
-	
+
 	// update size and position of queue-button
 	btn_id  = btn_id + 1
 	var btn;
@@ -335,26 +337,26 @@ function on_paint(gr) {
 		left_buttons.buttons[btn].y = 2
 		left_buttons.buttons[btn].x = 5 + i * utility_button_surround
 		i = i + 1
-		
+
 		if (btn == 'leftb5') {
-			
+
 			left_buttons.buttons[btn].fn = function(x, y, mask) { _output_devices(x,window.Height/6*16) };
 
 		}
-	
+
 	}
-	
+
 
 	panel.paint(gr);
-	right_buttons.paint(gr);	
-	queue_buttons.paint(gr);	
+	right_buttons.paint(gr);
+	queue_buttons.paint(gr);
 	playback_buttons.paint(gr);
 	menubuttons.paint(gr);
-	
+
 	// show-hide utilities buttons if there's enough space to show them
 	if (usewidth > button_big_surround * 6.1 + utility_button_surround * 5){
 		left_buttons.buttons = save_left_buttons
-		left_buttons.paint(gr);	
+		left_buttons.paint(gr);
 	} else {
 		left_buttons.buttons = {}
 
@@ -376,12 +378,3 @@ function on_focus(is_focused) {
 
 function on_size(width, height) {
 }
-
-
-
-
-
-
-
-
-
