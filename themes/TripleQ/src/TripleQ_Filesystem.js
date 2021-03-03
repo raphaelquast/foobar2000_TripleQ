@@ -310,6 +310,7 @@ node = function () {
                             window.Repaint();
                             break;
                         case "root":
+                            show_context_menu(this, x, y);
                             window.Repaint();
                             break;
                         default:
