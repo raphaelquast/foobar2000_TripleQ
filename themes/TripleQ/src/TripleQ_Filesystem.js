@@ -356,8 +356,9 @@ node = function () {
                     switch(this.ftype) {
                         case "archive":
                         case "music":
-                            var tmppath = fso.GetFolder(fb.FoobarPath);
-                            WshShell.Run(tmppath+"\\foobar2000.exe /immediate "+"\""+this.path+"\"");
+                            var tmppath = fb.FoobarPath;
+
+                            WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
                             break;
                         case "text":
                             WshShell.Run("%windir%\\notepad.exe "+this.path);
@@ -1230,7 +1231,7 @@ function show_context_menu(noeud, x, y) {
     var _menu = window.CreatePopupMenu();
     var idx;
     var i;
-    var tmppath = fso.GetFolder(fb.FoobarPath).ShortPath;
+    var tmppath = fb.FoobarPath;
 
     switch(noeud.type) {
         case "root":
@@ -1486,7 +1487,7 @@ function show_context_menu(noeud, x, y) {
     case 32:
         for(i=0;i<noeud.item.length;i++) {
             if(noeud.item[i].ftype=="music" || noeud.item[i].ftype=="archive") {
-                WshShell.Run(tmppath+"\\foobar2000.exe /immediate /add "+"\""+noeud.item[i].path+"\"");
+                WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate /add "+"\""+noeud.item[i].path+"\"");
             }
         }
         break;
@@ -1495,19 +1496,19 @@ function show_context_menu(noeud, x, y) {
         for(i=0;i<noeud.item.length;i++) {
             if(noeud.item[i].ftype=="music" || noeud.item[i].ftype=="archive") {
                 if(first) {
-                    WshShell.Run(tmppath+"\\foobar2000.exe /immediate "+"\""+noeud.item[i].path+"\"");
+                    WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+noeud.item[i].path+"\"");
                     first = false;
                 } else {
-                    WshShell.Run(tmppath+"\\foobar2000.exe /immediate /add "+"\""+noeud.item[i].path+"\"");
+                    WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediateS /add "+"\""+noeud.item[i].path+"\"");
                 }
             }
         }
         break;
     case 40:
-        WshShell.Run(tmppath+"\\foobar2000.exe /immediate /add "+"\""+noeud.path+"\"");
+        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate /add "+"\""+noeud.path+"\"");
         break;
     case 41:
-        WshShell.Run(tmppath+"\\foobar2000.exe /immediate "+"\""+noeud.path+"\"");
+        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+noeud.path+"\"");
         break;
     case 42:
         var newname = utils.InputBox(0, "Actual filename: "+noeud.label,"Rename a file",  noeud.label);
@@ -1584,7 +1585,7 @@ function show_context_menu(noeud, x, y) {
     case 54:
         for(i=0;i<noeud.item.length;i++) {
             if(noeud.item[i].ftype=="music" || noeud.item[i].ftype=="archive") {
-                WshShell.Run(tmppath+"\\foobar2000.exe /immediate /add "+"\""+noeud.item[i].path+"\"");
+                WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate /add "+"\""+noeud.item[i].path+"\"");
             }
         }
         break;
@@ -1593,10 +1594,10 @@ function show_context_menu(noeud, x, y) {
         for(i=0;i<noeud.item.length;i++) {
             if(noeud.item[i].ftype=="music" || noeud.item[i].ftype=="archive") {
                 if(first) {
-                    WshShell.Run(tmppath+"\\foobar2000.exe /immediate "+"\""+noeud.item[i].path+"\"");
+                    WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+noeud.item[i].path+"\"");
                     first = false;
                 } else {
-                    WshShell.Run(tmppath+"\\foobar2000.exe /immediate /add "+"\""+noeud.item[i].path+"\"");
+                    WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate /add "+"\""+noeud.item[i].path+"\"");
                 }
             }
         }
