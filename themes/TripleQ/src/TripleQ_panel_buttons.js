@@ -69,14 +69,13 @@ right_buttons.buttons.rightb0003 = new _button(usewidth - 2 * button_big_surroun
 	  hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
 right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big,
 	{normal : img_folder + 'filesystem.png',
-		hover : img_folder + 'filesystem_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'Playlists');
+		hover : img_folder + 'filesystem_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'File Browser');
 
 menubuttons.buttons.menu = new _button(usewidth, 0, minibutton, minibutton,
 	{normal : img_folder + 'menu.png',
 	 hover : img_folder + 'menu_sel.png'}, (x, y, mask) => { _menu(x, 20); }, 'Menu');
 playback_buttons.buttons.playbackorder = new _button(usewidth, minibutton, minibutton, minibutton,
 	{normal : img_folder + 'playback_linear.png'}, (x, y, mask) => {set_playback_state();}, playbackorder_string[plman.PlaybackOrder]);
-
 
 left_buttons.buttons.leftb1 = new _button(5,                               0, utility_button, utility_button,
 	{normal : img_folder + 'move_to_sorted_music.png',
@@ -86,16 +85,23 @@ left_buttons.buttons.leftb2 = new _button(5 + 1 * utility_button_surround, 0, ut
 	 hover : img_folder + 'move_to_unsorted_music_sel.png'}, (x, y, mask) => {fb.RunContextCommandWithMetadb('File Operations/Move to/move_to_unsorted_music', fb.GetSelections(1) );}, 'Move to unsorted music');
 left_buttons.buttons.leftb3 = new _button(5 + 2 * utility_button_surround, 0, utility_button, utility_button,
 	{normal : img_folder + 'replaygain_tracks.png',
-	 hover : img_folder + 'replaygain_tracks_sel.png'},      (x, y, mask) => {fb.RunContextCommandWithMetadb('ReplayGain/Scan as albums (by tags)', fb.GetSelections(1) );}, 'ReplayGain/Scan as albums (by tags)');
+	 hover : img_folder + 'replaygain_tracks_sel.png'
+ },      (x, y, mask) => {fb.RunContextCommandWithMetadb('ReplayGain/Scan as albums (by tags)', fb.GetSelections(1) );}, 'ReplayGain/Scan as albums (by tags)');
 left_buttons.buttons.leftb4 = new _button(5 + 3 * utility_button_surround, 0, utility_button, utility_button,
 	{normal : img_folder + 'open_containing_folder.png',
 	 hover : img_folder + 'open_containing_folder_sel.png'}, (x, y, mask) => {fb.RunContextCommandWithMetadb('Open containing folder', fb.GetSelections(1) );}, 'Open containing folder');
 left_buttons.buttons.leftb5 = new _button(5 + 4 * utility_button_surround, 0, utility_button, utility_button,
 	{normal : img_folder + 'playback_device.png',
-	 hover : img_folder + 'playback_device_sel.png'},        (x, y, mask) => { _output_devices(x, y); }, 'Output Device');
+	 hover : img_folder + 'playback_device_sel.png'},        (x, y, mask) => { _output_devices(x, y); }, _get_active_output_device());
 
 
 var save_left_buttons = left_buttons.buttons
+
+
+
+update_right_panel_image()
+update_playback_button()
+update_output_device_button()
 
 
 // a function to set the playback state
@@ -142,8 +148,9 @@ function update_playback_button() {
 		playback_buttons.buttons.playbackorder.img_normal = _img(img_folder + 'playback_linear.png')
 		playback_buttons.buttons.playbackorder.img_hover = _img(img_folder + 'playback_linear.png')
 	}
-	playback_buttons.buttons.playbackorder.cs('normal')
-
+	playback_buttons.buttons.playbackorder.tiptext = playbackorder_string[plman.PlaybackOrder]
+	//playback_buttons.buttons.playbackorder.cs('normal')
+	playback_buttons.buttons.playbackorder.cs('hover')
 }
 
 
@@ -222,6 +229,60 @@ function togglepanel_left(showpanel, n, prefix, buttons) {
 }
 
 
+function update_right_panel_image() {
+	// change button images to have a different image when panel is active
+	if (showpanel_right_state.getValue() == '0001') {
+		right_buttons.buttons.rightb0001.img_normal = _img(img_folder + 'library_sel.png')
+		right_buttons.buttons.rightb0001.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0001.img_normal = _img(img_folder + 'library.png')
+		right_buttons.buttons.rightb0001.cs('normal')
+		}
+	if (showpanel_right_state.getValue() == '0002') {
+		right_buttons.buttons.rightb0002.img_normal = _img(img_folder + 'treeview_sel.png')
+		right_buttons.buttons.rightb0002.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0002.img_normal = _img(img_folder + 'treeview.png')
+		right_buttons.buttons.rightb0002.cs('normal')
+		}
+	if (showpanel_right_state.getValue() == '0003') {
+		right_buttons.buttons.rightb0003.img_normal = _img(img_folder + 'coverflow_sel.png')
+		right_buttons.buttons.rightb0003.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0003.img_normal = _img(img_folder + 'coverflow.png')
+		right_buttons.buttons.rightb0003.cs('normal')
+		}
+	if (showpanel_right_state.getValue() == '0004') {
+		right_buttons.buttons.rightb0004.img_normal = _img(img_folder + 'filesystem_sel.png')
+		right_buttons.buttons.rightb0004.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0004.img_normal = _img(img_folder + 'filesystem.png')
+		right_buttons.buttons.rightb0004.cs('normal')
+		}
+}
+
+function update_output_device_button() {
+	let current_output_device = _get_active_output_device()
+	if (current_output_device == "Null Output" || current_output_device == "Output Device") {
+		left_buttons.buttons.leftb5.img_normal = _img(img_folder + 'playback_device_no_output.png');
+		} else {
+		left_buttons.buttons.leftb5.img_normal = _img(img_folder + 'playback_device.png');
+		}
+		left_buttons.buttons.leftb5.cs('normal');
+}
+
+
+function update_replaygain_button() {
+	// update replaygain image to indicate if playing track (or selection) is missing replaygain info
+	let handle_list = fb.GetQueryItems(fb.GetSelections(), "%replaygain_album_gain% MISSING OR %replaygain_track_gain% MISSING");
+
+	if (handle_list.Count > 0) {
+		left_buttons.buttons.leftb3.img_normal = _img(img_folder + 'replaygain_tracks_noinfo.png');
+	} else {
+		left_buttons.buttons.leftb3.img_normal = _img(img_folder + 'replaygain_tracks.png');
+	}
+	left_buttons.buttons.leftb3.cs('normal');
+}
 
 
 function togglepanel(showpanel, n, prefix, buttons) {
@@ -240,44 +301,7 @@ function togglepanel(showpanel, n, prefix, buttons) {
 		showpanel.setValue(padToFour(n), true);
 	}
 
-
-
-// -------------------------------------
-// change button images to have a different image when panel is active
-if (showpanel_right_state.getValue() == '0001') {
-	right_buttons.buttons.rightb0001.img_normal = _img(img_folder + 'library_sel.png')
-	right_buttons.buttons.rightb0001.cs('normal')
-} else {
-	right_buttons.buttons.rightb0001.img_normal = _img(img_folder + 'library.png')
-	right_buttons.buttons.rightb0001.cs('normal')
-	}
-if (showpanel_right_state.getValue() == '0002') {
-	right_buttons.buttons.rightb0002.img_normal = _img(img_folder + 'treeview_sel.png')
-	right_buttons.buttons.rightb0002.cs('normal')
-} else {
-	right_buttons.buttons.rightb0002.img_normal = _img(img_folder + 'treeview.png')
-	right_buttons.buttons.rightb0002.cs('normal')
-	}
-if (showpanel_right_state.getValue() == '0003') {
-	right_buttons.buttons.rightb0003.img_normal = _img(img_folder + 'coverflow_sel.png')
-	right_buttons.buttons.rightb0003.cs('normal')
-} else {
-	right_buttons.buttons.rightb0003.img_normal = _img(img_folder + 'coverflow.png')
-	right_buttons.buttons.rightb0003.cs('normal')
-	}
-if (showpanel_right_state.getValue() == '0004') {
-	right_buttons.buttons.rightb0004.img_normal = _img(img_folder + 'filesystem_sel.png')
-	right_buttons.buttons.rightb0004.cs('normal')
-} else {
-	right_buttons.buttons.rightb0004.img_normal = _img(img_folder + 'filesystem.png')
-	right_buttons.buttons.rightb0004.cs('normal')
-	}
-
-// -------------------------------------
-
-
-
-
+	update_right_panel_image()
 	window.Repaint()
 }
 
@@ -304,7 +328,6 @@ function on_colours_changed() {
 
 
 function on_mouse_lbtn_up(x, y, mask) {
-
 	left_buttons.lbtn_up(x, y, mask);
 	right_buttons.lbtn_up(x, y, mask);
 	queue_buttons.lbtn_up(x, y, mask);
@@ -423,13 +446,11 @@ function on_paint(gr) {
 		i = i + 1
 
 		if (btn == 'leftb5') {
-
+			// update position of popup menu
 			left_buttons.buttons[btn].fn = function(x, y, mask) { _output_devices(x,window.Height/6*16) };
-
+			left_buttons.buttons[btn].tiptext = _get_active_output_device()
 		}
-
 	}
-
 
 	panel.paint(gr);
 	right_buttons.paint(gr);
@@ -449,7 +470,7 @@ function on_paint(gr) {
 	var font = gdi.Font("Segoe UI", 12, 0);
 	//gr.GdiDrawText(window.Width, font, RGB(255,255,255), 5, 1, 226, 1000);
 
-	}
+}
 
 
 function on_focus(is_focused) {
@@ -458,7 +479,15 @@ function on_focus(is_focused) {
 	}
 }
 
+function on_selection_changed () {
+	update_replaygain_button()
+	update_output_device_button()
+};
 
+function on_metadb_changed(handle_list, fromhook) {
+	update_replaygain_button()
+}
 
-function on_size(width, height) {
+function on_output_device_changed() {
+	update_output_device_button()
 }
