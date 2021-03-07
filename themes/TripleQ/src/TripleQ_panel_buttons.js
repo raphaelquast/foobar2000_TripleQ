@@ -306,7 +306,6 @@ function togglepanel(showpanel, n, prefix, buttons) {
 }
 
 
-
 function on_playback_order_changed(new_order_index) {
 	update_playback_button()
 	window.Repaint()
@@ -322,10 +321,6 @@ function on_colours_changed() {
 	panel.colours_changed();
 	window.Repaint();
 }
-
-
-
-
 
 function on_mouse_lbtn_up(x, y, mask) {
 	left_buttons.lbtn_up(x, y, mask);

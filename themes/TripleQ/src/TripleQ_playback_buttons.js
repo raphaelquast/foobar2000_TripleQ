@@ -84,6 +84,16 @@ function on_paint(gr) {
 	playback_buttons.paint(gr);
 }
 
+function on_playback_pause(state) {
+	update_buttons()
+  playback_buttons.buttons.playpause.cs('normal')
+}
+
+function on_playback_starting(state) {
+	update_buttons()
+  playback_buttons.buttons.playpause.cs('normal')
+}
+
 
 function on_mouse_lbtn_up(x, y, mask) {
 	playback_buttons.lbtn_up(x, y, mask);
