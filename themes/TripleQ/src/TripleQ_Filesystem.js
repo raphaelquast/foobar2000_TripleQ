@@ -42,8 +42,9 @@ var minus_img;
 var vcursor_img;
 
 // Properties
-var g_label_colour = RGB(255,255,255); //eval(window.GetProperty("colour label", "RGB(100,100,100);"));
-var g_filters_str = window.GetProperty("file type filter", "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;zip;rar;7z;");
+var default_filter_list = "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;zip;rar;7z;"
+var g_label_colour = RGB(255,255,255);
+var g_filters_str = window.GetProperty("file type filter", default_filter_list);
 var scrollbar_w = window.GetProperty("scrollbar width", 16);
 var g_autocollapse = window.GetProperty("auto collapse", true);
 var g_sort = window.GetProperty("sort items", true);
