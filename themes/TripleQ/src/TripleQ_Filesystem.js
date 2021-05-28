@@ -358,18 +358,50 @@ node = function () {
                         case "archive":
                         case "music":
                             var tmppath = fb.FoobarPath;
-
                             WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
                             break;
-                        case "text":
-                            WshShell.Run("%windir%\\notepad.exe "+this.path);
-                            break;
-                        case "image":
-                            WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
-                            break;
-                        default:
-                            WshShell.Exec("%comspec% /c start "+fso.Getfile(this.path))
-                    }
+                        // case "text":
+                        //     WshShell.Run("%windir%\\notepad.exe "+this.path);
+                        //     break;
+                        // case "image":
+                        //     WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
+                        //     break;
+                        // default:
+                        //     WshShell.Exec("%comspec% /c start "+fso.Getfile(this.path))
+                      }
+                } else if (this.hover && this.type=="folder") {
+                  // TODO add a check if folder is too large before adding it to the playlist on double-click
+                  var tmppath = fb.FoobarPath;
+                  var oFolder = fso.GetFolder(this.path);
+
+                  let foldersize = oFolder.Size
+
+                  // only add folders on double-click if they contain less than 2 subfolders
+                  if (Math.round(foldersize / 1000000) < 600) {
+                    WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                    this.collapsed = true;
+                    window.Repaint();
+                  } else{
+                    let html_data= "";
+                    html_data += "<html>";
+                    html_data += "<head>";
+                    html_data += "<title>" + " Too large folder for double-click! " + "</title>";
+                    html_data += "<style rel=\"stylesheet\" type=\"text/css\">";
+                    html_data += "body {font-family: Segoe UI; font-size: 14px;background-color: #252525; color: #FFFFFF;}";
+                    html_data += "</style>";
+                    html_data += "</head>";
+                    html_data += "<body>";
+                    html_data += "You double-clicked on a folder with " +  oFolder.SubFolders.Count + " sub-folders... and a size of ~" + utils.FormatFileSize(foldersize);
+                    html_data += "</body>";
+                    html_data += "</html>";
+
+                    utils.ShowHtmlDialog(window.id, html_data, {
+                                         width:300,
+                                         height:100,
+                                         resizable:false,
+                                         scroll:false})
+
+                  }
                 }
                 break;
             case "leave":
@@ -395,6 +427,7 @@ node = function () {
         }
     }
 }
+
 
 // main Tools
 function RGB(r, g, b) {
@@ -912,6 +945,7 @@ function on_mouse_lbtn_down(x, y) {
 function on_mouse_lbtn_dblclk(x, y) {
     scan_check_all(root, "dblclick", x, y);
 }
+
 
 function on_mouse_lbtn_up(x, y) {
     g_drag = false;
