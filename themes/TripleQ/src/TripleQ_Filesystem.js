@@ -395,11 +395,22 @@ node = function () {
                     html_data += "</body>";
                     html_data += "</html>";
 
-                    utils.ShowHtmlDialog(window.id, html_data, {
-                                         width:300,
-                                         height:100,
-                                         resizable:false,
-                                         scroll:false})
+
+                    if (fb.AlwaysOnTop) {
+                        fb.AlwaysOnTop = false
+                        utils.ShowHtmlDialog(window.id, html_data, {
+                            width:300,
+                            height:100,
+                            resizable:false,
+                            scroll:false})
+                        fb.AlwaysOnTop = true
+                    } else {
+                        utils.ShowHtmlDialog(window.id, html_data, {
+                            width:300,
+                            height:100,
+                            resizable:false,
+                            scroll:false})
+                    }
 
                   }
                 }
