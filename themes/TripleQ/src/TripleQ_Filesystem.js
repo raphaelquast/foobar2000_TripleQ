@@ -42,9 +42,11 @@ var minus_img;
 var vcursor_img;
 
 // Properties
-var default_filter_list = "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;zip;rar;7z;"
+var default_file_filters = "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;"
+var default_archive_filters = "zip;rar;7z;"
+
 var g_label_colour = RGB(255,255,255);
-var g_filters_str = window.GetProperty("file type filter", default_filter_list);
+var g_filters_str = window.GetProperty("file type filter", default_file_filters + default_archive_filters);
 var scrollbar_w = window.GetProperty("scrollbar width", 16);
 var g_autocollapse = window.GetProperty("auto collapse", true);
 var g_sort = window.GetProperty("sort items", true);
@@ -283,7 +285,7 @@ node = function () {
                             // exemple de clonage de noeud: tmp_item = new objClone(this,true);
                             if(this.collapsed && !this.childchecked) {
                                 window.SetCursor(IDC_APPSTARTING);
-                                FillTreeLevel(this.path, this, false);
+                                FillTreeLevel(this.path, this);
                                 window.SetCursor(IDC_ARROW);
                             }
                             this.collapsed = this.collapsed?false:true;
@@ -534,43 +536,43 @@ function objClone(what, rec) {
     }
 }
 
-function sort_tab(tab2sort) {
+function sort_tab(tab2sort, sort_by_modified_date) {
     var tab = new Array();
     var i, j;
     var tmp = new node;
-    for(i=0;i<tab2sort.length;i++) {
-        for(j=i;j<tab2sort.length;j++) {
-            if(tab2sort[i].label.toUpperCase() > tab2sort[j].label.toUpperCase()) {
-                tmp = tab2sort[i];
-                tab2sort[i] = tab2sort[j];
-                tab2sort[j] = tmp;
+    if (sort_by_modified_date == false) {
+        for(i=0;i<tab2sort.length;i++) {
+            for(j=i;j<tab2sort.length;j++) {
+                var uselabel0 = tab2sort[i][0] // first entry is the NAME of the file or folder!
+                var uselabel1 = tab2sort[j][0]
+
+                if(uselabel0.toUpperCase() > uselabel1.toUpperCase()) {
+                    tmp = tab2sort[i];
+                    tab2sort[i] = tab2sort[j];
+                    tab2sort[j] = tmp;
+                }
             }
+            tab.push(tab2sort[i]);
+            tab[i].idx = i;
         }
-        tab.push(tab2sort[i]);
-        tab[i].idx = i;
+    } else {
+        for(i=0;i<tab2sort.length;i++) {
+            for(j=i;j<tab2sort.length;j++) {
+                var uselabel0 = tab2sort[i][2] // third entry is the MODIFIED DATE of the file or folder!
+                var uselabel1 = tab2sort[j][2]
+
+                if(uselabel0 < uselabel1) {
+                    tmp = tab2sort[i];
+                    tab2sort[i] = tab2sort[j];
+                    tab2sort[j] = tmp;
+                }
+            }
+            tab.push(tab2sort[i]);
+            tab[i].idx = i;
+        }
     }
     return tab;
 }
-
-
-function sort_tab_by_modified_date(tab2sort) {
-    var tab = new Array();
-    var i, j;
-    var tmp = new node;
-    for(i=0;i<tab2sort.length;i++) {
-        for(j=i;j<tab2sort.length;j++) {
-            if(tab2sort[i].modifieddate < tab2sort[j].modifieddate) {
-                tmp = tab2sort[i];
-                tab2sort[i] = tab2sort[j];
-                tab2sort[j] = tmp;
-            }
-        }
-        tab.push(tab2sort[i]);
-        tab[i].idx = i;
-    }
-    return tab;
-}
-
 
 
 // Tree Tools
@@ -635,59 +637,88 @@ function collapse_all(noeud) {
 
 
 /// TODO
-function FillTreeLevel(path, node, recursive) {
+function FillTreeLevel(path, node) {
     var i;
     var item_fld, item_file;
-    var item_file_suffix2, item_file_suffix3, item_file_suffix4;
     var oFolder = fso.GetFolder(path);
     var oFolders = new Enumerator(oFolder.SubFolders);
     var oFiles = new Enumerator(oFolder.Files);
     node.childchecked = true;
+
+    let found_folders = [];
+    let found_archives = [];
+    let found_files = [];
+
+    // make sure filter-lists are uppercase
+    for(var i = 0; i < g_filters_arr.length; i++){
+        g_filters_arr[i] = g_filters_arr[i].toUpperCase();
+    }
+    for(var i = 0; i < g_filters_arr_archives.length; i++){
+        g_filters_arr_archives[i] = g_filters_arr_archives[i].toUpperCase();
+    }
+
+    // loop through folders
     for (oFolders.moveFirst(); !oFolders.atEnd(); oFolders.moveNext()) {
         item_fld = oFolders.item();
         // ajout nouveau noeud
         if(item_fld.Attributes==16 || item_fld.Attributes==17 || item_fld.Attributes==2064) {
-            node.addchild(item_fld.Name, item_fld.Path, item_fld.DateLastModified);
-            if(recursive) {
-                FillTreeLevel(item_fld.Path, node.child[node.child.length-1], true);
-            }
+            found_folders.push([item_fld.Name, item_fld.Path, item_fld.DateLastModified])
         }
     }
-    // sort folders either alphabetically or by modified_date
-    if(!g_sort_modified && !recursive) node.child = sort_tab(node.child);
-    if(g_sort_modified && !recursive) node.child = sort_tab_by_modified_date(node.child);
 
     // checking for files in the current folder
     for (oFiles.moveFirst(); !oFiles.atEnd(); oFiles.moveNext()) {
         item_file = oFiles.item();
-        item_file_suffix2 = item_file.Name.substring(item_file.Name.length-2,item_file.Name.length);
-        item_file_suffix3 = item_file.Name.substring(item_file.Name.length-3,item_file.Name.length);
-        item_file_suffix4 = item_file.Name.substring(item_file.Name.length-4,item_file.Name.length);
-        if(g_filters_arr.length>0) {
-            for (i=0;i<g_filters_arr.length;i++) {
-                if(item_file_suffix2.toUpperCase()==g_filters_arr[i].toUpperCase() || item_file_suffix3.toUpperCase()==g_filters_arr[i].toUpperCase() || item_file_suffix4.toUpperCase()==g_filters_arr[i].toUpperCase()) {
-                    node.additem(item_file.Name, item_file.Path, item_file.DateLastModified);
-                    break;
-                }
+        item_file_split = item_file.Name.split('.');
+        if (item_file_split.length == 2){
+            item_file_suffix = item_file_split[1].toUpperCase()
+            if (g_filters_arr_archives.includes(item_file_suffix)) {
+                found_archives.push([item_file.Name, item_file.Path, item_file.DateLastModified])
+            } else if (g_filters_arr.includes(item_file_suffix)) {
+                found_files.push([item_file.Name, item_file.Path, item_file.DateLastModified])
             }
         } else {
-            node.additem(item_file.Name, item_file.Path, item_file.DateLastModified);
+            continue;
         }
     }
-    // sort files on label
-    if(g_sort && !recursive) node.item = sort_tab(node.item);
+
+    // first add sorted folders
+    if (found_folders.length > 0) {
+        found_folders = sort_tab(found_folders, g_sort_modified)
+        for (let i = 0; i < found_folders.length; i++) {
+            item = found_folders[i]
+            node.addchild(...item);
+        }
+    }
+    // then add sorted archives
+    if (found_archives.length > 0) {
+        found_archives = sort_tab(found_archives, g_sort_modified)
+        for (let i = 0; i < found_archives.length; i++) {
+            item = found_archives[i]
+            node.additem(...item);
+        }
+    }
+    // then add sorted files (always sort files alphabetically!)
+    if (found_files.length > 0) {
+        found_files = sort_tab(found_files, false)
+        for (let i = 0; i < found_files.length; i++) {
+            item = found_files[i]
+            node.additem(...item);
+        }
+    }
+
 }
 
-function FillFilters() {
+function FillFilters(filterstr) {
     var i;
     var txt = "";
     var arr = new Array();
-    for(i=0;i<g_filters_str.length;i++) {
-        if(g_filters_str.charAt(i)==";") {
+    for(i=0;i<filterstr.length;i++) {
+        if(filterstr.charAt(i)==";") {
             arr.push(txt);
             txt = "";
         } else {
-            txt = txt + g_filters_str.charAt(i);
+            txt = txt + filterstr.charAt(i);
         }
     }
     if(txt.length>0) arr.push(txt);
@@ -833,6 +864,7 @@ var g_fav_total = 0;
 var g_fav_labels = "";
 var g_fav_paths = "";
 var g_filters_arr;
+var g_filters_arr_archives;
 var g_max_hdelta = 0;
 var vcursor_w = scrollbar_w;
 var vcursor_h = 20;
@@ -877,7 +909,8 @@ function on_size() {
     set_images();
 
     // filling of the filter array from the properties field
-    g_filters_arr = FillFilters();
+    g_filters_arr = FillFilters(g_filters_str);
+    g_filters_arr_archives = FillFilters(default_archive_filters);
 
     if(typeof(root.label)=="undefined" || reset) {
         root.create("", "", 0, 0, null, "root", false, null, "000");
@@ -1537,7 +1570,7 @@ function show_context_menu(noeud, x, y) {
     case 31:
         if(noeud.child.length>0) noeud.child.splice(0,noeud.child.length);
         if(noeud.item.length>0) noeud.item.splice(0,noeud.item.length);
-        FillTreeLevel(noeud.path, noeud, false);
+        FillTreeLevel(noeud.path, noeud);
         noeud.childchecked = true;
         noeud.collapsed = false;
         window.Repaint();
@@ -1632,7 +1665,7 @@ function show_context_menu(noeud, x, y) {
     case 51:
         if(noeud.child.length>0) noeud.child.splice(0,noeud.child.length);
         if(noeud.item.length>0) noeud.item.splice(0,noeud.item.length);
-        FillTreeLevel(noeud.path, noeud, false);
+        FillTreeLevel(noeud.path, noeud);
         noeud.childchecked = true;
         noeud.collapsed = false;
         window.Repaint();
