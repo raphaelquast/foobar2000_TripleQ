@@ -43,7 +43,7 @@ var vcursor_img;
 
 // Properties
 var g_label_colour = RGB(255,255,255); //eval(window.GetProperty("colour label", "RGB(100,100,100);"));
-var g_filters_str = window.GetProperty("file type filter", "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;zip;rar");
+var g_filters_str = window.GetProperty("file type filter", "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;zip;rar;7z;");
 var scrollbar_w = window.GetProperty("scrollbar width", 16);
 var g_autocollapse = window.GetProperty("auto collapse", true);
 var g_sort = window.GetProperty("sort items", true);
@@ -356,16 +356,19 @@ node = function () {
                 if(this.hover && this.type=="file") {
                     switch(this.ftype) {
                         case "archive":
+                            var tmppath = fb.FoobarPath;
+                            WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                            break;
                         case "music":
                             var tmppath = fb.FoobarPath;
                             WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
                             break;
-                        // case "text":
-                        //     WshShell.Run("%windir%\\notepad.exe "+this.path);
-                        //     break;
-                        // case "image":
-                        //     WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
-                        //     break;
+                        case "text":
+                            WshShell.Run("%windir%\\notepad.exe "+this.path);
+                            break;
+                        case "image":
+                            WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
+                            break;
                         // default:
                         //     WshShell.Exec("%comspec% /c start "+fso.Getfile(this.path))
                       }
@@ -467,6 +470,7 @@ var FileType = {
     "aac": "music",
     "zip": "archive",
     "rar": "archive",
+    "7z": "archive",
     "txt": "text",
     "nfo": "txt",
     "jpg": "image",
@@ -1384,7 +1388,14 @@ function show_context_menu(noeud, x, y) {
         break;
     case 3:
         //var newfilter = InputBox("ex: mp3;ogg (empty=no filter)", "Change file types to filter", g_filters_str);
-        var newfilter = utils.InputBox(0,"Enter a list of semicolon (;)-separated file-endings", "Change file types to filter", g_filters_str);
+        if (fb.AlwaysOnTop) {
+            fb.AlwaysOnTop = false
+            var newfilter = utils.InputBox(0,"Enter a list of semicolon (;)-separated file-endings", "Change file types to filter", g_filters_str);
+            fb.AlwaysOnTop = true
+        } else {
+            var newfilter = utils.InputBox(0,"Enter a list of semicolon (;)-separated file-endings", "Change file types to filter", g_filters_str);
+        }
+
 
         if(typeof(newfilter)=="undefined") {
             newfilter = g_filters_str;
