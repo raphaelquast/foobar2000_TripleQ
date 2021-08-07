@@ -670,15 +670,11 @@ function FillTreeLevel(path, node) {
     for (oFiles.moveFirst(); !oFiles.atEnd(); oFiles.moveNext()) {
         item_file = oFiles.item();
         item_file_split = item_file.Name.split('.');
-        if (item_file_split.length == 2){
-            item_file_suffix = item_file_split[1].toUpperCase()
-            if (g_filters_arr_archives.includes(item_file_suffix)) {
-                found_archives.push([item_file.Name, item_file.Path, item_file.DateLastModified])
-            } else if (g_filters_arr.includes(item_file_suffix)) {
-                found_files.push([item_file.Name, item_file.Path, item_file.DateLastModified])
-            }
-        } else {
-            continue;
+        item_file_suffix = item_file_split[item_file_split.length - 1].toUpperCase()
+        if (g_filters_arr_archives.includes(item_file_suffix)) {
+            found_archives.push([item_file.Name, item_file.Path, item_file.DateLastModified])
+        } else if (g_filters_arr.includes(item_file_suffix)) {
+            found_files.push([item_file.Name, item_file.Path, item_file.DateLastModified])
         }
     }
 
