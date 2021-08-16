@@ -16,17 +16,17 @@ function _button(x, y, w, h, img_src, fn, tiptext) {
 			_drawImage(gr, this.img, this.x, this.y, this.w, this.h);
 		}
 	}
-		
+
 	this.trace = (x, y) => {
 		return x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h;
 	}
-	
+
 	this.lbtn_up = (x, y, mask) => {
 		if (this.fn) {
 			this.fn(x, y, mask);
 		}
 	}
-	
+
 	this.cs = (s) => {
 		if (s == 'hover') {
 			this.img = this.img_hover;
@@ -36,7 +36,7 @@ function _button(x, y, w, h, img_src, fn, tiptext) {
 		}
 		window.RepaintRect(this.x, this.y, this.w, this.h);
 	}
-	
+
 	this.x = x;
 	this.y = y;
 	this.w = w;
@@ -52,7 +52,7 @@ function _buttons() {
 	this.paint = (gr) => {
 		_.invokeMap(this.buttons, 'paint', gr);
 	}
-	
+
 	this.move = (x, y) => {
 		let temp_btn = null;
 		_.forEach(this.buttons, (item, i) => {
@@ -74,7 +74,7 @@ function _buttons() {
 		this.btn = temp_btn;
 		return this.btn;
 	}
-	
+
 	this.leave = () => {
 		if (this.btn) {
 			_tt('');
@@ -82,7 +82,7 @@ function _buttons() {
 		}
 		this.btn = null;
 	}
-	
+
 	this.lbtn_up = (x, y, mask) => {
 		if (this.btn) {
 			this.buttons[this.btn].lbtn_up(x, y, mask);
@@ -91,7 +91,7 @@ function _buttons() {
 			return false;
 		}
 	}
-	
+
 	this.buttons = {};
 	this.btn = null;
 }
@@ -102,21 +102,21 @@ function _hacks() {
 		this.uih.FrameStyle = this.FrameStyle.Default;
 		this.uih.StatusBarState = true;
 	}
-	
+
 	this.enable = () => {
 		this.uih.MainMenuState = this.MainMenuState.Hide;
 		this.uih.FrameStyle = this.FrameStyle.NoBorder;
 		this.uih.StatusBarState = false;
 	}
-	
+
 	this.set_caption = (x, y, w, h) => {
 		this.uih.SetPseudoCaption(x, y, w, h);
 	}
-	
+
 	this.MainMenuState = { Show : 0, Hide : 1, Auto : 2 };
 	this.FrameStyle = { Default : 0, SmallCaption : 1, NoCaption : 2, NoBorder : 3 };
 	this.MoveStyle = { Default : 0, Middle : 1, Left : 2, Both : 3 };
-	
+
 	this.uih = new ActiveXObject('UIHacks');
 	this.uih.MoveStyle = this.MoveStyle.Default;
 	this.uih.DisableSizing = false;
@@ -135,12 +135,12 @@ function _p(a, b) {
 			window.SetProperty(this.a, this.b);
 		}
 	});
-	
+
 	this.toggle = () => {
 		this.b = !this.b;
 		window.SetProperty(this.a, this.b);
 	}
-	
+
 	this.a = a;
 	this.b = window.GetProperty(a, b);
 }
@@ -152,11 +152,11 @@ function _sb(t, x, y, w, h, v, fn) {
 			gr.DrawString(this.t, this.font, colour, this.x, this.y, this.w, this.h, SF_CENTRE);
 		}
 	}
-	
+
 	this.trace = (x, y) => {
 		return x > this.x && x < this.x + this.w && y > this.y && y < this.y + this.h && this.v();
 	}
-	
+
 	this.move = (x, y) => {
 		if (this.trace(x, y)) {
 			window.SetCursor(IDC_HAND);
@@ -166,7 +166,7 @@ function _sb(t, x, y, w, h, v, fn) {
 			return false;
 		}
 	}
-	
+
 	this.lbtn_up = (x, y) => {
 		if (this.trace(x, y)) {
 			if (this.fn) {
@@ -177,7 +177,7 @@ function _sb(t, x, y, w, h, v, fn) {
 			return false;
 		}
 	}
-	
+
 	this.t = t;
 	this.x = x;
 	this.y = y;

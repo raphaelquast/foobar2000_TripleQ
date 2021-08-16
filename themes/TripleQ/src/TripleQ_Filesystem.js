@@ -5,23 +5,61 @@
 window.DefinePanel('TripleQ_Filesystem', {author:'Q', features: {drag_n_drop: true}});
 
 // Flags
-DT_TOP = 0x00000000;
-DT_LEFT = 0x00000000;
+DT_TOP          = 0x00000000;
+DT_LEFT         = 0x00000000;
 DT_END_ELLIPSIS = 0x00008000;
-DT_SINGLELINE = 0x00000020;
-DT_NOPREFIX = 0x00000800;
-IDC_ARROW = 32512;
+DT_SINGLELINE   = 0x00000020;
+DT_NOPREFIX     = 0x00000800;
+IDC_ARROW       = 32512;
 IDC_APPSTARTING = 32650;
-MF_SEPARATOR = 0x00000800;
-MF_STRING = 0x00000000;
-MF_GRAYED = 0x00000001;
-MF_DISABLED = 0x00000002;
+MF_SEPARATOR    = 0x00000800;
+MF_STRING       = 0x00000000;
+MF_GRAYED       = 0x00000001;
+MF_DISABLED     = 0x00000002;
 
-// keys
-var VK_UP = 38; //up cursor
+// keyboard arrow-key numbers
+var VK_UP   = 38; //up cursor
 var VK_DOWN = 40; //down cursor
+var VK_LEFT = 37; // left cursor
+var VK_RIGHT = 39; // right cursor
+var VK_RETURN = 0x0D;
 
-// Image declarations (created in function set_images)
+// ---------------------------------------- PROPERTIES
+var FileType = {
+    "mp2": "music",
+    "mp3": "music",
+    "mp4": "music",
+    "m4a": "music",
+    "mpc": "music",
+    "ogg": "music",
+    "flac": "music",
+    "wma": "music",
+    "wav": "music",
+    "ape": "music",
+    "aac": "music",
+    "zip": "archive",
+    "rar": "archive",
+    "7z": "archive",
+    "txt": "text",
+    "nfo": "txt",
+    "jpg": "image",
+    "png": "image"
+}
+
+var default_file_filters    = "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;"
+var default_archive_filters = "zip;rar;7z;"
+
+var g_label_colour    = RGB(255,255,255);
+var g_filters_str     = window.GetProperty("file type filter", default_file_filters + default_archive_filters);
+var scrollbar_w       = window.GetProperty("scrollbar width", 16);
+var g_autocollapse    = window.GetProperty("auto collapse", true);
+var g_sort            = window.GetProperty("sort items", true);
+var g_sort_modified   = window.GetProperty("sort by modified date", true);
+var g_show_favorites  = window.GetProperty("show favorites", true);
+var g_show_filesystem = window.GetProperty("show filesystem", true);
+
+// ---------------------------------------- IMAGES
+// Image declarations
 var folder_img;
 var file_img;
 var music_file_img;
@@ -35,27 +73,50 @@ var removable_drive_img;
 var network_drive_img;
 var favorites_img;
 var computer_img;
-var playlist_img;
-var playlists_img;
 var plus_img;
 var minus_img;
 var vcursor_img;
 
-// Properties
-var default_file_filters = "mp2;mp3;mp4;m4a;aac;ape;flac;wma;ogg;wav;wv;txt;nfo;jpg;png;"
-var default_archive_filters = "zip;rar;7z;"
+// ---------------------------------------- MAIN GLOBALS
+var WshShell = new ActiveXObject("WScript.Shell");
+var fso = new ActiveXObject("Scripting.FileSystemObject");
+var g_tooltip = window.CreateTooltip();
+var g_font = gdi.Font("Tahoma", 12, 0);
+var ww, wh;
+var mouse_x, mouse_y;
+var xoffset=0;
+var yoffset=0;
+var g_drag = false;
+var c_drag = false;
+var reset = false;
+var bytesPerGB = 1024 * 1024 * 1024;
+var redraw_drives = false;
 
-var g_label_colour = RGB(255,255,255);
-var g_filters_str = window.GetProperty("file type filter", default_file_filters + default_archive_filters);
-var scrollbar_w = window.GetProperty("scrollbar width", 16);
-var g_autocollapse = window.GetProperty("auto collapse", true);
-var g_sort = window.GetProperty("sort items", true);
-var g_sort_modified = window.GetProperty("sort by modified date", true);
-var g_show_playlists = window.GetProperty("show playlists", false);
-var g_show_favorites = window.GetProperty("show favorites", true);
-var g_show_filesystem = window.GetProperty("show filesystem", true);
+// use a delay of 100 ms to avoid executing single-click events on double-click
+var click_delay = 100
+var lbtn_click_prevent = false
 
-// node object
+// ---------------------------------------- TREE GLOBALS
+var tree_indent_w = 20;
+var marker_indent_w = 14;
+var tree_line_h = 18;
+var tree_padx = 2;
+var tree_pady = 2;
+var line_counter;
+var cline_counter;
+var favorites_counter;
+var drive_counter;
+var tmp_item;
+var g_fav_total = 0;
+var g_fav_labels = "";
+var g_fav_paths = "";
+var g_filters_arr;
+var g_filters_arr_archives;
+var g_max_hdelta = 0;
+var vcursor_w = scrollbar_w;
+var vcursor_h = 20;
+
+// ---------------------------------------- NODE OBJECT
 node = function () {
     var i;
     this.font1 = gdi.Font("Tahoma", 12, 0);
@@ -121,7 +182,6 @@ node = function () {
 		this.y = Math.floor(tree_pady + y);
         this.retro_indent_w = tree_indent_w;
 
-
         // we don't draw lines not visible
         if(this.y+tree_line_h<0 || this.y>wh) return true;
         // end.
@@ -134,7 +194,6 @@ node = function () {
             for(i=this.label.length;i>=0;i--) {
                 if(this.label.charAt(i)==".") break;
             }
-            //this.ftype = getType(this.label.substring(i+1, this.label.length));
             switch(this.ftype) {
                 case "music":
                     var icon = music_file_img; break;
@@ -146,16 +205,6 @@ node = function () {
                     var icon = archive_file_img; break;
                 default:
                     var icon = file_img;
-            }
-            break;
-        case "playlists":
-            var icon = playlists_img;
-            break;
-        case "playlist":
-            if(plman.IsAutoPlaylist(this.path)) {
-                var icon = autoplaylist_img;
-            } else {
-                var icon = playlist_img;
             }
             break;
         case "favorites":
@@ -190,7 +239,7 @@ node = function () {
             var icon = root_img;
         }
         // collapse/expand icon
-        if(this.type!="root" && this.type!="file" && this.type!="playlist") {
+        if(this.type!="root" && this.type!="file") {
             this.retro_indent_w += marker_indent_w;
             var marker = this.collapsed ? plus_img : minus_img;
             if(!(this.childchecked && this.child.length==0 && this.item.length==0)) {
@@ -202,13 +251,14 @@ node = function () {
         // calc label width and offsets
         this.label_width = gr.CalcTextWidth(this.label, this.font1);
 
-        if(this.label_width>ww-this.x) {
-            var focus_w = ww - this.x - 4;
-            // width of the max offset truncated part of label (used to stop horizontal scrolling in mouse.move)
-            g_max_hdelta = (this.label_width - focus_w + 4) > g_max_hdelta ? (this.label_width - focus_w + 4) : g_max_hdelta;
+        /// check if text is too large, and if so, just draw full rect
+        var focus_w;
+        if ((this.label_width + this.x) > ww - scrollbar_w) {
+            focus_w = ww - this.x - 6 // -6 to avoid drawing into the scrollbar
         } else {
-            var focus_w = this.label_width;
+            focus_w = this.label_width;
         }
+
         // Draw focus rect
 		if(this.focus && this.type!="root") {
             gr.DrawRoundRect(this.x-22, this.y-3, focus_w+28, tree_line_h, 1, 1, 1, RGBA(255,255,255,100));
@@ -221,19 +271,137 @@ node = function () {
       gr.DrawLine(17, 11, 192, 11, 1, RGB(255,255,255));
     }
         // Draw label
-		gr.GdiDrawText(this.label, (this.hover && !this.marker_hover && this.type!="root" ? this.font2 : this.font1), label_colour, this.x, this.y, ww-this.x-3, tree_line_h, DT_LEFT | DT_TOP | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
+		gr.GdiDrawText(this.label,
+            (this.hover && !this.marker_hover && this.type!="root" ? this.font2 : this.font1),
+            label_colour,
+            this.x,
+            this.y,
+            ww-this.x-3,
+            tree_line_h,
+            DT_LEFT | DT_TOP | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
 
-    // TODO add playlist duration and song-count etc.
-    if (this.type == "playlist") {
-      if (window.Width > 400) {
-      gr.GdiDrawText("[" + this.playlist_count + "]", (this.hover && !this.marker_hover && this.type!="root" ? this.font2 : this.font1), label_colour, this.x + 250, this.y, ww-this.x-3, tree_line_h, DT_LEFT | DT_TOP | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
-      }
-      if (window.Width > 500) {
-        gr.GdiDrawText(this.playlist_duration, (this.hover && !this.marker_hover && this.type!="root" ? this.font2 : this.font1), label_colour, this.x + 320, this.y, ww-this.x-3, tree_line_h, DT_LEFT | DT_TOP | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
+	}
+
+    this.checkkey = function(event) {
+        switch(event) {
+            case "left":
+                if (this.collapsed == false) {
+                    reset_node_focus(root);
+                    this.collapsed = true
+                    this.focus = true
+                    focused_node = this
+                } else {
+                    collapse_all(root);
+                    var r = root;
+                    for(i=1;i<this.pathsum.length;i++) {
+                        r = r.child[this.pathsum[i]]
+                        r.collapsed = false;
+                    }
+                    reset_node_focus(root);
+                    r.collapsed = true
+                    r.focus = true
+                    focused_node = r
+
+                }
+                window.Repaint();
+                break;
+            case "right":
+                if (this.type == "file") {
+                    break;
+                }
+
+                if (this.collapsed == true) {
+                    reset_node_focus(root);
+                    this.collapsed = false;
+
+                    if(!this.childchecked) {
+                        window.SetCursor(IDC_APPSTARTING);  // indicate loading
+                        FillTreeLevel(focused_node.path, focused_node);
+                        window.SetCursor(IDC_ARROW);
+                        }
+
+                    scan_expanded(null, root, false);
+                    if (this.child.length > 0) {
+                        let usenode = this.child[0]
+                        usenode.focus = true
+                        focused_node = usenode
+                    } else if (this.item.length > 0) {
+                        this.item[0].focus = true
+                        focused_node = this
+                    }
+
+                }
+                window.Repaint();
+                break;
+            case "up":
+                var r = root;
+                for(i=1;i<this.pathsum.length;i++) {
+                    r = r.child[this.pathsum[i]]
+                }
+                if (this.idx > 0) {
+                    reset_node_focus(root);
+                    r.child[this.idx - 1].focus = true
+                    focused_node = r.child[this.idx - 1]
+                    window.Repaint();
+                }
+
+                break;
+            case "down":
+                var r = root;
+                for(i=1;i<this.pathsum.length;i++) {
+                    r = r.child[this.pathsum[i]]
+                }
+                if (this.idx < r.child.length - 1) {
+                    reset_node_focus(root);
+                    r.child[this.idx + 1].focus = true
+                    focused_node = r.child[this.idx + 1]
+                    window.Repaint();
+                }
+
+                // fix scroll position
+                if(g_autocollapse) yoffset = 0;
+                cline_counter = 0;
+                scan_expanded(null, root, false);
+                if(g_autocollapse) {
+                    if(focused_node.Cy>wh/2) {
+                        yoffset = yoffset - focused_node.Cy + wh/2;
+                        if(yoffset>0) yoffset = 0;
+                    }
+                }
+
+                break;
+            case "return":
+                if (this.type == "file") {
+                    if (this.ftype == "music") {
+                        var tmppath = fb.FoobarPath;
+                        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                    }
+                    break;
+                } else if (['drive', 'root', 'computer', 'favorites'].indexOf(this.type) >= 0) {
+                    show_popup_msg("Action not possible...",
+                                    "The folder ''" + this.label + "'' can't be added to the playlist.")
+                    break;
+                } else {
+                    var tmppath = fb.FoobarPath;
+                    var oFolder = fso.GetFolder(this.path);
+
+                    // only add folders on double-click if they contain less than 2 subfolders
+                    if (oFolder.SubFolders.Count < 3) {
+                    let foldersize = oFolder.Size
+                    if (Math.round(foldersize / 1000000) < 600) {
+                        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                    }
+                    } else{
+                    show_popup_msg("Action not possible...",
+                                    "The selected folder ''" + this.label + "'' is very large..." +
+                                    " action is suppressed to avoid problems")
+                    }
+
+                }
+
       }
     }
 
-	}
     this.checkmouse = function (event, x, y) {
         var i;
         var tmp_retro_indent_w = this.retro_indent_w - tree_indent_w;
@@ -253,71 +421,62 @@ node = function () {
                 if(this.hover && !this.marker_hover) {
                     reset_node_focus(root);
                     this.focus = true;
+                    focused_node = this
                 }
 
                 if(g_autocollapse) {
                     if(this.hover && this.collapsed) {
+                        // collapse all
                         collapse_all(root);
-                        var r = "root";
+                        // then start at root and uncollapse all items in the pathsum of current node
+                        var r = root;
                         for(i=1;i<this.pathsum.length;i++) {
-                            r = r + ".child[" + this.pathsum[i] + "]";
-                            eval(r).collapsed = false;
+                            r = r.child[this.pathsum[i]]
+                            r.collapsed = false;
                         }
+
                     }
                 }
 
                 if(this.hover){
                     this.holded = true;
-                    switch(this.type){
-                        case "drive":
-                        case "folder":
-                        case "favorite":
-                        case "favorites":
-                        case "computer":
-                        case "playlists":
-                            // check if drive ready before resuming
-                            if(this.type=="drive") {
-                                if(!fso.FolderExists(this.path)) {
-                                    window.Repaint();
-                                    return true;
-                                }
-                            }
-                            // exemple de clonage de noeud: tmp_item = new objClone(this,true);
-                            if(this.collapsed && !this.childchecked) {
-                                window.SetCursor(IDC_APPSTARTING);
-                                FillTreeLevel(this.path, this);
-                                window.SetCursor(IDC_ARROW);
-                            }
-                            this.collapsed = this.collapsed?false:true;
 
-                            if(!this.marker_hover) {
-                                if(g_autocollapse) yoffset = 0;
-                                cline_counter = 0;
-                                scan_expanded(null, root, false);
-                                if(g_autocollapse) {
-                                    if(this.Cy>wh-tree_line_h) {
-                                        yoffset = yoffset - this.Cy + wh/2;
-                                        if(yoffset>0) yoffset = 0;
-                                    }
-                                }
-                            }
-
-                            g_max_hdelta = 0;
+                    if (this.type == "root") {
+                        show_context_menu(this, x, y);
+                        window.Repaint();
+                        break;
+                    } else if (this.type == "file") {
+                        window.Repaint();
+                        break;
+                    } else if (this.type == "drive") {
+                        // check if drive ready before resuming
+                        if(!fso.FolderExists(this.path)) {
                             window.Repaint();
-                            break;
-                        case "playlist":
-                            plman.ActivePlaylist = this.idx;
-                            window.Repaint();
-                            break;
-                        case "file":
-                            window.Repaint();
-                            break;
-                        case "root":
-                            show_context_menu(this, x, y);
-                            window.Repaint();
-                            break;
-                        default:
+                            return true;
+                        }
                     }
+
+                    if(this.collapsed && !this.childchecked) {
+                        window.SetCursor(IDC_APPSTARTING);  // indicate loading
+                        FillTreeLevel(this.path, this);
+                        window.SetCursor(IDC_ARROW);
+                    }
+                    this.collapsed = this.collapsed?false:true;
+
+                    if(!this.marker_hover) {
+                        if(g_autocollapse) yoffset = 0;
+                        cline_counter = 0;
+                        scan_expanded(null, root, false);
+                        if(g_autocollapse) {
+                            if(this.Cy>wh-tree_line_h) {
+                                yoffset = yoffset - this.Cy + wh/2;
+                                if(yoffset>0) yoffset = 0;
+                            }
+                        }
+                    }
+                    g_max_hdelta = 0;
+                    window.Repaint();
+
                 } else {
                     if(redraw_drives) window.Repaint();
                 }
@@ -332,6 +491,7 @@ node = function () {
                 break;
             case "move":
                 if(!this.enabled) return true;
+
                 if(this.hover && !this.marker_hover) {
                     if(g_tooltip.Text!=this.label) {
                         g_tooltip.Deactivate();
@@ -343,16 +503,20 @@ node = function () {
                         g_tooltip.Deactivate();
                         g_tooltip.Text="";
                     }
+
                     if(this.y>tree_line_h*-1 && this.y<wh) {
                         if(!this.hover_prec) window.RepaintRect(this.x, Math.floor(this.y), this.label_width, tree_line_h);
                     }
+
                     this.hover_prec = true;
+
                 } else {
                     if(this.y>tree_line_h*-1 && this.y<wh) {
                         if(this.hover_prec) window.RepaintRect(this.x, Math.floor(this.y), this.label_width, tree_line_h);
                     }
                     this.hover_prec = false;
                 }
+
                 break;
             case "dblclick":
                 if(!this.enabled) return true;
@@ -372,52 +536,24 @@ node = function () {
                         case "image":
                             WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
                             break;
-                        // default:
-                        //     WshShell.Exec("%comspec% /c start "+fso.Getfile(this.path))
                       }
                 } else if (this.hover && this.type=="folder") {
                   // TODO add a check if folder is too large before adding it to the playlist on double-click
                   var tmppath = fb.FoobarPath;
                   var oFolder = fso.GetFolder(this.path);
 
-                  let foldersize = oFolder.Size
-
                   // only add folders on double-click if they contain less than 2 subfolders
-                  if (Math.round(foldersize / 1000000) < 600) {
-                    WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
-                    this.collapsed = true;
-                    window.Repaint();
-                  } else{
-                    let html_data= "";
-                    html_data += "<html>";
-                    html_data += "<head>";
-                    html_data += "<title>" + " Too large folder for double-click! " + "</title>";
-                    html_data += "<style rel=\"stylesheet\" type=\"text/css\">";
-                    html_data += "body {font-family: Segoe UI; font-size: 14px;background-color: #252525; color: #FFFFFF;}";
-                    html_data += "</style>";
-                    html_data += "</head>";
-                    html_data += "<body>";
-                    html_data += "You double-clicked on a folder with " +  oFolder.SubFolders.Count + " sub-folders... and a size of ~" + utils.FormatFileSize(foldersize);
-                    html_data += "</body>";
-                    html_data += "</html>";
-
-
-                    if (fb.AlwaysOnTop) {
-                        fb.AlwaysOnTop = false
-                        utils.ShowHtmlDialog(window.id, html_data, {
-                            width:300,
-                            height:100,
-                            resizable:false,
-                            scroll:false})
-                        fb.AlwaysOnTop = true
-                    } else {
-                        utils.ShowHtmlDialog(window.id, html_data, {
-                            width:300,
-                            height:100,
-                            resizable:false,
-                            scroll:false})
+                  if (oFolder.SubFolders.Count == 0) {
+                    let foldersize = oFolder.Size
+                    if (Math.round(foldersize / 1000000) < 600) {
+                        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                        this.collapsed = true;
+                        window.Repaint();
                     }
 
+                  } else{
+                    show_popup_msg("Double-click action not possible...",
+                                   "Folder too large for double-click!")
                   }
                 }
                 break;
@@ -429,6 +565,7 @@ node = function () {
                 if(this.hover) {
                     reset_node_focus(root);
                     this.focus = true;
+                    focused_node = true;
                 }
                 if(this.hover) {
                     switch(this.type) {
@@ -445,630 +582,13 @@ node = function () {
     }
 }
 
-
-// main Tools
-function RGB(r, g, b) {
-    return (0xff000000 | (r << 16) | (g << 8) | (b));
-}
-
-function RGBA(r, g, b, a) {
-    return ((a << 24) | (r << 16) | (g << 8) | (b));
-}
-
-function getType(ftype) {
-    return FileType[ftype.toLowerCase()];
-}
-
-var FileType = {
-    "mp2": "music",
-    "mp3": "music",
-    "mp4": "music",
-    "m4a": "music",
-    "mpc": "music",
-    "ogg": "music",
-    "flac": "music",
-    "wma": "music",
-    "wav": "music",
-    "ape": "music",
-    "aac": "music",
-    "zip": "archive",
-    "rar": "archive",
-    "7z": "archive",
-    "txt": "text",
-    "nfo": "txt",
-    "jpg": "image",
-    "png": "image"
-}
-
-var vb = {};
-vb.Function = function (func) {
-    return function () {
-        return vb.Function.eval.call(this, func, arguments);
-    };
-};
-vb.Function.eval = function (func) {
-    var args = Array.prototype.slice.call(arguments[1]);
-    for (var i = 0;
-    i < args.length;
-    i++) {
-        if (typeof args[i] != 'string') {
-            continue;
-        }
-        args[i] = '"' + args[i].replace(/"/g, '" + Chr(34) + "') + '"';
-    }
-    var vbe;
-    vbe = new ActiveXObject('ScriptControl');
-    vbe.Language = 'VBScript';
-    return vbe.eval(func + '(' + args.join(', ') + ')');
-};
-//var InputBox = vb.Function('InputBox');
-//var MsgBox = vb.Function('MsgBox');
-vb.OKOnly = 0;
-vb.OKCancel = 1;
-vb.AbortRetryIgnore = 2;
-vb.YesNoCancel = 3;
-vb.YesNo = 4;
-vb.RetryCancel = 5;
-vb.Critical = 16;
-vb.Question = 32;
-vb.Exclamation = 48;
-vb.Information = 64;
-vb.DefaultButton1 = 0;
-vb.DefaultButton2 = 256;
-vb.DefaultButton3 = 512;
-vb.DefaultButton4 = 768;
-vb.ApplicationModal = 0;
-vb.SystemModal = 4096;
-vb.OK = 1;
-vb.Cancel = 2;
-vb.Abort = 3;
-vb.Retry = 4;
-vb.Ignore = 5;
-vb.Yes = 6;
-vb.No = 7;
-
-function objClone(what, rec) {
-    for (var i in what) {
-       if ((rec) && (typeof what[i]=="object"))
-           this[i] = new objClone(what[i],true);
-       else
-           this[i] = what[i];
-    }
-}
-
-function sort_tab(tab2sort, sort_by_modified_date) {
-    var tab = new Array();
-    var i, j;
-    var tmp = new node;
-    if (sort_by_modified_date == false) {
-        for(i=0;i<tab2sort.length;i++) {
-            for(j=i;j<tab2sort.length;j++) {
-                var uselabel0 = tab2sort[i][0] // first entry is the NAME of the file or folder!
-                var uselabel1 = tab2sort[j][0]
-
-                if(uselabel0.toUpperCase() > uselabel1.toUpperCase()) {
-                    tmp = tab2sort[i];
-                    tab2sort[i] = tab2sort[j];
-                    tab2sort[j] = tmp;
-                }
-            }
-            tab.push(tab2sort[i]);
-            tab[i].idx = i;
-        }
-    } else {
-        for(i=0;i<tab2sort.length;i++) {
-            for(j=i;j<tab2sort.length;j++) {
-                var uselabel0 = tab2sort[i][2] // third entry is the MODIFIED DATE of the file or folder!
-                var uselabel1 = tab2sort[j][2]
-
-                if(uselabel0 < uselabel1) {
-                    tmp = tab2sort[i];
-                    tab2sort[i] = tab2sort[j];
-                    tab2sort[j] = tmp;
-                }
-            }
-            tab.push(tab2sort[i]);
-            tab[i].idx = i;
-        }
-    }
-    return tab;
-}
-
-
-// Tree Tools
-function scan_expanded(gr, noeud, draw) {
-	var i, j
-    if(draw) {
-        noeud.draw(gr, yoffset + line_counter*tree_line_h);
-        line_counter++;
-    } else {
-        noeud.checkpos(yoffset + cline_counter*tree_line_h);
-        cline_counter++;
-    }
-    if(!noeud.collapsed) {
-        for(i=0;i<noeud.child.length;i++) {
-            scan_expanded(gr, noeud.child[i], draw);
-        }
-        for(j=0;j<noeud.item.length;j++) {
-            if(draw) {
-                noeud.item[j].draw(gr, yoffset + line_counter*tree_line_h);
-                line_counter++;
-            } else {
-                noeud.item[j].checkpos(yoffset + cline_counter*tree_line_h);
-                cline_counter++;
-            }
-        }
-    }
-}
-
-function scan_check_all(noeud, event, x, y) {
-	var i, j;
-    // node action below
-    noeud.checkmouse(event, x, y);
-    // end.
-    if(!noeud.collapsed) {
-        for(i=0;i<noeud.child.length;i++) {
-            scan_check_all(noeud.child[i], event, x, y);
-        }
-        for(j=0;j<noeud.item.length;j++) {
-            noeud.item[j].checkmouse(event, x, y);
-        }
-    }
-}
-
-function reset_node_focus(noeud) {
-	var i, j;
-    noeud.focus = false;
-    for(i=0;i<noeud.child.length;i++) {
-        reset_node_focus(noeud.child[i]);
-    }
-    for(j=0;j<noeud.item.length;j++) {
-        noeud.item[j].focus = false;
-    }
-}
-
-function collapse_all(noeud) {
-	var i, j;
-    if(noeud.level>1) noeud.collapsed = true;
-    for(i=0;i<noeud.child.length;i++) {
-        collapse_all(noeud.child[i]);
-    }
-}
-
-
-/// TODO
-function FillTreeLevel(path, node) {
-    var i;
-    var item_fld, item_file;
-    var oFolder = fso.GetFolder(path);
-    var oFolders = new Enumerator(oFolder.SubFolders);
-    var oFiles = new Enumerator(oFolder.Files);
-    node.childchecked = true;
-
-    let found_folders = [];
-    let found_archives = [];
-    let found_files = [];
-
-    // make sure filter-lists are uppercase
-    for(var i = 0; i < g_filters_arr.length; i++){
-        g_filters_arr[i] = g_filters_arr[i].toUpperCase();
-    }
-    for(var i = 0; i < g_filters_arr_archives.length; i++){
-        g_filters_arr_archives[i] = g_filters_arr_archives[i].toUpperCase();
-    }
-
-    // loop through folders
-    for (oFolders.moveFirst(); !oFolders.atEnd(); oFolders.moveNext()) {
-        item_fld = oFolders.item();
-        // ajout nouveau noeud
-        if(item_fld.Attributes==16 || item_fld.Attributes==17 || item_fld.Attributes==2064) {
-            found_folders.push([item_fld.Name, item_fld.Path, item_fld.DateLastModified])
-        }
-    }
-
-    // checking for files in the current folder
-    for (oFiles.moveFirst(); !oFiles.atEnd(); oFiles.moveNext()) {
-        item_file = oFiles.item();
-        item_file_split = item_file.Name.split('.');
-        item_file_suffix = item_file_split[item_file_split.length - 1].toUpperCase()
-        if (g_filters_arr_archives.includes(item_file_suffix)) {
-            found_archives.push([item_file.Name, item_file.Path, item_file.DateLastModified])
-        } else if (g_filters_arr.includes(item_file_suffix)) {
-            found_files.push([item_file.Name, item_file.Path, item_file.DateLastModified])
-        }
-    }
-
-    // first add sorted folders
-    if (found_folders.length > 0) {
-        found_folders = sort_tab(found_folders, g_sort_modified)
-        for (let i = 0; i < found_folders.length; i++) {
-            item = found_folders[i]
-            node.addchild(...item);
-        }
-    }
-    // then add sorted archives
-    if (found_archives.length > 0) {
-        found_archives = sort_tab(found_archives, g_sort_modified)
-        for (let i = 0; i < found_archives.length; i++) {
-            item = found_archives[i]
-            node.additem(...item);
-        }
-    }
-    // then add sorted files (always sort files alphabetically!)
-    if (found_files.length > 0) {
-        found_files = sort_tab(found_files, false)
-        for (let i = 0; i < found_files.length; i++) {
-            item = found_files[i]
-            node.additem(...item);
-        }
-    }
-
-}
-
-function FillFilters(filterstr) {
-    var i;
-    var txt = "";
-    var arr = new Array();
-    for(i=0;i<filterstr.length;i++) {
-        if(filterstr.charAt(i)==";") {
-            arr.push(txt);
-            txt = "";
-        } else {
-            txt = txt + filterstr.charAt(i);
-        }
-    }
-    if(txt.length>0) arr.push(txt);
-    return arr;
-}
-
-function FillFavorites(noeud) {
-    var i;
-    var count = 0;
-    var arr = new Array();
-    g_fav_total = window.GetProperty("fav total", 0);
-    g_fav_labels = window.GetProperty("fav labels", "");
-    g_fav_paths = window.GetProperty("fav paths", "");
-    var txt = "";
-    for(i=0;i<g_fav_labels.length;i++) {
-        if(g_fav_labels.charAt(i)==";") {
-            arr.push(txt);
-            txt = "";
-        } else {
-            txt = txt + g_fav_labels.charAt(i);
-        }
-    }
-    if(txt.length>0) arr.push(txt);
-    txt = "";
-    for(i=0;i<g_fav_paths.length;i++) {
-        if(g_fav_paths.charAt(i)==";") {
-            noeud.addchild(arr[count], txt, "000");
-            noeud.child[count].type = "favorite";
-            count++;
-            txt = "";
-        } else {
-            txt = txt + g_fav_paths.charAt(i);
-        }
-    }
-    if(txt.length>0) {
-        noeud.addchild(arr[count], txt, "000");
-        noeud.child[count].type = "favorite";
-    }
-}
-
-function FillDrives(noeud) {
-    var drv;
-    var e = new Enumerator(fso.Drives);
-    for (; !e.atEnd(); e.moveNext()) {
-        drv = e.item();
-        if ((drv.IsReady || drv.DriveType==4) && (drv.DriveType!=5)) {
-            if (!drv.IsReady && drv.DriveType==4) {
-                noeud.addchild("N/A"+" ("+drv.DriveLetter.toUpperCase()+":) ", drv.DriveLetter.toUpperCase()+":\\", "000");
-                noeud.child[noeud.child.length-1].ready = false;
-            } else if (drv.IsReady) {
-                var freeGB = drv.FreeSpace / bytesPerGB;
-                var totalGB = drv.TotalSize / bytesPerGB;
-                noeud.addchild((drv.VolumeName?drv.VolumeName+" ":"")+"("+drv.DriveLetter.toUpperCase()+":) "+Math.floor(freeGB.toFixed(3)*10)/10+"GB/"+Math.floor(totalGB.toFixed(3)*10)/10+"GB", drv.Path+"\\", "000");
-                noeud.child[noeud.child.length-1].ready = true;
-            }
-            noeud.child[noeud.child.length-1].type = "drive";
-            noeud.child[noeud.child.length-1].stype = drv.DriveType;
-            drive_counter++;
-        }
-    }
-}
-
-function FillPlaylists(noeud) {
-    var i;
-    for (i = 0; i < plman.PlaylistCount; i++) {
-        let plitems = plman.GetPlaylistItems(i)
-        noeud.addchild(plman.GetPlaylistName(i), i, "000");
-        noeud.child[noeud.child.length-1].type = "playlist";
-        noeud.child[noeud.child.length-1].playlist_duration = utils.FormatDuration(plitems.CalcTotalDuration());
-        noeud.child[noeud.child.length-1].playlist_count = plitems.Count;
-
-        playlist_counter++;
-    }
-}
-
-function getCpos(y) {
-    return (y*-1) / (line_counter*tree_line_h-wh) * (wh-vcursor_h);
-}
-
-function getYoffset(y) {
-    return (y*-1) / (wh-vcursor_h) * (line_counter*tree_line_h-wh);
-}
-
-function refresh_drives() {
-    var i, temp_node;
-    redraw_drives = false;
-    for(i=0;i<root.child[g_filesystem_node_idx].child.length;i++) {
-        temp_node = root.child[g_filesystem_node_idx].child[i];
-        // check if drive ready before resuming
-        if(temp_node.type=="drive") {
-            try {
-                var chkdrv = fso.GetDrive(fso.GetDriveName(temp_node.path));
-                if(!chkdrv.IsReady) {
-                    if(temp_node.ready) redraw_drives = true;
-                    temp_node.ready = false;
-                    temp_node.label = "N/A"+" ("+chkdrv.DriveLetter.toUpperCase()+":) ";
-                    temp_node.child.splice(0,temp_node.child.length);
-                    temp_node.item.splice(0,temp_node.item.length);
-                    temp_node.childchecked = true;
-                } else {
-                    if(!temp_node.ready) redraw_drives = true;
-                    temp_node.ready = true;
-                    var freeGB = chkdrv.FreeSpace / bytesPerGB;
-                    var totalGB = chkdrv.TotalSize / bytesPerGB;
-                    temp_node.label = (chkdrv.VolumeName?chkdrv.VolumeName+" ":"")+"("+chkdrv.Path+") "+Math.floor(freeGB.toFixed(3)*10)/10+"GB/"+Math.floor(totalGB.toFixed(3)*10)/10+"GB";
-                }
-            } catch(e) {
-                root.child[g_filesystem_node_idx].child.splice(i,1);
-            }
-        }
-    }
-}
-
-// main globals
-var WshShell = new ActiveXObject("WScript.Shell");
-var fso = new ActiveXObject("Scripting.FileSystemObject");
-var g_tooltip = window.CreateTooltip();
-var g_font = gdi.Font("Tahoma", 12, 0);
-var ww, wh;
-var mouse_x, mouse_y;
-var xoffset=0;
-var yoffset=0;
-var g_drag = false;
-var c_drag = false;
-var reset = false;
-var bytesPerGB = 1024 * 1024 * 1024;
-var redraw_drives = false;
-
-// tree globals
 var root = new node;
-var tree_indent_w = 20;
-var marker_indent_w = 14;
-var tree_line_h = 18;
-var tree_padx = 2;
-var tree_pady = 2;
-var line_counter;
-var cline_counter;
-var favorites_counter;
-var drive_counter;
-var playlist_counter;
-var tmp_item;
-var g_fav_total = 0;
-var g_fav_labels = "";
-var g_fav_paths = "";
-var g_filters_arr;
-var g_filters_arr_archives;
-var g_max_hdelta = 0;
-var vcursor_w = scrollbar_w;
-var vcursor_h = 20;
-
-function on_size() {
-    window.DlgCode = 0x0001;
-
-    var i;
-	ww = window.Width;
-	wh = window.Height;
-
-    g_playlists_node_idx = -1;
-    g_favorites_node_idx = -1;
-    g_filesystem_node_idx = -1;
-
-    if(g_show_playlists) {
-        g_playlists_node_idx = 0;
-        if(g_show_favorites) {
-            g_favorites_node_idx = 1;
-            if(g_show_filesystem) {
-                g_filesystem_node_idx = 2;
-            }
-        } else {
-            if(g_show_filesystem) {
-                g_filesystem_node_idx = 1;
-            }
-        }
-    } else {
-        if(g_show_favorites) {
-            g_favorites_node_idx = 0;
-            if(g_show_filesystem) {
-                g_filesystem_node_idx = 1;
-            }
-        } else {
-            if(g_show_filesystem) {
-                g_filesystem_node_idx = 0;
-            }
-        }
-    }
-
-    // build of all images
-    set_images();
-
-    // filling of the filter array from the properties field
-    g_filters_arr = FillFilters(g_filters_str);
-    g_filters_arr_archives = FillFilters(default_archive_filters);
-
-    if(typeof(root.label)=="undefined" || reset) {
-        root.create("", "", 0, 0, null, "root", false, null, "000");
-        root.childchecked = true;
-        // playlists
-        if(g_show_playlists) {
-            root.addchild("Playlists", "", "000");
-            root.child[g_playlists_node_idx].childchecked = true;
-            root.child[g_playlists_node_idx].type = "playlists";
-            playlist_counter = 0;
-            FillPlaylists(root.child[g_playlists_node_idx]);
-        }
-        // favorites
-        if(g_show_favorites) {
-            root.addchild("Favorites", "", "000");
-			root.child[g_favorites_node_idx].collapsed = 0
-            root.child[g_favorites_node_idx].childchecked = true;
-            root.child[g_favorites_node_idx].type = "favorites";
-            favorites_counter = 0;
-            FillFavorites(root.child[g_favorites_node_idx]);
-        }
-        // drives
-        if(g_show_filesystem) {
-            root.addchild("Computer", "", "000");
-            root.child[g_filesystem_node_idx].childchecked = true;
-            root.child[g_filesystem_node_idx].type = "computer";
-            drive_counter = 0;
-            FillDrives(root.child[g_filesystem_node_idx]);
-        }
-        //
-        reset = false;
-    }
-}
-
-function on_paint(gr) {
-    gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
-    if(cline_counter==0 && !c_drag) {
-        scan_expanded(null, root, false);
-    }
-    if(cline_counter*tree_line_h>wh || line_counter*tree_line_h>wh) {
-        ww = window.Width - scrollbar_w;
-    } else {
-        ww = window.Width;
-    }
-    cline_counter = 0;
-    line_counter = 0;
-    scan_expanded(gr, root, true);
-    // vscrollbar
-    if(line_counter*tree_line_h>wh) {
-        gr.DrawLine(ww,0,ww,wh,1.0,RGBA(100,100,100,50));
-        gr.DrawImage(vcursor_img, ww, getCpos(yoffset), vcursor_img.Width, vcursor_img.Height, 0, 0, vcursor_img.Width, vcursor_img.Height, 0, c_drag?255:130);
-    }
-}
-
-function on_mouse_lbtn_down(x, y) {
-    // check drives
-    if(g_show_filesystem) refresh_drives();
-    // end.
-    if(x<ww) {
-	    g_drag = true;
-        scan_check_all(root, "down", x, y);
-    } else {
-        if(line_counter*tree_line_h>wh) {
-            c_drag = true;
-            if(y>getCpos(yoffset) && y<getCpos(yoffset)+vcursor_h) {
-                window.RepaintRect(ww, getCpos(yoffset), vcursor_w, vcursor_h);
-            } else {
-                yoffset = getYoffset(y-vcursor_h/2);
-                if(yoffset>0) yoffset = 0;
-                if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
-                window.Repaint();
-            }
-        } else {
-            c_drag = false;
-            yoffset = 0;
-            window.Repaint();
-        }
-    }
-}
-
-function on_mouse_lbtn_dblclk(x, y) {
-    scan_check_all(root, "dblclick", x, y);
-}
+on_size() // call on_size to fill root.child array
+root.child[0].focus = true
+var focused_node = root.child[0];
 
 
-function on_mouse_lbtn_up(x, y) {
-    g_drag = false;
-    scan_check_all(root, "up", x, y);
-    if(c_drag) {
-        c_drag = false;
-        window.RepaintRect(ww, getCpos(yoffset), vcursor_w, vcursor_h);
-    }
-}
-
-function on_mouse_rbtn_down(x, y) {
-    // check drives
-    if(g_show_filesystem) refresh_drives();
-    // end.
-    scan_check_all(root, "right", x, y);
-}
-
-function on_mouse_move(x, y) {
-
-    scan_check_all(root, "move", x, y);
-
-    if(g_drag) {
-        if(x>mouse_x) {
-            xoffset += tree_indent_w;
-            if(xoffset>0) xoffset = 0;
-            window.Repaint();
-        } else if (x<mouse_x) {
-            xoffset -= tree_indent_w;
-            if(xoffset<g_max_hdelta*-1) {
-                xoffset = g_max_hdelta*-1;
-            }
-            window.Repaint();
-        }
-    }
-
-    if(c_drag) {
-        yoffset = getYoffset(y-vcursor_h/2);
-        if(yoffset>0) yoffset = 0;
-        if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
-        window.Repaint();
-    }
-
-    if(yoffset<(tree_line_h*line_counter-wh)*-1) { yoffset = (tree_line_h*line_counter-wh)*-1; if(yoffset>0) yoffset = 0; window.Repaint(); }
-
-    mouse_x = x;
-    mouse_y = y;
-}
-
-function on_mouse_wheel(delta) {
-    if(delta>0) {
-        yoffset+=tree_line_h*2;
-        if(yoffset>0) yoffset = 0;
-    } else if(tree_line_h*line_counter>wh-tree_pady) {
-        yoffset-=tree_line_h*2;
-        if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
-    }
-    window.Repaint();
-}
-
-
-function on_key_down(vkey) {
-    //fb.trace(vkey)
-    switch (vkey) {
-        case VK_UP:
-            on_mouse_wheel(1)
-            break;
-        case VK_DOWN:
-            on_mouse_wheel(-1)
-            break;
-        }
-}
-
-
-function on_mouse_leave() {
-    scan_check_all(root, "leave", 0, 0);
-    window.Repaint();
-}
-
+// ---------------------------------------- TOOLS
 function set_images() {
     var gb;
 
@@ -1268,35 +788,6 @@ function set_images() {
     gb.FillEllipse(8, 2, 4, 4, RGB(240,250,255));
     network_drive_img.ReleaseGraphics(gb);
 
-    playlists_img = gdi.CreateImage(20, 16);
-    gb = playlists_img.GetGraphics();
-    gb.SetSmoothingMode(0);
-    var pl_points = Array(3,5,7,1,14,1,14,14,3,14);
-    //gb.FillPolygon(RGB(170,210,240), 0, pl_points);
-    gb.DrawPolygon(RGB(140,170,210), 0, pl_points);
-    gb.FillSolidRect(6,5,6,1,RGB(240,240,240));
-    gb.FillSolidRect(6,8,6,1,RGB(240,240,240));
-    gb.FillSolidRect(6,11,6,1,RGB(240,240,240));
-    playlists_img.ReleaseGraphics(gb);
-
-    playlist_img = gdi.CreateImage(20, 14);
-    gb = playlist_img.GetGraphics();
-    gb.SetSmoothingMode(2);
-    for (var x = 0; x < 4; x++){
-      gb.DrawLine(2, 2+3*x,  4, 2+3*x, 1, RGB(160,190,220))
-      gb.DrawLine(6, 2+3*x, 14, 2+3*x, 1, RGB(160,190,220))
-    }
-    playlist_img.ReleaseGraphics(gb);
-
-    autoplaylist_img = gdi.CreateImage(20, 16);
-    gb = autoplaylist_img.GetGraphics();
-    gb.SetSmoothingMode(2);
-    for (var x = 0; x < 4; x++){
-      gb.DrawLine(2, 2+3*x,  4, 2+3*x, 1, RGB(220,190,160))
-      gb.DrawLine(6, 2+3*x, 14, 2+3*x, 1, RGB(220,190,160))
-    }
-    autoplaylist_img.ReleaseGraphics(gb);
-
     vcursor_img = gdi.CreateImage(vcursor_w, vcursor_h);
     gb = vcursor_img.GetGraphics();
     gb.SetSmoothingMode(2);
@@ -1306,6 +797,333 @@ function set_images() {
 
     //CollectGarbage();
 }
+
+function RGB(r, g, b) {
+    return (0xff000000 | (r << 16) | (g << 8) | (b));
+}
+
+function RGBA(r, g, b, a) {
+    return ((a << 24) | (r << 16) | (g << 8) | (b));
+}
+
+function getType(ftype) {
+    return FileType[ftype.toLowerCase()];
+}
+
+function getCpos(y) {
+    return (y*-1) / (line_counter*tree_line_h-wh) * (wh-vcursor_h);
+}
+
+function getYoffset(y) {
+    return (y*-1) / (wh-vcursor_h) * (line_counter*tree_line_h-wh);
+}
+
+
+function show_popup_msg(title, msg) {
+    let html_data= "";
+    html_data += "<html>";
+    html_data += "<head>";
+    html_data += "<title>" + title + "</title>";
+    html_data += "<style rel=\"stylesheet\" type=\"text/css\">";
+    html_data += "body {font-family: Segoe UI; font-size: 14px;background-color: #252525; color: #FFFFFF;}";
+    html_data += "</style>";
+    html_data += "</head>";
+    html_data += "<body>";
+    html_data += msg;
+    html_data += "</body>";
+    html_data += "</html>";
+
+
+    if (fb.AlwaysOnTop) {
+        fb.AlwaysOnTop = false
+        utils.ShowHtmlDialog(window.id, html_data, {
+            width:300,
+            height:100,
+            resizable:false,
+            scroll:false})
+        fb.AlwaysOnTop = true
+    } else {
+        utils.ShowHtmlDialog(window.id, html_data, {
+            width:300,
+            height:100,
+            resizable:false,
+            scroll:false})
+    }
+}
+
+
+// ---------------------------------------- TREE TOOLS
+function scan_expanded(gr, noeud, draw) {
+	var i, j
+    if(draw) {
+        noeud.draw(gr, yoffset + line_counter*tree_line_h);
+        line_counter++;
+    } else {
+        noeud.checkpos(yoffset + cline_counter*tree_line_h);
+        cline_counter++;
+    }
+    if(!noeud.collapsed) {
+        for(i=0;i<noeud.child.length;i++) {
+            scan_expanded(gr, noeud.child[i], draw);
+        }
+        for(j=0;j<noeud.item.length;j++) {
+            if(draw) {
+                noeud.item[j].draw(gr, yoffset + line_counter*tree_line_h);
+                line_counter++;
+            } else {
+                noeud.item[j].checkpos(yoffset + cline_counter*tree_line_h);
+                cline_counter++;
+            }
+        }
+    }
+}
+
+function scan_check_all(noeud, event, x, y) {
+	var i, j;
+    // node action below
+    noeud.checkmouse(event, x, y);
+    // end.
+    if(!noeud.collapsed) {
+        for(i=0;i<noeud.child.length;i++) {
+            scan_check_all(noeud.child[i], event, x, y);
+        }
+        for(j=0;j<noeud.item.length;j++) {
+            noeud.item[j].checkmouse(event, x, y);
+        }
+    }
+}
+
+function reset_node_focus(noeud) {
+	var i, j;
+    noeud.focus = false;
+    for(i=0;i<noeud.child.length;i++) {
+        reset_node_focus(noeud.child[i]);
+    }
+    for(j=0;j<noeud.item.length;j++) {
+        noeud.item[j].focus = false;
+    }
+}
+
+function collapse_all(noeud) {
+	var i, j;
+    if(noeud.level>1) noeud.collapsed = true;
+    for(i=0;i<noeud.child.length;i++) {
+        collapse_all(noeud.child[i]);
+    }
+}
+
+function refresh_drives() {
+    var i, temp_node;
+    redraw_drives = false;
+    for(i=0;i<root.child[g_filesystem_node_idx].child.length;i++) {
+        temp_node = root.child[g_filesystem_node_idx].child[i];
+        // check if drive ready before resuming
+        if(temp_node.type=="drive") {
+            try {
+                var chkdrv = fso.GetDrive(fso.GetDriveName(temp_node.path));
+                if(!chkdrv.IsReady) {
+                    if(temp_node.ready) redraw_drives = true;
+                    temp_node.ready = false;
+                    temp_node.label = "N/A"+" ("+chkdrv.DriveLetter.toUpperCase()+":) ";
+                    temp_node.child.splice(0,temp_node.child.length);
+                    temp_node.item.splice(0,temp_node.item.length);
+                    temp_node.childchecked = true;
+                } else {
+                    if(!temp_node.ready) redraw_drives = true;
+                    temp_node.ready = true;
+                    var freeGB = chkdrv.FreeSpace / bytesPerGB;
+                    var totalGB = chkdrv.TotalSize / bytesPerGB;
+                    temp_node.label = (chkdrv.VolumeName?chkdrv.VolumeName+" ":"")+"("+chkdrv.Path+") "+Math.floor(freeGB.toFixed(3)*10)/10+"GB/"+Math.floor(totalGB.toFixed(3)*10)/10+"GB";
+                }
+            } catch(e) {
+                root.child[g_filesystem_node_idx].child.splice(i,1);
+            }
+        }
+    }
+}
+
+function sort_tab(tab2sort, sort_by_modified_date) {
+    var tab = new Array();
+    var i, j;
+    var tmp = new node;
+    if (sort_by_modified_date == false) {
+        for(i=0;i<tab2sort.length;i++) {
+            for(j=i;j<tab2sort.length;j++) {
+                var uselabel0 = tab2sort[i][0] // first entry is the NAME of the file or folder!
+                var uselabel1 = tab2sort[j][0]
+
+                if(uselabel0.toUpperCase() > uselabel1.toUpperCase()) {
+                    tmp = tab2sort[i];
+                    tab2sort[i] = tab2sort[j];
+                    tab2sort[j] = tmp;
+                }
+            }
+            tab.push(tab2sort[i]);
+            tab[i].idx = i;
+        }
+    } else {
+        for(i=0;i<tab2sort.length;i++) {
+            for(j=i;j<tab2sort.length;j++) {
+                var uselabel0 = tab2sort[i][2] // third entry is the MODIFIED DATE of the file or folder!
+                var uselabel1 = tab2sort[j][2]
+
+                if(uselabel0 < uselabel1) {
+                    tmp = tab2sort[i];
+                    tab2sort[i] = tab2sort[j];
+                    tab2sort[j] = tmp;
+                }
+            }
+            tab.push(tab2sort[i]);
+            tab[i].idx = i;
+        }
+    }
+    return tab;
+}
+
+// ---------------------------------------- FILL ITEMS
+
+function FillTreeLevel(path, node) {
+    var i;
+    var item_fld, item_file;
+    var oFolder = fso.GetFolder(path);
+    var oFolders = new Enumerator(oFolder.SubFolders);
+    var oFiles = new Enumerator(oFolder.Files);
+    node.childchecked = true;
+
+    let found_folders = [];
+    let found_archives = [];
+    let found_files = [];
+
+    // make sure filter-lists are uppercase
+    for(var i = 0; i < g_filters_arr.length; i++){
+        g_filters_arr[i] = g_filters_arr[i].toUpperCase();
+    }
+    for(var i = 0; i < g_filters_arr_archives.length; i++){
+        g_filters_arr_archives[i] = g_filters_arr_archives[i].toUpperCase();
+    }
+
+    // loop through folders
+    for (oFolders.moveFirst(); !oFolders.atEnd(); oFolders.moveNext()) {
+        item_fld = oFolders.item();
+        // select only directories (16) that are NOT tagged as "system" (4) and NOT hidden (2)
+        // [check notes for additional info on Attribute numbers]
+        if(item_fld.Attributes&16 && !(item_fld.Attributes&4) && !(item_fld.Attributes&2)) {
+            found_folders.push([item_fld.Name, item_fld.Path, item_fld.DateLastModified])
+        }
+    }
+
+    // checking for files in the current folder
+    for (oFiles.moveFirst(); !oFiles.atEnd(); oFiles.moveNext()) {
+        item_file = oFiles.item();
+        item_file_split = item_file.Name.split('.');
+        item_file_suffix = item_file_split[item_file_split.length - 1].toUpperCase()
+        if (g_filters_arr_archives.includes(item_file_suffix)) {
+            found_archives.push([item_file.Name, item_file.Path, item_file.DateLastModified])
+        } else if (g_filters_arr.includes(item_file_suffix)) {
+            found_files.push([item_file.Name, item_file.Path, item_file.DateLastModified])
+        }
+    }
+
+    // first add sorted folders
+    if (found_folders.length > 0) {
+        found_folders = sort_tab(found_folders, g_sort_modified)
+        for (let i = 0; i < found_folders.length; i++) {
+            item = found_folders[i]
+            node.addchild(...item);
+        }
+    }
+    // then add sorted archives
+    if (found_archives.length > 0) {
+        found_archives = sort_tab(found_archives, g_sort_modified)
+        for (let i = 0; i < found_archives.length; i++) {
+            item = found_archives[i]
+            node.additem(...item);
+        }
+    }
+    // then add sorted files (always sort files alphabetically!)
+    if (found_files.length > 0) {
+        found_files = sort_tab(found_files, false)
+        for (let i = 0; i < found_files.length; i++) {
+            item = found_files[i]
+            node.additem(...item);
+        }
+    }
+
+}
+
+function FillFilters(filterstr) {
+    var i;
+    var txt = "";
+    var arr = new Array();
+    for(i=0;i<filterstr.length;i++) {
+        if(filterstr.charAt(i)==";") {
+            arr.push(txt);
+            txt = "";
+        } else {
+            txt = txt + filterstr.charAt(i);
+        }
+    }
+    if(txt.length>0) arr.push(txt);
+    return arr;
+}
+
+function FillFavorites(noeud) {
+    var i;
+    var count = 0;
+    var arr = new Array();
+    g_fav_total = window.GetProperty("fav total", 0);
+    g_fav_labels = window.GetProperty("fav labels", "");
+    g_fav_paths = window.GetProperty("fav paths", "");
+    var txt = "";
+    for(i=0;i<g_fav_labels.length;i++) {
+        if(g_fav_labels.charAt(i)==";") {
+            arr.push(txt);
+            txt = "";
+        } else {
+            txt = txt + g_fav_labels.charAt(i);
+        }
+    }
+    if(txt.length>0) arr.push(txt);
+    txt = "";
+    for(i=0;i<g_fav_paths.length;i++) {
+        if(g_fav_paths.charAt(i)==";") {
+            noeud.addchild(arr[count], txt, "000");
+            noeud.child[count].type = "favorite";
+            count++;
+            txt = "";
+        } else {
+            txt = txt + g_fav_paths.charAt(i);
+        }
+    }
+    if(txt.length>0) {
+        noeud.addchild(arr[count], txt, "000");
+        noeud.child[count].type = "favorite";
+    }
+}
+
+function FillDrives(noeud) {
+    var drv;
+    var e = new Enumerator(fso.Drives);
+    for (; !e.atEnd(); e.moveNext()) {
+        drv = e.item();
+        if ((drv.IsReady || drv.DriveType==4) && (drv.DriveType!=5)) {
+            if (!drv.IsReady && drv.DriveType==4) {
+                noeud.addchild("N/A"+" ("+drv.DriveLetter.toUpperCase()+":) ", drv.DriveLetter.toUpperCase()+":\\", "000");
+                noeud.child[noeud.child.length-1].ready = false;
+            } else if (drv.IsReady) {
+                var freeGB = drv.FreeSpace / bytesPerGB;
+                var totalGB = drv.TotalSize / bytesPerGB;
+                noeud.addchild((drv.VolumeName?drv.VolumeName+" ":"")+"("+drv.DriveLetter.toUpperCase()+":) "+Math.floor(freeGB.toFixed(3)*10)/10+"GB/"+Math.floor(totalGB.toFixed(3)*10)/10+"GB", drv.Path+"\\", "000");
+                noeud.child[noeud.child.length-1].ready = true;
+            }
+            noeud.child[noeud.child.length-1].type = "drive";
+            noeud.child[noeud.child.length-1].stype = drv.DriveType;
+            drive_counter++;
+        }
+    }
+}
+
+// ---------------------------------------- CONTEXT MENU
 
 function show_context_menu(noeud, x, y) {
     var _menu = window.CreatePopupMenu();
@@ -1331,32 +1149,10 @@ function show_context_menu(noeud, x, y) {
             _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
             _menu.AppendMenuItem(MF_STRING, 3, "Edit file types filter");
             _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
-            _menu.AppendMenuItem(MF_STRING, 4, "Show Playlists");
             _menu.AppendMenuItem(MF_STRING, 5, "Show Favorites");
             _menu.AppendMenuItem(MF_STRING, 6, "Show FileSystem");
-            _menu.CheckMenuItem(4, g_show_playlists);
             _menu.CheckMenuItem(5, g_show_favorites);
             _menu.CheckMenuItem(6, g_show_filesystem);
-            break;
-        case "playlists":
-            break;
-        case "playlist":
-            _menu.AppendMenuItem((noeud.path>0)?MF_STRING:MF_GRAYED | MF_DISABLED, 10, "Move Up");
-            _menu.AppendMenuItem((noeud.path<plman.PlaylistCount-1)?MF_STRING:MF_GRAYED | MF_DISABLED, 11, "Move Down");
-            _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
-            _menu.AppendMenuItem(MF_STRING, 12, "Rename this playlist...");
-            _menu.AppendMenuItem(MF_STRING, 13, "Delete this playlist");
-            _menu.AppendMenuItem(MF_STRING, 14, "Save this playlist...");
-            _menu.AppendMenuItem(MF_STRING, 15, "Duplicate this playlist");
-            _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
-            _menu.AppendMenuItem(MF_STRING, 16, "Insert a new Autoplaylist...");
-            if(plman.IsAutoPlaylist(noeud.path)) {
-                _menu.AppendMenuItem(MF_STRING, 17, "AutoPlaylist Properties...");
-                _menu.AppendMenuItem(MF_STRING, 18, "Convert to a normal Playlist");
-            }
-            _menu.AppendMenuItem(MF_SEPARATOR, 0, 0);
-            _menu.AppendMenuItem(MF_STRING, 19, "Insert a new playlist");
-            _menu.AppendMenuItem(MF_STRING, 20, "Load a playlist...");
             break;
         case "favorites":
             break;
@@ -1390,8 +1186,6 @@ function show_context_menu(noeud, x, y) {
                 _menu.AppendMenuItem(MF_STRING, 41, "Send to playlist and Play");
                 _menu.AppendMenuItem(MF_SEPARATOR, 0, 0);
             }
-            _menu.AppendMenuItem(MF_STRING, 42, "Rename file");
-            _menu.AppendMenuItem(MF_STRING, 43, "Delete file");
             _menu.AppendMenuItem(MF_STRING, 44, "Open in Windows Explorer...");
             break;
     }
@@ -1443,14 +1237,6 @@ function show_context_menu(noeud, x, y) {
             //CollectGarbage();
         }
         break;
-    case 4:
-        g_show_playlists = !g_show_playlists;
-        window.SetProperty("show playlists", g_show_playlists);
-        root.child.splice(0, root.child.length);
-        reset = true;
-        on_size();
-        //CollectGarbage();
-        break;
     case 5:
         g_show_favorites = !g_show_favorites;
         window.SetProperty("show favorites", g_show_favorites);
@@ -1466,88 +1252,6 @@ function show_context_menu(noeud, x, y) {
         reset = true;
         on_size();
         //CollectGarbage();
-        break;
-    case 10:
-        plman.MovePlaylist(noeud.path, noeud.path-1);
-        plman.ActivePlaylist = noeud.path-1;
-        if(root.child[0].child.length>0) root.child[0].child.splice(0,root.child[0].child.length);
-        FillPlaylists(root.child[0]);
-        root.child[0].childchecked = true;
-        root.child[0].collapsed = false;
-        window.Repaint();
-        break;
-    case 11:
-        plman.MovePlaylist(noeud.path, noeud.path+1);
-        plman.ActivePlaylist = noeud.path+1;
-        if(root.child[0].child.length>0) root.child[0].child.splice(0,root.child[0].child.length);
-        FillPlaylists(root.child[0]);
-        root.child[0].childchecked = true;
-        root.child[0].collapsed = false;
-        window.Repaint();
-        break;
-    case 12:
-        var newname = utils.InputBox(0, "Actual Playlist name: "+noeud.label, "Rename a Playlist", noeud.label);
-        if(typeof(newname)=="undefined" || !newname || newname == "") newname = noeud.label;
-        if (newname.length > 1 || (newname.length == 1 && (newname >= "a" && newname <= "z") || (newname >= "A" && newname <= "Z") || (newname >= "0" && newname <= "9"))) {
-            plman.RenamePlaylist(noeud.path, newname);
-            noeud.label = newname;
-            window.Repaint();
-        }
-        break;
-    case 13:
-        plman.RemovePlaylist(noeud.idx);
-        if(root.child[0].child.length>0) root.child[0].child.splice(0,root.child[0].child.length);
-        FillPlaylists(root.child[0]);
-        root.child[0].childchecked = true;
-        root.child[0].collapsed = false;
-        window.Repaint();
-        break;
-    case 14:
-        fb.RunMainMenuCommand("File/Save Playlist...");
-        break;
-    case 15:
-        plman.DuplicatePlaylist(noeud.path, "Copy of " + noeud.label);
-        plman.ActivePlaylist = noeud.path+1;
-        if(root.child[0].child.length>0) root.child[0].child.splice(0,root.child[0].child.length);
-        FillPlaylists(root.child[0]);
-        root.child[0].childchecked = true;
-        root.child[0].collapsed = false;
-        window.Repaint();
-        break;
-    case 16:
-        var new_idx = plman.PlaylistCount;
-        plman.CreateAutoPlaylist(new_idx, "", "");
-        plman.MovePlaylist(new_idx, noeud.path+1);
-        plman.ActivePlaylist = noeud.path+1;
-        plman.ShowAutoPlaylistUI(noeud.path+1);
-        if(root.child[0].child.length>0) root.child[0].child.splice(0,root.child[0].child.length);
-        FillPlaylists(root.child[0]);
-        root.child[0].childchecked = true;
-        root.child[0].collapsed = false;
-        window.Repaint();
-        break;
-    case 17:
-        plman.ShowAutoPlaylistUI(noeud.path);
-        break;
-    case 18:
-        plman.DuplicatePlaylist(noeud.path, noeud.label);
-        plman.RemovePlaylist(noeud.path);
-        plman.ActivePlaylist = noeud.path;
-        window.Repaint();
-        break;
-    case 19:
-        var new_idx = plman.PlaylistCount;
-        plman.CreatePlaylist(new_idx, "");
-        plman.MovePlaylist(new_idx, noeud.path+1);
-        plman.ActivePlaylist = noeud.path+1;
-        if(root.child[0].child.length>0) root.child[0].child.splice(0,root.child[0].child.length);
-        FillPlaylists(root.child[0]);
-        root.child[0].childchecked = true;
-        root.child[0].collapsed = false;
-        window.Repaint();
-        break;
-    case 20:
-        fb.RunMainMenuCommand("File/Load Playlist...");
         break;
     case 30:
         root.child[g_favorites_node_idx].child.splice(noeud.idx, 1);
@@ -1597,51 +1301,12 @@ function show_context_menu(noeud, x, y) {
     case 41:
         WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+noeud.path+"\"");
         break;
-    case 42:
-        var newname = utils.InputBox(0, "Actual filename: "+noeud.label,"Rename a file",  noeud.label);
-
-        if(typeof(newname)=="undefined" || !newname || newname == "") {
-            newname = noeud.label;
-        } else {
-            if (newname.length > 1 || (newname.length == 1 && (newname >= "a" && newname <= "z") || (newname >= "A" && newname <= "Z") || (newname >= "0" && newname <= "9"))) {
-                for(i=noeud.path.length;i>=0;i--) {
-                    if(noeud.path.charAt(i)=="\\") break;
-                }
-                try {
-                    var newpath= noeud.path.substring(0, i+1) + newname;
-                    fso.MoveFile(noeud.path, newpath);
-                    noeud.path = newpath;
-                    noeud.label = newname;
-                    window.Repaint();
-                } catch(e) {
-                    MsgBox("Check privileges on this folder or Check string entered: "+newname,vb.OKOnly,"Rename Error");
-                }
-            }
-        }
-        break;
-    case 43:
-        fso.DeleteFile(noeud.path);
-        var r = "root";
-        var tmp;
-        for(i=1;i<noeud.pathsum.length;i++) {
-            r = r + ".child[" + noeud.pathsum[i] + "]";
-        }
-        r = r + ".item";
-        eval(r).splice(noeud.idx, 1);
-        for(i=0;i<eval(r).length;i++) {
-            tmp = r+"["+i+"]";
-            eval(tmp).idx = i;
-        }
-        window.Repaint();
-        break;
     case 44:
-        var r = "root";
-        var tmp;
+        var r = root
         for(i=1;i<noeud.pathsum.length;i++) {
-            r = r + ".child[" + noeud.pathsum[i] + "]";
+            r = r.child[noeud.pathsum[i]]
         }
-        var r = r + ".path";
-        WshShell.Run("%windir%\\explorer "+eval(r));
+        WshShell.Run("%windir%\\explorer "+r.path);
         break;
     case 50:
         root.child[g_favorites_node_idx].addchild(noeud.label, noeud.path, noeud.modified_date);
@@ -1718,8 +1383,222 @@ function show_context_menu(noeud, x, y) {
     }
     //_menu.Dispose();
     return true;
+
+
+}
+
+// ---------------------------------------- CALLBACKS
+
+function on_size() {
+    window.DlgCode = 0x0001;
+
+    var i;
+	ww = window.Width;
+	wh = window.Height;
+
+    g_favorites_node_idx = -1;
+    g_filesystem_node_idx = -1;
+
+    if(g_show_favorites) {
+        g_favorites_node_idx = 0;
+        if(g_show_filesystem) {
+            g_filesystem_node_idx = 1;
+        }
+    } else {
+        if(g_show_filesystem) {
+            g_filesystem_node_idx = 0;
+        }
+    }
+
+    // build of all images
+    set_images();
+
+    // filling of the filter array from the properties field
+    g_filters_arr = FillFilters(g_filters_str);
+    g_filters_arr_archives = FillFilters(default_archive_filters);
+
+    if(typeof(root.label)=="undefined" || reset) {
+        root.create("", "", 0, 0, null, "root", false, null, "000");
+        root.childchecked = true;
+        // favorites
+        if(g_show_favorites) {
+            root.addchild("Favorites", "", "000");
+			root.child[g_favorites_node_idx].collapsed = 0
+            root.child[g_favorites_node_idx].childchecked = true;
+            root.child[g_favorites_node_idx].type = "favorites";
+            favorites_counter = 0;
+            FillFavorites(root.child[g_favorites_node_idx]);
+        }
+        // drives
+        if(g_show_filesystem) {
+            root.addchild("Computer", "", "000");
+            root.child[g_filesystem_node_idx].childchecked = true;
+            root.child[g_filesystem_node_idx].type = "computer";
+            drive_counter = 0;
+            FillDrives(root.child[g_filesystem_node_idx]);
+        }
+        //
+        reset = false;
+    }
+}
+
+function on_paint(gr) {
+    gr.FillSolidRect(0, 0, window.Width, window.Height, RGB(37, 37, 37));
+    if(cline_counter==0 && !c_drag) {
+        scan_expanded(null, root, false);
+    }
+    if(cline_counter*tree_line_h>wh || line_counter*tree_line_h>wh) {
+        ww = window.Width - scrollbar_w;
+    } else {
+        ww = window.Width;
+    }
+    cline_counter = 0;
+    line_counter = 0;
+    scan_expanded(gr, root, true);
+    // vscrollbar
+    if(line_counter*tree_line_h>wh) {
+        gr.DrawLine(ww,0,ww,wh,1.0,RGBA(100,100,100,50));
+        gr.DrawImage(vcursor_img, ww, getCpos(yoffset), vcursor_img.Width, vcursor_img.Height, 0, 0, vcursor_img.Width, vcursor_img.Height, 0, c_drag?255:130);
+    }
+}
+
+function on_mouse_lbtn_down(x, y) {
+    timer = setTimeout(() => {
+        if(!lbtn_click_prevent){
+            // check drives
+            if(g_show_filesystem) refresh_drives();
+            // end.
+            if(x<ww) {
+                g_drag = true;
+                scan_check_all(root, "down", x, y);
+            } else {
+                if(line_counter*tree_line_h>wh) {
+                    c_drag = true;
+                    if(y>getCpos(yoffset) && y<getCpos(yoffset)+vcursor_h) {
+                        window.RepaintRect(ww, getCpos(yoffset), vcursor_w, vcursor_h);
+                    } else {
+                        yoffset = getYoffset(y-vcursor_h/2);
+                        if(yoffset>0) yoffset = 0;
+                        if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
+                        window.Repaint();
+                    }
+                } else {
+                    c_drag = false;
+                    yoffset = 0;
+                    window.Repaint();
+                }
+            }
+
+    }
+    lbtn_click_prevent = false
+    }, click_delay)
+}
+
+function on_mouse_lbtn_dblclk(x, y) {
+    clearTimeout(0)
+    lbtn_click_prevent=true
+    scan_check_all(root, "dblclick", x, y);
+}
+
+function on_mouse_lbtn_up(x, y) {
+    g_drag = false;
+    scan_check_all(root, "up", x, y);
+    if(c_drag) {
+        c_drag = false;
+        window.RepaintRect(ww, getCpos(yoffset), vcursor_w, vcursor_h);
+    }
+}
+
+function on_mouse_rbtn_down(x, y) {
+    // check drives
+    if(g_show_filesystem) refresh_drives();
+    // end.
+    scan_check_all(root, "right", x, y);
+}
+
+function on_mouse_move(x, y) {
+
+    scan_check_all(root, "move", x, y);
+
+    if(g_drag) {
+        if(x>mouse_x) {
+            xoffset += tree_indent_w;
+            if(xoffset>0) xoffset = 0;
+            window.Repaint();
+        } else if (x<mouse_x) {
+            xoffset -= tree_indent_w;
+            if(xoffset<g_max_hdelta*-1) {
+                xoffset = g_max_hdelta*-1;
+            }
+            window.Repaint();
+        }
+    }
+
+    if(c_drag) {
+        yoffset = getYoffset(y-vcursor_h/2);
+        if(yoffset>0) yoffset = 0;
+        if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
+        window.Repaint();
+    }
+
+    if(yoffset<(tree_line_h*line_counter-wh)*-1) { yoffset = (tree_line_h*line_counter-wh)*-1; if(yoffset>0) yoffset = 0; window.Repaint(); }
+
+    mouse_x = x;
+    mouse_y = y;
+}
+
+function on_mouse_wheel(delta) {
+    if(delta>0) {
+        yoffset+=tree_line_h*2;
+        if(yoffset>0) yoffset = 0;
+    } else if(tree_line_h*line_counter>wh-tree_pady) {
+        yoffset-=tree_line_h*2;
+        if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
+    }
+    window.Repaint();
+}
+
+function on_key_down(vkey) {
+    //fb.trace(vkey)
+    switch (vkey) {
+        case VK_UP:
+            focused_node.checkkey("up")
+            if ((focused_node.y) < wh) {
+                yoffset+=tree_line_h*1;
+                if(yoffset>0) yoffset = 0;
+                window.Repaint();
+            }
+            break;
+        case VK_DOWN:
+            focused_node.checkkey("down")
+            if ((focused_node.y - 2*tree_line_h) > 0) {
+                if(tree_line_h*line_counter>wh-tree_pady) {
+                    yoffset-=tree_line_h*1;
+                    if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
+                }            }
+
+            break;
+        case VK_LEFT:
+            focused_node.checkkey("left")
+            break;
+        case VK_RIGHT:
+            focused_node.checkkey("right")
+            break;
+        case VK_RETURN:
+            focused_node.checkkey("return")
+        }
+
+}
+
+function on_mouse_leave() {
+    scan_check_all(root, "leave", 0, 0);
+    window.Repaint();
 }
 
 function on_mouse_rbtn_up(x, y) {
     //return true;
 }
+
+
+
+
