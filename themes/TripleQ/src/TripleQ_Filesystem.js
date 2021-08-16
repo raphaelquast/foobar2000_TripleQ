@@ -543,7 +543,7 @@ node = function () {
                   var oFolder = fso.GetFolder(this.path);
 
                   // only add folders on double-click if they contain less than 2 subfolders
-                  if (oFolder.SubFolders.Count == 0) {
+                  if (oFolder.SubFolders.Count < 3) {
                     let foldersize = oFolder.Size
                     if (Math.round(foldersize / 1000000) < 600) {
                         WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
