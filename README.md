@@ -147,6 +147,7 @@ To allow having both sorted and unsorted stuff in your music folders,
 all the developers that created the awesome components that TripleQ is based on:
 
 - [Columns UI](https://github.com/reupen/columns_ui)
+- [Spider Monkey Panel](https://theqwertiest.github.io/foo_spider_monkey_panel/)
 - [Panel Stack Splitter](http://foo2k.chottu.net/)
 - [Waveform Minibar (Mod)](http://www.foobar2000.org/components/view/foo_wave_minibar_mod)
 - [EsPlaylist](http://foo2k.chottu.net/)
@@ -155,6 +156,5 @@ all the developers that created the awesome components that TripleQ is based on:
 - [Playback Statistics](https://www.foobar2000.org/components/view/foo_playcount)
 - [TagBox](https://www.foobar2000.org/components/view/foo_tagbox)
 - [Coverflow](https://github.com/Chronial/foo_chronflow)
-- [Spider Monkey Panel](https://theqwertiest.github.io/foo_spider_monkey_panel/)
 - [Eole theme (thx for some ideas on .js routines)](https://github.com/Ottodix/Eole-foobar-theme)
 - [br3tt for his WSH Tree Explorer script](https://www.deviantart.com/br3tt/art/WSH-Tree-Explorer-1-7-196023730)
