@@ -1,25 +1,30 @@
 # foobar2000 TripleQ theme
 
-A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes!
+A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes!  
 
 It includes several nice gadgets like:
 
-- **playlist-view** and **playlist-manager**
+- 🌳 a **playlist-view** with an integrated **playlist-manager**
 
-- a lightweight **filesystem browser** that lets you browse your files by *"last modified date"*
+- 🌲 a lightweight **filesystem browser**  
+    with quick-access to selected folders  
+  ... and the capability to sort files "alphabetically" or by *"last modified date"*
 
-- **library- and coverflow views** that provide a nice view of your well sorted collection
+- 🌴 **library- and coverflow views**  
+  ... to get a nice overview of your well sorted collection
   
-  (and a **tree view** that show everything including the stuff in messy unsorted folders)
+- 🌵 a **tree view** to search and filter everything in your media-library  
+(including the stuff in messy unsorted folders)
 
-- **queue content editor** to keep track of what's going to play next
+- 🌿 a **queue content editor** to keep track of what's going to play next
 
 ... and some equally nice buttons that help with recurring tasks like
 
-- maintain a sorted collection (moving files and folders to fit a pre-defined structure)
-- apply replay-gain
+- maintain a sorted collection  
+    (e.g. quickly move files and folders to fit a pre-defined structure)
+- apply replay-gain (and notice if replay-gain is missing)
 - change the output-device
-- ...
+- open containing folder
 
 ### Mini-mode
 
@@ -34,27 +39,27 @@ It includes several nice gadgets like:
 ![midimode](_images/animation_small.gif?raw=true "Maximode")
 
 # Installation (quick and easy)
+✔ checked with foobar2000 **(v1.6.7)**
 
-## Portable:
+## 🏞🏕 Portable:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (portable) [tested with v1.6.4] (don't start it yet!)
+1) Install [Foobar2000](https://www.foobar2000.org/) (portable) **(don't start it yet!)**
 2) Copy all files into the installation folder (replace existing files)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
 
-## Standalone:
+## 🏡 Standalone:
 
-1) Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.6.4]  
+1) Install [Foobar2000](https://www.foobar2000.org/) (standard)  
 2) Copy all files into your foobar2000 `configuration`-folder (replace existing files)
    - it is located at `"%appdata%\foobar2000"` 
      (if it does not yet exist, start *foobar2000* and close it again)
 3) Start foobar2000, open preferences (`crtl + p`) and set your music-directory in the *"Media Library"* tab
 4) Enjoy!
 
-### ...if you know how to deal with git
+## 🌌  if you know how to deal with **git**
 
-1. Install [Foobar2000](https://www.foobar2000.org/) (standard) [tested with v1.6.4]
-
+1. Install [Foobar2000](https://www.foobar2000.org/) (standard) 
 2. navigate to the `configuration`-folder and execute the following commands:
    (warning, files already present in the folder will be overwritten!!)
 
