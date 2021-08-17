@@ -84,12 +84,12 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 
 | | |
 | --- | --- |
+|`crtl + shift + space` | activate/deactivate the player window (e.g. show/hide) |
 |`crtl + shift + enter` |  play / pause |
 |`crtl + shift + up   ` | previous track |
 |`crtl + shift + down ` | next track |
 |`crtl + shift + left ` | move 5 seconds ahead in the current track |
 |`crtl + shift + right` | move 5 seconds back in the current track |
-|`crtl + shift + space` | activate/deactivate the player window (e.g. bring the player to the front) |
 
 #### ◯ If the player is focused
 | | |
