@@ -362,7 +362,7 @@ node = function () {
                 for(i=1;i<this.pathsum.length;i++) {
                     r = r.child[this.pathsum[i]]
                 }
-               if (this.type == "folder") {
+               if (this.type == "folder" | this.type == "favorites" | this.type == "favorite" | this.type == "computer") {
                     if (this.idx > 0) {
                         reset_node_focus(root);
                         r.child[this.idx - 1].focus = true
@@ -392,7 +392,7 @@ node = function () {
                     r = r.child[this.pathsum[i]]
                 }
 
-                if (this.type == "folder") {
+                if (this.type == "folder" | this.type == "favorites" | this.type == "favorite" | this.type == "computer") {
                     if (this.idx < r.child.length - 1) {
                         reset_node_focus(root);
                         r.child[this.idx + 1].focus = true
