@@ -362,7 +362,7 @@ node = function () {
                 for(i=1;i<this.pathsum.length;i++) {
                     r = r.child[this.pathsum[i]]
                 }
-               if (this.type == "folder" | this.type == "favorites" | this.type == "favorite" | this.type == "computer") {
+               if (['folder', 'drive', 'computer', 'favorites', 'favorite'].indexOf(this.type) >= 0) {
                     if (this.idx > 0) {
                         reset_node_focus(root);
                         r.child[this.idx - 1].focus = true
@@ -392,7 +392,7 @@ node = function () {
                     r = r.child[this.pathsum[i]]
                 }
 
-                if (this.type == "folder" | this.type == "favorites" | this.type == "favorite" | this.type == "computer") {
+                if (['folder', 'drive', 'computer', 'favorites', 'favorite'].indexOf(this.type) >= 0) {
                     if (this.idx < r.child.length - 1) {
                         reset_node_focus(root);
                         r.child[this.idx + 1].focus = true
@@ -429,10 +429,22 @@ node = function () {
                 break;
             case "return":
                 if (this.type == "file") {
-                    if (this.ftype == "music") {
-                        var tmppath = fb.FoobarPath;
-                        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
-                    }
+                    switch(this.ftype) {
+                        case "archive":
+                            var tmppath = fb.FoobarPath;
+                            WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                            break;
+                        case "music":
+                            var tmppath = fb.FoobarPath;
+                            WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                            break;
+                        case "text":
+                            WshShell.Run("%windir%\\notepad.exe "+this.path);
+                            break;
+                        case "image":
+                            WshShell.Run("rundll32.exe %windir%\\System32\\shimgvw.dll,ImageView_Fullscreen "+this.path);
+                            break;
+                      }
                     break;
                 } else if (['drive', 'root', 'computer', 'favorites'].indexOf(this.type) >= 0) {
                     show_popup_msg("Action not possible...",
