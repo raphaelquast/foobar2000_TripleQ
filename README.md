@@ -108,7 +108,8 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 ## Folder structure
 
 The theme is intended to be used with a well sorted collection...  
-... you'll get the best out of the theme if your music is structured in the following form:
+... you'll get the best out of the TripleQ theme if your music is structured in the following form:  
+(note the `Move to unsorted music` and `Move to sorted music` buttons that help with that task!)
 
 To allow having both sorted and unsorted stuff in your music folders,  
 ❗ **any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
