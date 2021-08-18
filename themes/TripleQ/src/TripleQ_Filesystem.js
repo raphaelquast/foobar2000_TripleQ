@@ -456,14 +456,19 @@ node = function () {
 
                     // only add folders on double-click if they contain less than 2 subfolders
                     if (oFolder.SubFolders.Count < 3) {
-                    let foldersize = oFolder.Size
-                    if (Math.round(foldersize / 1000000) < 600) {
-                        WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
-                    }
+                        let foldersize = oFolder.Size
+                        if (Math.round(foldersize / 1000000) < 600) {
+                            WshShell.Run("\"" + tmppath + "foobar2000.exe" + "\"" + " /immediate "+"\""+this.path+"\"");
+                        } else {
+                            show_popup_msg("Folder too big...",
+                                "The selected folder ''" + this.label +
+                                "'' contains " + Math.floor((foldersize / bytesPerGB).toFixed(3)*10)/10+" GB" + " of data!")
+
+                        }
                     } else{
-                    show_popup_msg("Action not possible...",
-                                    "The selected folder ''" + this.label + "'' is very large..." +
-                                    " action is suppressed to avoid problems")
+                        show_popup_msg("Too many SubFolders...",
+                                        "The selected folder ''" + this.label +
+                                        "'' has " + oFolder.SubFolders.Count + " SubFolders!")
                     }
 
                 }
@@ -906,14 +911,14 @@ function show_popup_msg(title, msg) {
     if (fb.AlwaysOnTop) {
         fb.AlwaysOnTop = false
         utils.ShowHtmlDialog(window.id, html_data, {
-            width:300,
+            width:400,
             height:100,
             resizable:false,
             scroll:false})
         fb.AlwaysOnTop = true
     } else {
         utils.ShowHtmlDialog(window.id, html_data, {
-            width:300,
+            width:400,
             height:100,
             resizable:false,
             scroll:false})
