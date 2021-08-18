@@ -1475,6 +1475,8 @@ function on_size() {
 			root.child[g_favorites_node_idx].collapsed = 0
             root.child[g_favorites_node_idx].childchecked = true;
             root.child[g_favorites_node_idx].type = "favorites";
+            root.child[g_favorites_node_idx].focus = true;
+            focused_node = root.child[g_favorites_node_idx]
             favorites_counter = 0;
             FillFavorites(root.child[g_favorites_node_idx]);
         }
@@ -1485,6 +1487,10 @@ function on_size() {
             root.child[g_filesystem_node_idx].type = "computer";
             drive_counter = 0;
             FillDrives(root.child[g_filesystem_node_idx]);
+            if (!g_show_favorites) {
+                root.child[g_filesystem_node_idx].focus = true;
+                focused_node = root.child[g_filesystem_node_idx]
+            }
         }
         //
         reset = false;
