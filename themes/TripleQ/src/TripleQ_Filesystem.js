@@ -983,12 +983,19 @@ function sort_tab(tab2sort, sort_by_modified_date) {
 // ---------------------------------------- FILL ITEMS
 
 function FillTreeLevel(path, node) {
+    let d = Date.now()
+
     var i;
     var item_fld, item_file;
     var oFolder = fso.GetFolder(path);
-    var oFolders = new Enumerator(oFolder.SubFolders);
-    var oFiles = new Enumerator(oFolder.Files);
-    node.childchecked = true;
+    try {
+        var oFolders = new Enumerator(oFolder.SubFolders);
+        var oFiles = new Enumerator(oFolder.Files);
+        node.childchecked = true;
+    } catch {
+        node.childchecked = true;
+        return;
+    }
 
     let found_folders = [];
     let found_archives = [];
@@ -1007,8 +1014,9 @@ function FillTreeLevel(path, node) {
         item_fld = oFolders.item();
         // select only directories (16) that are NOT tagged as "system" (4) and NOT hidden (2)
         // [check notes for additional info on Attribute numbers]
-        if(item_fld.Attributes&16 && !(item_fld.Attributes&4) && !(item_fld.Attributes&2)) {
-            found_folders.push([item_fld.Name, item_fld.Path, item_fld.DateLastModified])
+        let a = item_fld.Attributes
+        if(a&16 && !(a&4) && !(a&2)) {
+            found_folders.push([item_fld.Name, item_fld, item_fld.DateLastModified])
         }
     }
 
@@ -1018,9 +1026,9 @@ function FillTreeLevel(path, node) {
         item_file_split = item_file.Name.split('.');
         item_file_suffix = item_file_split[item_file_split.length - 1].toUpperCase()
         if (g_filters_arr_archives.includes(item_file_suffix)) {
-            found_archives.push([item_file.Name, item_file.Path, item_file.DateLastModified])
+            found_archives.push([item_file.Name, item_file, item_file.DateLastModified])
         } else if (g_filters_arr.includes(item_file_suffix)) {
-            found_files.push([item_file.Name, item_file.Path, item_file.DateLastModified])
+            found_files.push([item_file.Name, item_file, item_file.DateLastModified])
         }
     }
 
@@ -1032,6 +1040,7 @@ function FillTreeLevel(path, node) {
             node.addchild(...item);
         }
     }
+
     // then add sorted archives
     if (found_archives.length > 0) {
         found_archives = sort_tab(found_archives, g_sort_modified)
