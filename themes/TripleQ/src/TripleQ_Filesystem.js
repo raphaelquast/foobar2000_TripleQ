@@ -310,38 +310,61 @@ node = function () {
                     break;
                 }
 
-                if (this.collapsed == true) {
-                    reset_node_focus(root);
-                    this.collapsed = false;
+                reset_node_focus(root);
+                collapse_all(root);
+                var r = root;
+                for(i=1;i<this.pathsum.length;i++) {
+                    r = r.child[this.pathsum[i]]
+                    r.collapsed = false;
+                }
 
-                    if(!this.childchecked) {
-                        window.SetCursor(IDC_APPSTARTING);  // indicate loading
-                        FillTreeLevel(focused_node.path, focused_node);
-                        window.SetCursor(IDC_ARROW);
-                        }
+                this.collapsed = false;
 
-                    scan_expanded(null, root, false);
-                    if (this.child.length > 0) {
-                        let usenode = this.child[0]
-                        usenode.focus = true
-                        focused_node = usenode
-                    } else if (this.item.length > 0) {
-                        this.item[0].focus = true
-                        focused_node = this
+                if(!this.childchecked) {
+                    window.SetCursor(IDC_APPSTARTING);  // indicate loading
+                    FillTreeLevel(focused_node.path, focused_node);
+                    window.SetCursor(IDC_ARROW);
                     }
 
+                if (this.child.length > 0) {
+                    let usenode = this.child[0]
+                    usenode.focus = true
+                    focused_node = usenode
+                } else if (this.item.length > 0) {
+                    this.item[0].focus = true
+                    focused_node = this.item[0]
                 }
+
                 window.Repaint();
                 break;
             case "up":
+                if (this.idx == 0) {
+                    break;
+                }
                 var r = root;
                 for(i=1;i<this.pathsum.length;i++) {
                     r = r.child[this.pathsum[i]]
                 }
-                if (this.idx > 0) {
-                    reset_node_focus(root);
-                    r.child[this.idx - 1].focus = true
-                    focused_node = r.child[this.idx - 1]
+               if (this.type == "folder") {
+                    if (this.idx > 0) {
+                        reset_node_focus(root);
+                        r.child[this.idx - 1].focus = true
+                        focused_node = r.child[this.idx - 1]
+                        window.Repaint();
+                    }
+                } else if (this.type == "file") {
+                    if (this.idx > 0) {
+                        reset_node_focus(root);
+                        r.item[this.idx - 1].focus = true
+                        focused_node = r.item[this.idx - 1]
+                        window.Repaint();
+                    }
+                }
+
+                // set scroll position
+                if ((focused_node.y) < wh) {
+                    yoffset+=tree_line_h*1;
+                    if(yoffset>0) yoffset = 0;
                     window.Repaint();
                 }
 
@@ -351,11 +374,21 @@ node = function () {
                 for(i=1;i<this.pathsum.length;i++) {
                     r = r.child[this.pathsum[i]]
                 }
-                if (this.idx < r.child.length - 1) {
-                    reset_node_focus(root);
-                    r.child[this.idx + 1].focus = true
-                    focused_node = r.child[this.idx + 1]
-                    window.Repaint();
+
+                if (this.type == "folder") {
+                    if (this.idx < r.child.length - 1) {
+                        reset_node_focus(root);
+                        r.child[this.idx + 1].focus = true
+                        focused_node = r.child[this.idx + 1]
+                        window.Repaint();
+                    }
+                } else if (this.type == "file") {
+                    if (this.idx < r.item.length - 1) {
+                        reset_node_focus(root);
+                        r.item[this.idx + 1].focus = true
+                        focused_node = r.item[this.idx + 1]
+                        window.Repaint();
+                    }
                 }
 
                 // fix scroll position
@@ -368,6 +401,13 @@ node = function () {
                         if(yoffset>0) yoffset = 0;
                     }
                 }
+
+                // if ((focused_node.y - 2*tree_line_h) > 0) {
+                //     if(tree_line_h*line_counter>wh-tree_pady) {
+                //         yoffset-=tree_line_h*1;
+                //         if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
+                //     }
+                // }
 
                 break;
             case "return":
@@ -1568,24 +1608,12 @@ function on_mouse_wheel(delta) {
 }
 
 function on_key_down(vkey) {
-    //fb.trace(vkey)
     switch (vkey) {
         case VK_UP:
             focused_node.checkkey("up")
-            if ((focused_node.y) < wh) {
-                yoffset+=tree_line_h*1;
-                if(yoffset>0) yoffset = 0;
-                window.Repaint();
-            }
             break;
         case VK_DOWN:
             focused_node.checkkey("down")
-            if ((focused_node.y - 2*tree_line_h) > 0) {
-                if(tree_line_h*line_counter>wh-tree_pady) {
-                    yoffset-=tree_line_h*1;
-                    if(yoffset<(tree_line_h*line_counter-wh)*-1) yoffset = (tree_line_h*line_counter-wh)*-1;
-                }            }
-
             break;
         case VK_LEFT:
             focused_node.checkkey("left")
