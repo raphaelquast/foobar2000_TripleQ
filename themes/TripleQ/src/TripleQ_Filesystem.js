@@ -297,6 +297,10 @@ node = function () {
                         r = r.child[this.pathsum[i]]
                         r.collapsed = false;
                     }
+                    if (r.type == "root") {
+                        show_context_menu(root)
+                        break;
+                    }
                     reset_node_focus(root);
                     r.collapsed = true
                     r.focus = true
