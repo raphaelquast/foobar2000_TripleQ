@@ -17,6 +17,19 @@ MF_STRING       = 0x00000000;
 MF_GRAYED       = 0x00000001;
 MF_DISABLED     = 0x00000002;
 
+var symb_favorite = "\u{2605}"
+var symb_no_favorite = "\u{1f7ad}"
+var symb_refresh = "\u{21bb}"
+var symb_folder = "\u{1f5c1}"
+var symb_play_black = "\u{25b6}"
+var symb_play_white = "\u{25b7}"
+var symb_double_up_arrow = "\u{2bb7}"
+var symb_sort = "\u{1f41c}"
+var symb_hammer = "\u{1f528}"
+var symb_gear = "\u{1f5ca}"
+var symb_inbox = "\u{1f4e5}"
+var symb_computer = "\u{1f5b3}"
+
 // keyboard arrow-key numbers
 var VK_UP   = 38; //up cursor
 var VK_DOWN = 40; //down cursor
@@ -1186,60 +1199,61 @@ function show_context_menu(noeud, x, y) {
 
     switch(noeud.type) {
         case "root":
-            _menu.AppendMenuItem(MF_STRING, 1, "Auto Collapse");
+            _menu.AppendMenuItem(MF_STRING, 1, symb_double_up_arrow + " Auto Collapse");
             _menu.CheckMenuItem(1, g_autocollapse);
 
             _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
 
-            _menu.AppendMenuItem(MF_STRING, 2, "Sort Folders");
+            _menu.AppendMenuItem(MF_STRING, 2, symb_sort + "  Sort Folders");
             _menu.CheckMenuItem(2, g_sort);
 
-            _menu.AppendMenuItem(MF_STRING, 98, "        in alphabetic order");
+            _menu.AppendMenuItem(MF_STRING, 98, "       " + symb_gear + "  in alphabetic order");
             _menu.CheckMenuItem(98, !g_sort_modified);
-            _menu.AppendMenuItem(MF_STRING, 99, "        by last-modified date");
+            _menu.AppendMenuItem(MF_STRING, 99, "       " + symb_hammer + "  by last-modified date");
             _menu.CheckMenuItem(99, g_sort_modified);
 
             _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
-            _menu.AppendMenuItem(MF_STRING, 3, "Edit file types filter");
+            _menu.AppendMenuItem(MF_STRING, 3, symb_inbox + "  Edit file types filter");
             _menu.AppendMenuItem(MF_SEPARATOR, 0, "");
-            _menu.AppendMenuItem(MF_STRING, 5, "Show Favorites");
-            _menu.AppendMenuItem(MF_STRING, 6, "Show FileSystem");
+            _menu.AppendMenuItem(MF_STRING, 5, symb_favorite + "  Show Favorites");
+            _menu.AppendMenuItem(MF_STRING, 6, symb_computer + "  Show FileSystem");
             _menu.CheckMenuItem(5, g_show_favorites);
             _menu.CheckMenuItem(6, g_show_filesystem);
             break;
         case "favorites":
+            show_context_menu(root, x, y)
             break;
         case "favorite":
             if(noeud.enabled) {
-                _menu.AppendMenuItem(MF_STRING, 30, "Remove from Favorites");
-                _menu.AppendMenuItem(MF_STRING, 31, "Refresh folder content...");
+                _menu.AppendMenuItem(MF_STRING, 30, symb_no_favorite + "  Remove from Favorites");
+                _menu.AppendMenuItem(MF_STRING, 31, symb_refresh + "  Refresh folder content...");
                 _menu.AppendMenuItem(MF_SEPARATOR, 0, 0);
-                _menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 32, "Add tracks to playlist");
-                _menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 33, "Send tracks to playlist and Play");
+                _menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 32, symb_play_white + "  Add tracks to playlist");
+                _menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 33, symb_play_black + "  Send tracks to playlist and Play");
             } else {
                 _menu.AppendMenuItem(MF_STRING, 30, "Dead Link > Remove it from Favorites");
             }
             break;
         case "computer":
-            _menu.AppendMenuItem(MF_STRING, 60, "Refresh Computer content...");
+            _menu.AppendMenuItem(MF_STRING, 60, symb_refresh + "  Refresh Computer content...");
             break;
         case "drive":
         case "folder":
             if(noeud.type=="folder" && g_show_favorites)
-			_menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 54, "Add found tracks to playlist");
-            _menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 55, "Send found tracks to playlist and Play");
+			_menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 54, symb_play_white + "  Add found tracks to playlist");
+            _menu.AppendMenuItem(noeud.item.length>0?MF_STRING:MF_GRAYED | MF_DISABLED, 55, symb_play_black + "  Send found tracks to playlist and Play");
 			_menu.AppendMenuItem(MF_SEPARATOR, 0, 0);
-			_menu.AppendMenuItem(MF_STRING, 50, "Add folder to Favorites");
-            _menu.AppendMenuItem(MF_STRING, 51, "Refresh folder content...");
-            _menu.AppendMenuItem(MF_STRING, 53, "Open in Windows Explorer...");
+            _menu.AppendMenuItem(MF_STRING, 50, symb_favorite + "  Add folder to Favorites");
+            _menu.AppendMenuItem(MF_STRING, 51, symb_refresh + "  Refresh folder content...");
+            _menu.AppendMenuItem(MF_STRING, 53, symb_folder + "  Open in Windows Explorer...");
             break;
         case "file":
             if(noeud.ftype=="music"||noeud.ftype=="archive") {
-                _menu.AppendMenuItem(MF_STRING, 40, "Add to playlist");
-                _menu.AppendMenuItem(MF_STRING, 41, "Send to playlist and Play");
+                _menu.AppendMenuItem(MF_STRING, 40, symb_play_white + "  Add to playlist");
+                _menu.AppendMenuItem(MF_STRING, 41, symb_play_black + "  Send to playlist and Play");
                 _menu.AppendMenuItem(MF_SEPARATOR, 0, 0);
             }
-            _menu.AppendMenuItem(MF_STRING, 44, "Open in Windows Explorer...");
+            _menu.AppendMenuItem(MF_STRING, 44, symb_folder + "  Open in Windows Explorer...");
             break;
     }
 
