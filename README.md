@@ -66,14 +66,11 @@ change playback order
 
 ---------
 
-### Mini-mode
 ![minimode](_images/minimode.gif?raw=true "Minimode")
 
-### Midi-mode
 
 ![midimode](_images/midimode.gif?raw=true "Midimode")
 
-### Maxi-mode
 
 ![midimode](_images/animation_small.gif?raw=true "Maximode")
 
@@ -148,7 +145,7 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 
 The theme is intended to be used with a well sorted collection...  
 ... you'll get the best out of the TripleQ theme if your music is structured in the following form:  
-(note the `Move to unsorted music` and `Move to sorted music` buttons that help with that task!)
+(note the (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="14">) buttons that help with that task!)
 
 To allow having both sorted and unsorted stuff in your music folders,  
 ❗ **any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
@@ -180,7 +177,13 @@ To allow having both sorted and unsorted stuff in your music folders,
 
 ## ❗ Notice
 
-- To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">) work, the directories must be adjusted. To do this, click on one of the buttons and then on `More options` (bottom left in the popup-window). Now change the "Destination Folder" for each of the presets (and don't forget to save afterwards!)
+- To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">) work, the directories must be adjusted. 
+   1. select an arbitrary song in the playlist 
+   2. click on (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="16">) or (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">)
+   3. go to `More options` (located at the bottom left of the popup-window) and change the "Destination Folder" for both presets 
+      - here you can also set your own file-naming convention if you're not happy with the default 
+   4. don't forget to hit `save` once you're done!
+   one!
 ## Thanks to
 
 all the developers that created the awesome components that TripleQ is based on:
@@ -193,7 +196,6 @@ all the developers that created the awesome components that TripleQ is based on:
 - [Queue Contents Editor](https://www.foobar2000.org/components/view/foo_queuecontents)
 - [UI Hacks](http://foobar2000.ru/forum/viewtopic.php?t=1911)
 - [Playback Statistics](https://www.foobar2000.org/components/view/foo_playcount)
-- [TagBox](https://www.foobar2000.org/components/view/foo_tagbox)
 - [Coverflow](https://github.com/Chronial/foo_chronflow)
 - [Eole theme (thx for some ideas on .js routines)](https://github.com/Ottodix/Eole-foobar-theme)
 - [br3tt for his WSH Tree Explorer script](https://www.deviantart.com/br3tt/art/WSH-Tree-Explorer-1-7-196023730)
