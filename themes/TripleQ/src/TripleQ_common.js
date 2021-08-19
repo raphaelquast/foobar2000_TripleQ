@@ -111,7 +111,7 @@ oPanelSetting = function (name, file_prefix, default_value, min_value, max_value
 			}
 		} else {
 			this.value = this.default_value;
-			g_files.CreateTextFile(SettingsPath+this.file_prefix+this.value, true).Close();
+			g_files.CreateTextFile(SettingsPath+this.file_prefix+padToFour(this.value), true).Close();
 			if(this.update_settings_file_not_found) {
 				settings_file_not_found = true;
 			}

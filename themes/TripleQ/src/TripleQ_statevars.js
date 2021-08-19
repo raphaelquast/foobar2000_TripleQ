@@ -3,9 +3,9 @@
 var showpanel_left_state = new oPanelSetting("showpanel_left_state", "showpanel_left_", 0, 0, 9999, 0);
 
 // 1 - Library, 2 - Tree view, 3 - Coverflow, 4 - Playlists
-var showpanel_right_state = new oPanelSetting("showpanel_left_state", "showpanel_right_", 0, 0, 9999, 0);
+var showpanel_right_state = new oPanelSetting("showpanel_right_state", "showpanel_right_", 2, 0, 9999, 0);
 
-var right_side_state = new oPanelSetting("right_side_state", "right_side_", 0, 0, 1, 0);
+var right_side_state = new oPanelSetting("right_side_state", "right_side_", 1, 0, 1, 1);
 
 var windowwidth_state = new oPanelSetting("windowwidth_state", "windowwidth_state_", 700, 300, 1600, 0);
 var windowheight_state = new oPanelSetting("windowheight_state", "windowheight_state_", 800, 300, 1600, 0);
