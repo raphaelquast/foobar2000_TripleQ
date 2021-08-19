@@ -1,33 +1,72 @@
 # foobar2000 TripleQ theme
 
-A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes!  
+A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes  
+and several nice gadgets like:
 
-It includes several nice gadgets like:
+&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;◆&nbsp;&nbsp; a **playlist-view** with an integrated **playlist-manager**  
 
-- 🌳 a **playlist-view** with an integrated **playlist-manager**
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/filesystem_sel.png" height="25" align="top">
+&nbsp;
+a lightweight **filesystem browser**  with quick-access to selected folders   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+... and the capability to sort files _"in alphabetic order"_ or by _"last modified date"_
 
-- 🌲 a lightweight **filesystem browser**  
-    with quick-access to selected folders  
-  ... and the capability to sort files "alphabetically" or by *"last modified date"*
-
-- 🌴 **library- and coverflow views**  
-  ... to get a nice overview of your well sorted collection
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/library_sel.png" height="25" align="top">
+&nbsp;
+**library- and**
+<img src="themes/TripleQ/src/Images/coverflow_sel.png" height="25" align="top"> 
+**coverflow views**  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+... to get a nice overview of your well sorted collection
   
-- 🌵 a **tree view** to search and filter everything in your media-library  
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/treeview_sel.png" height="25" align="top">
+&nbsp;
+a **tree view** to search and filter everything in your media-library  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 (including the stuff in messy unsorted folders)
 
-- 🌿 a **queue content editor** to keep track of what's going to play next
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/queuebutton_3_sel.png" height="25" align="top"> 
+&nbsp;
+a **queue content editor** to keep track of what's going to play next
 
-... and some equally nice buttons that help with recurring tasks like
+... and some equally nice utility-buttons that help with recurring tasks like
 
-- maintain a sorted collection  
-    (e.g. quickly move files and folders to fit a pre-defined structure)
-- apply replay-gain (and notice if replay-gain is missing)
-- change the output-device
-- open containing folder
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="25" align="top">
+&nbsp;
+ quickly move & rename files and folders to a pre-defined structure  
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/replaygain_tracks_sel.png" height="25" align="top">
+&nbsp;
+apply replay-gain (<img src="themes/TripleQ/src/Images/replaygain_tracks_noinfo.png" height="25" align="top">
+and notice if replay-gain is missing)  
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/playback_device_sel.png" height="25" align="top">
+&nbsp;
+set the output-device  
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/open_containing_folder_sel.png" height="25" align="top">
+&nbsp;
+open containing folder  
+&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="themes/TripleQ/src/Images/playback_linear.png" height="18" align="top">
+<img src="themes/TripleQ/src/Images/playback_random.png" height="18" align="top"> 
+<img src="themes/TripleQ/src/Images/playback_repeat_playlist.png" height="18" align="top">
+<img src="themes/TripleQ/src/Images/playback_repeat_track.png" height="18" align="top">
+<img src="themes/TripleQ/src/Images/playback_shuffle_tracks.png" height="18" align="top">
+<img src="themes/TripleQ/src/Images/playback_shuffle_albums.png" height="18" align="top">
+<img src="themes/TripleQ/src/Images/playback_shuffle_folders.png" height="18" align="top">
+change playback order  
+
+---------
 
 ### Mini-mode
-
 ![minimode](_images/minimode.gif?raw=true "Minimode")
 
 ### Midi-mode
@@ -141,8 +180,7 @@ To allow having both sorted and unsorted stuff in your music folders,
 
 ## ❗ Notice
 
-- To make the buttons `Move to sorted music` and `Move to unsorted music` work, the directories must be adjusted. To do this, click on one of the buttons and then on `More options` (bottom left in the popup-window). Now change the "Destination Folder" for each of the presets (and don't forget to save afterwards!)
-
+- To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">) work, the directories must be adjusted. To do this, click on one of the buttons and then on `More options` (bottom left in the popup-window). Now change the "Destination Folder" for each of the presets (and don't forget to save afterwards!)
 ## Thanks to
 
 all the developers that created the awesome components that TripleQ is based on:
