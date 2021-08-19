@@ -54,22 +54,25 @@ plman.PlaybackOrder == 0
 
 
 // buttons for right side panels
-queue_buttons.buttons.queue0001 = new _button(usewidth - 6 * button_big_surround, (button_big - button_small) / 2, button_small, button_small,
+queue_buttons.buttons.queue0001 = new _button(usewidth - 7 * button_big_surround, (button_big - button_small) / 2, button_small, button_small,
   {normal : img_folder + img_queuebutton,
 		hover : img_folder + img_queuebutton_sel}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 1, 'queue', queue_buttons);}, 'Queue');
 
-right_buttons.buttons.rightb0001 = new _button(usewidth - 4 * button_big_surround, 0, button_big, button_big,
+right_buttons.buttons.rightb0001 = new _button(usewidth - 5 * button_big_surround, 0, button_big, button_big,
 	{normal : img_folder + 'library.png',
 	  hover : img_folder + 'library_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 1, 'rightb', right_buttons);}, 'Library');
-right_buttons.buttons.rightb0002 = new _button(usewidth - 3 * button_big_surround, 0, button_big, button_big,
+right_buttons.buttons.rightb0002 = new _button(usewidth - 4 * button_big_surround, 0, button_big, button_big,
 	{normal : img_folder + 'treeview.png',
 	  hover : img_folder + 'treeview_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 2, 'rightb', right_buttons);}, 'Tree View');
-right_buttons.buttons.rightb0003 = new _button(usewidth - 2 * button_big_surround, 0, button_big, button_big,
+right_buttons.buttons.rightb0003 = new _button(usewidth - 3 * button_big_surround, 0, button_big, button_big,
 	{normal : img_folder + 'coverflow.png',
 	  hover : img_folder + 'coverflow_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 3, 'rightb', right_buttons);}, 'Coverflow');
-right_buttons.buttons.rightb0004 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big,
+right_buttons.buttons.rightb0004 = new _button(usewidth - 2 * button_big_surround, 0, button_big, button_big,
 	{normal : img_folder + 'filesystem.png',
 		hover : img_folder + 'filesystem_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 4, 'rightb', right_buttons);}, 'File Browser');
+right_buttons.buttons.rightb0005 = new _button(usewidth - 1 * button_big_surround, 0, button_big, button_big,
+	{normal : img_folder + 'playlists.png',
+		hover : img_folder + 'playlists_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 5, 'rightb', right_buttons);}, 'Playlist Manager');
 
 menubuttons.buttons.menu = new _button(usewidth, 0, minibutton, minibutton,
 	{normal : img_folder + 'menu.png',
