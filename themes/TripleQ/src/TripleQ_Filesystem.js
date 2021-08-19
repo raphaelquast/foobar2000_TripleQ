@@ -1007,7 +1007,8 @@ function refresh_drives() {
                     temp_node.ready = true;
                     var freeGB = chkdrv.FreeSpace / bytesPerGB;
                     var totalGB = chkdrv.TotalSize / bytesPerGB;
-                    temp_node.label = (chkdrv.VolumeName?chkdrv.VolumeName+" ":"")+"("+chkdrv.Path+") "+Math.floor(freeGB.toFixed(3)*10)/10+"GB/"+Math.floor(totalGB.toFixed(3)*10)/10+"GB";
+                    temp_node.label = ((chkdrv.VolumeName?chkdrv.VolumeName+" ":"") + "(" + chkdrv.Path + ")  ["
+                                       + Math.floor(freeGB.toFixed(3)*10)/10+" | " + Math.floor(totalGB.toFixed(3)*10)/10 + " GB]");
                 }
             } catch(e) {
                 root.child[g_filesystem_node_idx].child.splice(i,1);
