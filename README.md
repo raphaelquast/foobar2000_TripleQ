@@ -139,7 +139,7 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 |`crtl + t` |show / hide title bar |
 |`crtl + i` | show / hide playlist header |
 |`crtl + q` | add selected tracks to playback queue |
-|`crtl + w` | remove selected trakcs from playback queue |
+|`crtl + w` | remove selected tracks from playback queue |
 
 ## Folder structure
 
