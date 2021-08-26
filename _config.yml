@@ -1,4 +1,4 @@
-theme: jekyll-dash
+remote_theme: b2a3e8/jekyll-theme-console
 title: BeatStep + Ableton Live
 markdown: GFM
 gems:
