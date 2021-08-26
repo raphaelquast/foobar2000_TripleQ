@@ -6,7 +6,7 @@ and several nice gadgets like:
 &nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;▸&nbsp;&nbsp; a **playlist-view** with an integrated **playlist-manager**  
 
-
+&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="themes/TripleQ/src/Images/filesystem.png" height="25" align="top">
 &nbsp;
 a lightweight **filesystem browser**  with quick-access to selected folders   
