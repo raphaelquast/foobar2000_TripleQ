@@ -177,7 +177,7 @@ To allow having both sorted and unsorted stuff in your music folders,
 
 ## ❗ Notice
 
-- To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">) work, the directories must be adjusted. 
+To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">) work, the directories must be adjusted. 
    1. select an arbitrary song in the playlist 
    2. click on (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="16">) or (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">)
    3. go to `More options` (located at the bottom left of the popup-window) and change the "Destination Folder" for both presets 
