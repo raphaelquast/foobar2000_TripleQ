@@ -4,9 +4,9 @@ A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes
 and several nice gadgets like:
 
 &nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;◆&nbsp;&nbsp; a **playlist-view** with an integrated **playlist-manager**  
+&nbsp;&nbsp;▸&nbsp;&nbsp; a **playlist-view** with an integrated **playlist-manager**  
 
-&nbsp;&nbsp;&nbsp;&nbsp;
+
 <img src="themes/TripleQ/src/Images/filesystem.png" height="25" align="top">
 &nbsp;
 a lightweight **filesystem browser**  with quick-access to selected folders   
@@ -23,35 +23,35 @@ a lightweight **filesystem browser**  with quick-access to selected folders
 ... to get a nice overview of your well sorted collection
   
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/treeview_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/treeview.png" height="25" align="top">
 &nbsp;
 a **tree view** to search and filter everything in your media-library  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 (including the stuff in messy unsorted folders)
 
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/queuebutton_3_sel.png" height="25" align="top"> 
+<img src="themes/TripleQ/src/Images/queuebutton_3.png" height="25" align="top"> 
 &nbsp;
 a **queue content editor** to keep track of what's going to play next
 
 ... and some equally nice utility-buttons that help with recurring tasks like
 
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="25" align="top">
-<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/move_to_unsorted_music.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/move_to_sorted_music.png" height="25" align="top">
 &nbsp;
  quickly move & rename files and folders to a pre-defined structure  
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/replaygain_tracks_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/replaygain_tracks.png" height="25" align="top">
 &nbsp;
 apply replay-gain (<img src="themes/TripleQ/src/Images/replaygain_tracks_noinfo.png" height="25" align="top">
 and notice if replay-gain is missing)  
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/playback_device_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/playback_device.png" height="25" align="top">
 &nbsp;
 set the output-device  
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/open_containing_folder_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/open_containing_folder.png" height="25" align="top">
 &nbsp;
 open containing folder  
 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -145,7 +145,7 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 
 The theme is intended to be used with a well sorted collection...  
 ... you'll get the best out of the TripleQ theme if your music is structured in the following form:  
-(note the (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="14">) buttons that help with that task!)
+(note the (<img src="themes/TripleQ/src/Images/move_to_sorted_music.png" height="14">) and (<img src="themes/TripleQ/src/Images/move_to_unsorted_music.png" height="14">) buttons that help with that task!)
 
 To allow having both sorted and unsorted stuff in your music folders,  
 ❗ **any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
@@ -177,9 +177,9 @@ To allow having both sorted and unsorted stuff in your music folders,
 
 ## ❗ Notice
 
-To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">) work, the directories must be adjusted. 
+To make the buttons `Move to sorted music` (<img src="themes/TripleQ/src/Images/move_to_sorted_music.png" height="14">) and `Move to unsorted music` (<img src="themes/TripleQ/src/Images/move_to_unsorted_music.png" height="16">) work, the directories must be adjusted. 
    1. select an arbitrary song in the playlist 
-   2. click on (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="16">) or (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="16">)
+   2. click on (<img src="themes/TripleQ/src/Images/move_to_sorted_music.png" height="16">) or (<img src="themes/TripleQ/src/Images/move_to_unsorted_music.png" height="16">)
    3. go to `More options` (located at the bottom left of the popup-window) and change the "Destination Folder" for both presets 
       - here you can also set your own file-naming convention if you're not happy with the default 
    4. don't forget to hit `save` once you're done!
