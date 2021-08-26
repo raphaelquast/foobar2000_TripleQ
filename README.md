@@ -66,13 +66,13 @@ change playback order
 
 ---------
 
-![Mini-mode](./_images/minimode.gif)
+![Mini-mode](themes/TripleQ/src/Images_readme/minimode.gif)
 
 
-![Midi-mode](./_images/midimode.gif)
+![Midi-mode](themes/TripleQ/src/Images_readme/midimode.gif)
 
 
-![Maxi-mode](./_images/animation_small.gif)
+![Maxi-mode](themes/TripleQ/src/Images_readme/animation_small.gif)
 
 # Installation (quick and easy)
 ✔ checked with foobar2000 **(v1.6.7)**
