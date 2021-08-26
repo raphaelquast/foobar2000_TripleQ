@@ -66,13 +66,13 @@ change playback order
 
 ---------
 
-![Mini-mode](./_images/minimode.gif?raw=true)
+![Mini-mode](./_images/minimode.gif)
 
 
-![Midi-mode](./_images/midimode.gif?raw=true)
+![Midi-mode](./_images/midimode.gif)
 
 
-![Maxi-mode](./_images/animation_small.gif?raw=true)
+![Maxi-mode](./_images/animation_small.gif)
 
 # Installation (quick and easy)
 ✔ checked with foobar2000 **(v1.6.7)**
