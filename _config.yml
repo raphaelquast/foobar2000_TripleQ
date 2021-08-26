@@ -1,5 +1,5 @@
-remote_theme: "mmistakes/so-simple-theme@3.2.0"
-title: BeatStep + Ableton Live
+theme: jekyll-theme-slate
+title: TripleQ - A foobar2000 Theme
 markdown: GFM
 gems:
   - jemoji
