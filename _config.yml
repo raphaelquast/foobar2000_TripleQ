@@ -1,4 +1,4 @@
-remote_theme: sharu725/hagura
+remote_theme: "mmistakes/so-simple-theme@3.2.0"
 title: BeatStep + Ableton Live
 markdown: GFM
 gems:
