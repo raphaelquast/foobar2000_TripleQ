@@ -118,28 +118,28 @@ The theme incorporates the following **global hotkeys** (e.g. also working if th
 (they might interfere with other apps using similar assignments... however I've never had problems so far)
 
 
-| | |
-| --- | --- |
-|`crtl + shift + space` | activate/deactivate the player window (e.g. show/hide) |
-|`crtl + shift + enter` |  play / pause |
-|`crtl + shift + up   ` | previous track |
-|`crtl + shift + down ` | next track |
-|`crtl + shift + left ` | move 5 seconds ahead in the current track |
-|`crtl + shift + right` | move 5 seconds back in the current track |
+| | | |
+| --- | --- | --- |
+|`crtl + shift + space` | activate/deactivate the player window (e.g. show/hide) | |
+|`crtl + shift + enter` |  play / pause | |
+|`crtl + shift + up   ` | previous track | |
+|`crtl + shift + down ` | next track | |
+|`crtl + shift + left ` | move 5 seconds ahead in the current track | |
+|`crtl + shift + right` | move 5 seconds back in the current track | |
 
 #### ◯ If the player is focused
-| | |
-| --- | --- |
-|`alt + a` |  toggle *"always on top"* |
+| | | |
+| --- | --- | --- |
+|`alt + a` |  toggle *"always on top"* | |
 
 #### ▷ If the playlist is focused
-| | |
-| --- | --- |
-|`tab` | show / hide playlist manager |
-|`crtl + t` |show / hide title bar |
-|`crtl + i` | show / hide playlist header |
-|`crtl + q` | add selected tracks to playback queue |
-|`crtl + w` | remove selected tracks from playback queue |
+| | | |
+| --- | --- | --- |
+|`tab` | show / hide playlist manager | |
+|`crtl + t` |show / hide title bar | |
+|`crtl + i` | show / hide playlist header | |
+|`crtl + q` | add selected tracks to playback queue | |
+|`crtl + w` | remove selected tracks from playback queue | |
 
 ## Folder structure
 
