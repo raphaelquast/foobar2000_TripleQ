@@ -7,17 +7,17 @@ and several nice gadgets like:
 &nbsp;&nbsp;◆&nbsp;&nbsp; a **playlist-view** with an integrated **playlist-manager**  
 
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/filesystem_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/filesystem.png" height="25" align="top">
 &nbsp;
 a lightweight **filesystem browser**  with quick-access to selected folders   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ... and the capability to sort files _"in alphabetic order"_ or by _"last modified date"_
 
 &nbsp;&nbsp;&nbsp;&nbsp;
-<img src="themes/TripleQ/src/Images/library_sel.png" height="25" align="top">
+<img src="themes/TripleQ/src/Images/library.png" height="25" align="top">
 &nbsp;
 **library- and**
-<img src="themes/TripleQ/src/Images/coverflow_sel.png" height="25" align="top"> 
+<img src="themes/TripleQ/src/Images/coverflow.png" height="25" align="top"> 
 **coverflow views**  
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ... to get a nice overview of your well sorted collection
