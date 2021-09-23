@@ -55,7 +55,7 @@ function _list(x, y, w, h) {
 		this.rows = Math.floor((this.h - _scale(24)) / panel.row_height); // 24
 		this.up_btn.x = this.x + Math.round((this.w - _scale(12)) / 2);
 		this.down_btn.x = this.up_btn.x;
-		this.up_btn.y = this.y + _scale(1);
+		this.up_btn.y = this.y + _scale(6);
 		this.down_btn.y = this.y + this.h - _scale(12) - buttonCoordinatesOne.h; // Accommodate space for buttons!
 		this.headerTextUpdate();
 		iconCharPlaylistLockedW = _gr.CalcTextWidth(iconCharPlaylistLocked, gfontIconChar());
@@ -1779,7 +1779,7 @@ function _list(x, y, w, h) {
 	this.colours = convertStringToObject(this.properties['listColours'][1], 'number');
 	this.uuiidLength = (this.bUseUUID) ? nextId(this.optionsUUIDTranslate(), false) : 0; // previous UUID before initialization is just the length
 	this.autoUpdateDelayTimer = this.properties.autoUpdate[1] / 100; // Timer should be at least 1/100 autoupdate timer to work reliably
-	this.up_btn = new _sb(chars.up, this.x, this.y, _scale(12), _scale(12), () => { return this.offset > 0; }, () => { this.wheel(1); });
-	this.down_btn = new _sb(chars.down, this.x, this.y, _scale(12), _scale(12), () => { return this.offset < this.items - this.rows; }, () => { this.wheel(-1); });
+	this.up_btn = new _sb("\u25B2", this.x, this.y, _scale(8), _scale(8), () => { return this.offset > 0; }, () => { this.wheel(1); });
+	this.down_btn = new _sb("\u25BC", this.x, this.y, _scale(8), _scale(8), () => { return this.offset < this.items - this.rows; }, () => { this.wheel(-1); });
 	this.init();
 }

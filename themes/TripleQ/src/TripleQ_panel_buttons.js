@@ -74,6 +74,14 @@ right_buttons.buttons.rightb0005 = new _button(usewidth - 1 * button_big_surroun
 	{normal : img_folder + 'playlists.png',
 		hover : img_folder + 'playlists_sel.png'}, (x, y, mask) => {togglepanel(showpanel_right_state, 5, 'rightb', right_buttons);}, 'Playlist Manager');
 
+// mini playlist button
+right_buttons.buttons.rightb0006 = new _button(((usewidth - 1) * button_big_surround) + button_big/2, 0, button_big/2, button_big/2,
+	{normal : img_folder + 'playlists.png',
+		hover : img_folder + 'playlists_sel.png'}, (x, y, mask) => {togglepanel_left(showpanel_left_state, 2, 'leftb', right_buttons);}, 'MINI Playlist Manager');
+
+
+
+
 menubuttons.buttons.menu = new _button(usewidth, 0, minibutton, minibutton,
 	{normal : img_folder + 'menu.png',
 	 hover : img_folder + 'menu_sel.png'}, (x, y, mask) => { _menu(x, 20); }, 'Menu');
@@ -198,6 +206,13 @@ function update_queue_button() {
 
 
 function togglepanel_left(showpanel, n, prefix, buttons) {
+
+	// mini-playlist
+	if (showpanel_right_state.getValue() == '0005') {
+		togglepanel(showpanel_right_state, 1, 'rightb', right_buttons)
+	}
+
+
 	if (showpanel.getValue() == n) {
 		showpanel.setValue('0000', true);
 		var btn;
@@ -226,6 +241,14 @@ function togglepanel_left(showpanel, n, prefix, buttons) {
 		queue_buttons.buttons.queue0001.img_normal = _img(img_folder + img_queuebutton)
 		queue_buttons.buttons.queue0001.img_hover = _img(img_folder + img_queuebutton_sel)
 		queue_buttons.buttons.queue0001.cs('normal')
+		}
+
+	if (showpanel_left_state.getValue() == '0002') {
+		right_buttons.buttons.rightb0006.img_normal = _img(img_folder + 'playlists_sel.png')
+		right_buttons.buttons.rightb0006.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0006.img_normal = _img(img_folder + 'playlists.png')
+		right_buttons.buttons.rightb0006.cs('normal')
 		}
 
 	window.Repaint()
@@ -262,6 +285,23 @@ function update_right_panel_image() {
 		right_buttons.buttons.rightb0004.img_normal = _img(img_folder + 'filesystem.png')
 		right_buttons.buttons.rightb0004.cs('normal')
 		}
+	if (showpanel_right_state.getValue() == '0005') {
+		right_buttons.buttons.rightb0005.img_normal = _img(img_folder + 'playlists_sel.png')
+		right_buttons.buttons.rightb0005.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0005.img_normal = _img(img_folder + 'playlists.png')
+		right_buttons.buttons.rightb0005.cs('normal')
+		}
+
+	// do this also here to ensure that the mini-playlist-button is updated if the big one is pressed
+	if (showpanel_left_state.getValue() == '0002') {
+		right_buttons.buttons.rightb0006.img_normal = _img(img_folder + 'playlists_sel.png')
+		right_buttons.buttons.rightb0006.cs('normal')
+	} else {
+		right_buttons.buttons.rightb0006.img_normal = _img(img_folder + 'playlists.png')
+		right_buttons.buttons.rightb0006.cs('normal')
+		}
+
 }
 
 function update_output_device_button() {
@@ -289,6 +329,12 @@ function update_replaygain_button() {
 
 
 function togglepanel(showpanel, n, prefix, buttons) {
+	// mini-playlist
+	if (showpanel_left_state.getValue() == '0002') {
+		showpanel_left_state.setValue('0000', true)
+	}
+
+
 	if (showpanel.getValue() == 0 && n > 0) {
 		if (window.Width > max_rightpanel_window_width) {
 			set_mainpanel_width(max_rightpanel_window_width * 2)
@@ -303,6 +349,9 @@ function togglepanel(showpanel, n, prefix, buttons) {
 		} else {
 		showpanel.setValue(padToFour(n), true);
 	}
+
+
+
 
 	update_right_panel_image()
 	window.Repaint()
@@ -389,6 +438,13 @@ function on_paint(gr) {
 	for (btn in right_buttons.buttons) {
 		var btn_id = Number(btn.slice(-4))
 
+		if (btn_id === 6) { // special treatment of mini-playlist button
+			right_buttons.buttons[btn].w = button_small/2
+			right_buttons.buttons[btn].h = button_small/2
+			right_buttons.buttons[btn].y = button_small/2
+			right_buttons.buttons[btn].x = usewidth - (5 * button_big_surround) - button_small/2
+			continue;
+		  }
 		if (btn == 'rightb' + showpanel_right_state.getValue().toString()){
 			right_buttons.buttons[btn].w = button_small
 			right_buttons.buttons[btn].h = button_small
