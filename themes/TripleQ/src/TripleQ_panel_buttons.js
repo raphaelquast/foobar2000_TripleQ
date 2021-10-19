@@ -513,7 +513,7 @@ function on_paint(gr) {
 	menubuttons.paint(gr);
 
 	// show-hide utilities buttons if there's enough space to show them
-	if (usewidth > button_big_surround * 6.1 + utility_button_surround * 5){
+	if (usewidth > button_big_surround * 8.1 + utility_button_surround * 5){
 		left_buttons.buttons = save_left_buttons
 		left_buttons.paint(gr);
 	} else {
@@ -534,14 +534,20 @@ function on_focus(is_focused) {
 }
 
 function on_selection_changed () {
-	update_replaygain_button()
-	update_output_device_button()
+	if (left_buttons.size > 0) {
+		update_replaygain_button()
+		update_output_device_button()
+	}
 };
 
 function on_metadb_changed(handle_list, fromhook) {
-	update_replaygain_button()
+	if (left_buttons.size > 0) {
+		update_replaygain_button()
+	}
 }
 
 function on_output_device_changed() {
-	update_output_device_button()
+	if (left_buttons.size > 0) {
+		update_output_device_button()
+	}
 }
