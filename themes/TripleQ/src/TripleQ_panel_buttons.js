@@ -475,14 +475,20 @@ function on_focus(is_focused) {
 }
 
 function on_selection_changed () {
-	update_replaygain_button()
-	update_output_device_button()
+	if (left_buttons.size > 0) {
+		update_replaygain_button()
+		update_output_device_button()
+	}
 };
 
 function on_metadb_changed(handle_list, fromhook) {
-	update_replaygain_button()
+	if (left_buttons.size > 0) {
+		update_replaygain_button()
+	}
 }
 
 function on_output_device_changed() {
-	update_output_device_button()
+	if (left_buttons.size > 0) {
+		update_output_device_button()
+	}
 }

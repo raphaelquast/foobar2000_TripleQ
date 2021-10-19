@@ -272,11 +272,15 @@ node = function () {
             focus_w = this.label_width;
         }
 
-        // Draw focus rect
-		if(this.focus && this.type!="root") {
-            gr.DrawRoundRect(this.x-22, this.y-3, focus_w+28, tree_line_h, 1, 1, 1, RGBA(255,255,255,100));
-            gr.FillRoundRect(this.x-22, this.y-2, focus_w+28, tree_line_h, 1, 1, RGBA(100,100,100,50));
+        try {
+			// Draw focus rect
+			if(this.focus && this.type!="root") {
+				gr.DrawRoundRect(this.x-22, this.y-3, focus_w+28, tree_line_h, 1, 1, 1, RGBA(255,255,255,100));
+				gr.FillRoundRect(this.x-22, this.y-2, focus_w+28, tree_line_h, 1, 1, RGBA(100,100,100,50));
         }
+        } catch {
+
+        };
 
        // add hovering focus indicator to root
     if (this.hover && this.type=="root") {
