@@ -1,4 +1,5 @@
-# foobar2000 TripleQ theme
+# foobar2000 TripleQ theme <a href="https://www.buymeacoffee.com/raphaelquast" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" align="right" style="height: 25px !important;" ></a>
+
 
 A minimalist yet versatile foobar2000 skin with 3 (switchable) view-modes  
 and several nice gadgets like:
@@ -148,7 +149,7 @@ The theme is intended to be used with a well sorted collection...
 (note the (<img src="themes/TripleQ/src/Images/move_to_sorted_music_sel.png" height="14">) and (<img src="themes/TripleQ/src/Images/move_to_unsorted_music_sel.png" height="14">) buttons that help with that task!)
 
 To allow having both sorted and unsorted stuff in your music folders,  
-❗ **any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views!**   
+**any folder that starts with 2 underscores will remain hidden in the *Library-* and *Coverflow* views❗**   
 (It'll still be visible in the *Tree view* and *File Browser* tabs)
 
 ```
@@ -183,7 +184,7 @@ To allow having both sorted and unsorted stuff in your music folders,
    3. go to `More options` (located at the bottom left of the popup-window) and change the "Destination Folder" for both presets 
       - here you can also set your own file-naming convention if you're not happy with the default 
    4. don't forget to hit `save` once you're done!
-   one!
+
 ## Thanks to
 
 all the developers that created the awesome components that TripleQ is based on:
